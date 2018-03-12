@@ -1,0 +1,30 @@
+.idea/
+*.svn
+.DS_Store
+.project
+.settings
+.classpath
+*.factorypath
+Thumbs.db
+bin
+target
+*~
+
+
+# Binaries
+*.gz
+*.iso
+*.jar
+*.rar
+*.tar
+*.zip
+*.war
+*.ear
+*.sar
+*.class
+
+# Maven 
+target/
+
+
+
