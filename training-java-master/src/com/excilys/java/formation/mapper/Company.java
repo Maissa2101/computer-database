@@ -5,6 +5,11 @@ public class Company {
 	private long id;
 	private String name;
 	
+	/**
+	 * Constructor of company
+	 * @param l
+	 * @param name
+	 */
 	public Company(long l, String name) {
     	this.id = l;
     	this.name = name;

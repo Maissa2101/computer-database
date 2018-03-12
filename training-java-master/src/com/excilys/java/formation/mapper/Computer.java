@@ -9,10 +9,15 @@ public class Computer {
 
     private Timestamp introduced;
 
-    private Timestamp disconnected;
+    private Timestamp discontinued;
 
     private String manufacturer;
     
+    /**
+     * Constructor of computer
+     * @param l
+     * @param name
+     */
     public Computer(long l, String name) {
     	this.id = l;
     	this.name = name;
@@ -42,12 +47,12 @@ public class Computer {
 		this.introduced = introduced;
 	}
 
-	public Timestamp getDisconnected() {
-		return disconnected;
+	public Timestamp getDiscontinued() {
+		return discontinued;
 	}
 
-	public void setDisconnected(Timestamp disconnected) {
-		this.disconnected = disconnected;
+	public void setDisconnected(Timestamp discontinued) {
+		this.discontinued = discontinued;
 	}
 
 	public String getManufacturer() {
@@ -60,7 +65,7 @@ public class Computer {
 
 	@Override
 	public String toString() {
-		return "Computer " + id + ": name=" + name + ", introduced=" + introduced + ", disconnected=" + disconnected
+		return "Computer " + id + ": name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
 				+ ", manufacturer=" + manufacturer;
 	}
     

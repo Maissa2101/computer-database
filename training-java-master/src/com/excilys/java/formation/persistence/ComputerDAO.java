@@ -13,10 +13,19 @@ import com.excilys.java.formation.mapper.Computer;
 public class ComputerDAO {
 		Connection conn;
 	
+		/**
+		 * Constructor
+		 * @param conn connection to the BD
+		 */
 	public ComputerDAO(Connection conn) {
 		this.conn = conn;
 	}
-
+	
+	/**
+	 * Method to get the list of computers
+	 * @return list of computers
+	 * @throws SQLException
+	 */
 	public List<Computer> getListComputer() throws SQLException{
 		List<Computer> computers = new ArrayList<Computer>();
 		
@@ -34,6 +43,12 @@ public class ComputerDAO {
 		return computers;
 	}
 	
+	/**
+	 * Method to get a specific computer given its id
+	 * @param id
+	 * @return the computer where its id = parameter id
+	 * @throws SQLException
+	 */
 	public Computer getComputer(Long id) throws SQLException{
 		Computer c = null;
 		
@@ -55,17 +70,31 @@ public class ComputerDAO {
 		
 	}
 	
-	public void createComputer(Long id, String name, Timestamp intro, Timestamp disconnect, String manufacturer ) throws SQLException{
-		
+	/**
+	 * Method to create a new computer
+	 * @param id id of the computer to create
+	 * @param name name of the computer to create 
+	 * @param intro introduced time of the computer
+	 * @param discontinued discontinued time of the computer
+	 * @param manufacturer manufacturer of the new computer
+	 * @throws SQLException
+	 */
+	public void createComputer(Long id, String name, Timestamp intro, Timestamp discontinued, String manufacturer ) throws SQLException{
+		int res = 0;
 		conn.setAutoCommit(false);
 		String query = "INSERT INTO computer VALUES (?,?,?,?,?)";
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setLong(1, id);
 		stmt.setString(2, name);
 		stmt.setTimestamp(3, intro);
-		stmt.setTimestamp(4, disconnect);
+		stmt.setTimestamp(4, discontinued);
 		stmt.setString(5, manufacturer);
-		int res = stmt.executeUpdate();
+		if(discontinued.after(intro)) {
+			res = stmt.executeUpdate();
+		}
+		else {
+			System.out.println("\n Date problem : the discontinued date must be greater than the introduced date");
+		}
 		conn.commit();
 		
 		if(res == 1 )
@@ -76,15 +105,23 @@ public class ComputerDAO {
 		if (stmt != null) {
 			stmt.close();}		
 	}
-	
-public void updateComputer(Long id, String name, Timestamp intro, Timestamp disconnect) throws SQLException{
+
+	/**
+	 * Method to update a computer
+	 * @param id id of the computer to update
+	 * @param name new name of the computer
+	 * @param intro new introduced date 
+	 * @param discontinued new discontinued date
+	 * @throws SQLException
+	 */
+public void updateComputer(Long id, String name, Timestamp intro, Timestamp discontinued) throws SQLException{
 		
 		conn.setAutoCommit(false);
 		String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?";
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setString(1, name);
 		stmt.setTimestamp(2, intro);
-		stmt.setTimestamp(3, disconnect);
+		stmt.setTimestamp(3, discontinued);
 		stmt.setLong(4, id);
 		int res = stmt.executeUpdate();
 		conn.commit();
@@ -98,6 +135,11 @@ public void updateComputer(Long id, String name, Timestamp intro, Timestamp disc
 			stmt.close();}		
 	}
 
+/**
+ * Method to delete an existing computer
+ * @param id id of the computer to delete
+ * @throws SQLException
+ */
 public void deleteComputer(Long id) throws SQLException{
 	
 	conn.setAutoCommit(false);

@@ -12,7 +12,7 @@ public class Computer {
 
 	    private Timestamp introduced;
 
-	    private Timestamp disconnected;
+	    private Timestamp discontinued;
 	
 	    private String manufacturer;
 	    
@@ -68,16 +68,16 @@ public class Computer {
 		 *
 		 * @return date of disconnect of the computer
 		 */
-		public Timestamp getDateDisconnect() {
-			return disconnected;
+		public Timestamp getDateDiscontinued() {
+			return discontinued;
 		}
 		
 		/**
 		 * 
 		 * @param dateDisconnect is the date of disconnection of the computer
 		 */
-		public void setDateDisconnect(Timestamp dateDisconnect) {
-			this.disconnected = dateDisconnect;
+		public void setDateDisconnect(Timestamp dateDiscontinued) {
+			this.discontinued = dateDiscontinued;
 		}
 		
 		/**

@@ -14,6 +14,10 @@ import com.excilys.java.formation.persistence.SQLConnection;
 
 public class Interface {
 	
+	/**
+	 * Method to choose the action to execute
+	 * @return number of the action to execute 
+	 */
 	public static int listFeatures() {
 		System.out.println("Select an action :\n");
 		System.out.println("1. List computers");
@@ -33,6 +37,7 @@ public class Interface {
 		
 	}
 	
+
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
 		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
 		CompanyDAO companies = new CompanyDAO(SQLConnection.getConnection());
@@ -75,7 +80,7 @@ public class Interface {
 			            java.util.Date date = dateFormat.parse(time);
 			            Timestamp tm1 = new Timestamp(date.getTime());
 			            
-			            System.out.println("disconnected date : ");
+			            System.out.println("discontinued date : ");
 			            String time2 = sc1.nextLine();
 			            java.util.Date date2 = dateFormat.parse(time2);
 			            Timestamp tm2 = new Timestamp(date2.getTime());
@@ -104,7 +109,7 @@ public class Interface {
 			            java.util.Date new_date = dateFormat2.parse(new_time);
 			            Timestamp tm3 = new Timestamp(new_date.getTime());
 			            
-			            System.out.println("give the new disconnected date : ");
+			            System.out.println("give the new discontinued date : ");
 			            String new_time2 = sc2.nextLine();
 			            java.util.Date new_date2 = dateFormat2.parse(new_time2);
 			            Timestamp tm4 = new Timestamp(new_date2.getTime());
