@@ -74,11 +74,47 @@ public class ComputerDAO {
 			System.out.println("\n computer not added");
 		
 		if (stmt != null) {
-			stmt.close();}
-		
-		
-		
-		
+			stmt.close();}		
 	}
+	
+public void updateComputer(Long id, String name, Timestamp intro, Timestamp disconnect) throws SQLException{
+		
+		conn.setAutoCommit(false);
+		String query = "UPDATE computer SET name = ? AND introduced = ? AND discontinued = ? WHERE id = ?";
+		PreparedStatement stmt =  conn.prepareStatement(query);
+		stmt.setLong(1, id);
+		stmt.setString(2, name);
+		stmt.setTimestamp(3, intro);
+		stmt.setTimestamp(4, disconnect);
+		int res = stmt.executeUpdate();
+		conn.commit();
+		
+		if(res == 1 )
+			System.out.println("\n computer updated");
+		else
+			System.out.println("\n computer not updated");
+		
+		if (stmt != null) {
+			stmt.close();}		
+	}
+
+public void deleteComputer(Long id) throws SQLException{
+	
+	conn.setAutoCommit(false);
+	String query = "DELETE FROM computer WHERE id = ?" + 
+			"";
+	PreparedStatement stmt =  conn.prepareStatement(query);
+	stmt.setLong(1, id);
+	int res = stmt.executeUpdate();
+	conn.commit();
+	
+	if(res == 1 )
+		System.out.println("\n computer deleted");
+	else
+		System.out.println("\n computer not deleted");
+	
+	if (stmt != null) {
+		stmt.close();}		
+}
 	
 }
