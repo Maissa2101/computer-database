@@ -7,12 +7,18 @@ import java.util.List;
 
 public class ComputerMapper {
 	
-	public static ComputerMapper computerMapper;
+	private static ComputerMapper computerMapper;
 	
 	public ComputerMapper() {
 		
 	}
 	
+	/**
+	 * Method to get the list of computers from a ResultSet
+	 * @param res
+	 * @return the list of computers
+	 * @throws SQLException
+	 */
 	public List<Computer> getListComputerFromResultSet(ResultSet res) throws SQLException {
 		
 		List<Computer> computers = new ArrayList<Computer>();
@@ -23,6 +29,12 @@ public class ComputerMapper {
 		
 	}
 	
+	/**
+	 * Method to get the details of a computer from a ResultSet
+	 * @param res
+	 * @return the details of a computer 
+	 * @throws SQLException
+	 */
 	public Computer getComputerDetailsFromResultSet(ResultSet res) throws SQLException {
 		Computer c = null;
 		
@@ -32,10 +44,14 @@ public class ComputerMapper {
 		return c;
 	}
 	
+	/**
+	 * 
+	 * @return the computerMapper
+	 */
 	public static ComputerMapper getComputerMapper() {
 		
 		if(computerMapper == null)
 			computerMapper = new ComputerMapper();
-	return computerMapper;
+		return computerMapper;
 	}
 }

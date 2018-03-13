@@ -7,12 +7,18 @@ import java.util.List;
 
 public class CompanyMapper {
 
-	public static CompanyMapper companyMapper;
+	private static CompanyMapper companyMapper;
 	
 	public CompanyMapper() {
 		
 	}
 	
+	/**
+	 * Method to get the list of companies from a ResultSet
+	 * @param res
+	 * @return the list of companies
+	 * @throws SQLException
+	 */
 	public List<Company> getListCompanyFromResultSet(ResultSet res) throws SQLException {
 		
 		List<Company> companies = new ArrayList<Company>();
@@ -24,6 +30,10 @@ public class CompanyMapper {
 		
 	}
 	
+	/**
+	 * 
+	 * @return the companyMapper
+	 */
 	public static CompanyMapper getCompanyMapper() {
 		
 		if(companyMapper == null)

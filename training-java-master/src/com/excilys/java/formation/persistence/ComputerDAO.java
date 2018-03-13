@@ -11,14 +11,21 @@ import com.excilys.java.formation.mapper.Computer;
 import com.excilys.java.formation.mapper.ComputerMapper;
 
 public class ComputerDAO {
-		Connection conn;
+		
+	private static ComputerDAO computerDao;
 	
 		/**
 		 * Constructor
 		 * @param conn connection to the BD
 		 */
-	public ComputerDAO() {
+	public ComputerDAO(){
+		
+	}
 	
+	public static ComputerDAO getComputerDAO() {
+		if(computerDao == null)
+			computerDao = new ComputerDAO();
+		return computerDao;
 	}
 	
 	/**

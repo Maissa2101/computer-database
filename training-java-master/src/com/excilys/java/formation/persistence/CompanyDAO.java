@@ -10,12 +10,29 @@ import com.excilys.java.formation.mapper.Company;
 import com.excilys.java.formation.mapper.CompanyMapper;
 
 public class CompanyDAO {
-	Connection conn;
+	
+	private static CompanyDAO companyDao;
 	
 	public CompanyDAO() {
 		
 	}
-
+	
+	/**
+	 * 
+	 * @return the companyDAO
+	 */
+	public static CompanyDAO getCompanyDAO() {
+		if(companyDao == null)
+			companyDao = new CompanyDAO();
+		return companyDao;
+	}
+	
+	/**
+	 * Method to get the list of companies
+	 * @return the list of companies
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public List<Company> getListCompany() throws SQLException, ClassNotFoundException{
 		
 		Connection conn = SQLConnection.getConnection();
