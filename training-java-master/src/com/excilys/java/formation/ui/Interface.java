@@ -56,29 +56,38 @@ public class Interface {
 		Scanner sc= new Scanner(System.in);
 		
 		
-		System.out.println(" Computers :");
+		System.out.println(" Computers : Press n to see the next page, p to see the previous page and q to quit : \n");
 		for(Computer computer : computers.getListComputer()) {
 			sourceList.add(computer);}
 			
 			
-			while (true)
+		ETQ:	while (true)
 			{
-			List<Computer> s = Pagination.getPage(sourceList, page, 30);
-			
-			
-			 ListIterator<Computer> li = s.listIterator();
-			 while(li.hasNext()){
-				 System.out.println(li.next());
-				 i++;
+				List<Computer> s = Pagination.getPage(sourceList, page, 30);
+				ListIterator<Computer> li = s.listIterator();
+				while(li.hasNext()){
+					System.out.println(li.next());
+					i++;
+				}
+			 
+			 String scanner = sc.nextLine();
+			 switch (scanner) {
+			 case "n" : 	
+			 	page++;
+			 	if(i>=sourceList.size()) {
+				System.out.println("no more computers to show");
+				break;
+				}
+			 	break;
+			 	
+			 case "p" :
+				 	if(i>=1)
+				 	page--;
+				 	break;
+			 case "q" : 
+				 	System.out.println("Quit");
+				 	break ETQ;
 			 }
-			 
-			 sc.nextLine();
-			 page++;
-			 
-			 if(i>=sourceList.size()) {
-				 System.out.println("no more computers to show");
-				 break;}
-			 
 			}
 		
 	}
@@ -90,9 +99,47 @@ public class Interface {
 	 */
 	private static void listCompanies() throws SQLException, ClassNotFoundException {
 		CompanyDAO companies = new CompanyDAO(SQLConnection.getConnection());
-		System.out.println("\n Companies :");
+		List<Company> sourceList = new ArrayList<Company>();
+		int page = 1;
+		int i = 0;
+		
+		@SuppressWarnings("resource")
+		Scanner sc= new Scanner(System.in);
+		
+		System.out.println("\n Companies : Press n to see the next page, p to see the previous page and q to quit : \\n");
 		for(Company company : companies.getListCompany()) {
-			System.out.println(company);
+			sourceList.add(company);
+		}
+		
+		
+		while (true)
+		{
+			List<Company> s = Pagination.getPage(sourceList, page, 30);
+		
+		
+			ListIterator<Company> li = s.listIterator();
+			while(li.hasNext()){
+				System.out.println(li.next());
+				i++;
+			}
+		 
+		 String scanner = sc.nextLine();
+		 switch (scanner) {
+		 case "n" : 	
+		 	page++;
+		 	if(i>=sourceList.size()) {
+			System.out.println("no more companies to show");
+			break;
+			}
+		 	break;
+		 	
+		 case "p" :
+			 	if(i>=1)
+			 	page--;
+			 	break;
+		 case "q" : 
+			 	break;
+		 }
 		}
 	}
 	
