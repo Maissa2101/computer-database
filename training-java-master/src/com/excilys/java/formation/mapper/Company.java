@@ -7,11 +7,11 @@ public class Company {
 	
 	/**
 	 * Constructor of company
-	 * @param l
+	 * @param id
 	 * @param name
 	 */
-	public Company(long l, String name) {
-    	this.id = l;
+	public Company(long id, String name) {
+    	this.id = id;
     	this.name = name;
     }
 	
@@ -29,7 +29,7 @@ public class Company {
 	}
 	@Override
 	public String toString() {
-		return "Company " + id + ": name=" + name + "]";
+		return "Company " + id + ": name=" + name;
 	}
 	
 	

@@ -15,14 +15,27 @@ public class Computer {
     private String manufacturer;
     
     /**
-     * Constructor of computer
-     * @param l
+     * Constructor of the computer
+     * @param id
      * @param name
+     * @param introduced
+     * @param discontinued
+     * @param manufacturer
      */
-    public Computer(long l, String name) {
-    	this.id = l;
+    public Computer(long id, String name, Date introduced, Date discontinued, String manufacturer) {
+    	this.id = id;
     	this.name = name;
+    	this.introduced = introduced;
+    	this.discontinued = discontinued;
+    	this.manufacturer = manufacturer;
     }
+
+	public Computer(Long id, String name, Date introduced, Date discontinued) {
+		this.id = id;
+    	this.name = name;
+    	this.introduced = introduced;
+    	this.discontinued = discontinued;
+	}
 
 	public long getId() {
 		return id;

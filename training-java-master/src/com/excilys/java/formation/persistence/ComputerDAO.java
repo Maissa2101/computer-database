@@ -37,7 +37,7 @@ public class ComputerDAO {
 		conn.commit();
 		
 		while(res.next()) {
-			computers.add(new Computer(res.getLong(1), res.getString(2)));
+			computers.add(new Computer(res.getLong(1), res.getString(2), res.getDate(3), res.getDate(4), res.getString(5)));
 		}
 		stmt.close();
 		return computers;
@@ -60,7 +60,7 @@ public class ComputerDAO {
 		conn.commit();
 		
 		if(res.next()) {
-			c = new Computer(res.getLong(1), res.getString(2));
+			c = new Computer(res.getLong(1), res.getString(2),res.getDate(3), res.getDate(4), res.getString(5));
 		}
 		
 		
@@ -82,20 +82,40 @@ public class ComputerDAO {
 	
 	public void createComputer(Long id, String name, Date intro, Date discontinued, String manufacturer ) throws SQLException{
 		int res = 0;
+		Computer c = new Computer(id, name, intro, discontinued, manufacturer);
+		
 		conn.setAutoCommit(false);
 		String query = "INSERT INTO computer VALUES (?,?,?,?,?)";
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setLong(1, id);
 		stmt.setString(2, name);
-		stmt.setDate(3, intro);
-		stmt.setDate(4, discontinued);
-		stmt.setString(5, manufacturer);
-		 if((discontinued.after(intro)) && (!discontinued.equals(null)) && (!intro.equals(null))) {
-			res = stmt.executeUpdate();
+		
+		if (c.getIntroduced() == null) {
+			stmt.setNull(3, java.sql.Types.DATE);
 		}
 		else {
-			System.out.println("\n Date problem : the discontinued date must be greater than the introduced date");
+			stmt.setDate(3, intro);
 		}
+		
+		if (c.getDiscontinued() == null) {
+			stmt.setNull(4, java.sql.Types.DATE);
+		}
+		else {
+			stmt.setDate(4, discontinued);
+		}
+		stmt.setString(5, manufacturer);
+		if((discontinued != null) && (intro != null)) {
+		 if(discontinued.after(intro)) {
+			res = stmt.executeUpdate();
+		 }
+		 else {
+			System.out.println("\n Date problem : the discontinued date must be greater than the introduced date");
+		 }
+		}
+		else {
+			res = stmt.executeUpdate();
+		}
+		
 		conn.commit();
 		
 		if(res == 1 )
@@ -116,15 +136,43 @@ public class ComputerDAO {
 	 * @throws SQLException
 	 */
 public void updateComputer(Long id, String name, Date intro, Date discontinued) throws SQLException{
+		int res = 0;
+		Computer c = new Computer(id, name, intro, discontinued);
 		
 		conn.setAutoCommit(false);
 		String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?";
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setString(1, name);
-		stmt.setDate(2, intro);
-		stmt.setDate(3, discontinued);
+		
+		
+		if (c.getIntroduced() == null) {
+			stmt.setNull(2, java.sql.Types.DATE);
+		}
+		else {
+			stmt.setDate(2, intro);
+		}
+		
+		if (c.getDiscontinued() == null) {
+			stmt.setNull(3, java.sql.Types.DATE);
+		}
+		else {
+			stmt.setDate(3, discontinued);
+		}
+
 		stmt.setLong(4, id);
-		int res = stmt.executeUpdate();
+		
+		if((discontinued != null) && (intro != null)) {
+			 if(discontinued.after(intro)) {
+				 res = stmt.executeUpdate();
+			 }
+			 else{
+					System.out.println("\n Date problem : the discontinued date must be greater than the introduced date");
+				 }
+		}
+		else {
+			res = stmt.executeUpdate();
+		}
+			
 		conn.commit();
 		
 		if(res == 1 )
@@ -136,12 +184,12 @@ public void updateComputer(Long id, String name, Date intro, Date discontinued) 
 			stmt.close();}		
 	}
 
-/**
- * Method to delete an existing computer
- * @param id id of the computer to delete
- * @throws SQLException
- */
-public void deleteComputer(Long id) throws SQLException{
+	/**
+	 * Method to delete an existing computer
+	 * @param id id of the computer to delete
+	 * @throws SQLException
+	 */
+	public void deleteComputer(Long id) throws SQLException{
 	
 	conn.setAutoCommit(false);
 	String query = "DELETE FROM computer WHERE id = ?" + 

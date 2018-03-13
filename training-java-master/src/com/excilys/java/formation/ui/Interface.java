@@ -1,5 +1,6 @@
 package com.excilys.java.formation.ui;
 
+
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
@@ -36,103 +37,186 @@ public class Interface {
 		
 	}
 	
+	/**
+	 * Method to show the list of computers
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private static void listComputers() throws ClassNotFoundException, SQLException {
+		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		System.out.println(" Computers :");
+		for(Computer computer : computers.getListComputer()) {
+		System.out.println(computer);
+		}
+	}
+	
+	/**
+	 * Method to show the list of companies
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
+	private static void listCompanies() throws SQLException, ClassNotFoundException {
+		CompanyDAO companies = new CompanyDAO(SQLConnection.getConnection());
+		System.out.println("\n Companies :");
+		for(Company company : companies.getListCompany()) {
+			System.out.println(company);
+		}
+	}
+	
+	/**
+	 * Method to show a computer details giving its ID
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private static void computerDetails() throws ClassNotFoundException, SQLException {
+		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		@SuppressWarnings("resource")
+		Scanner sc = new Scanner(System.in);
+		System.out.println("give the id : ");
+		Long id = sc.nextLong();
+		System.out.println("\n Computer "+ computers.getComputer(id));
+	}
+	
+	/**
+	 * Method to create a computer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private static void createComputer() throws ClassNotFoundException, SQLException {
+		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		System.out.println("Add a computer : ");
+		@SuppressWarnings("resource")
+		Scanner sc1 = new Scanner(System.in);
+		System.out.println("give the id : ");
+		Long id_add = sc1.nextLong();
+		System.out.println("give the name : ");
+		sc1.nextLine();
+	    String name = sc1.nextLine();  
+	    
+	    while(name.equals("")) {
+	    	System.out.println("name of the computer is mandatory");
+	    	name = sc1.nextLine();
+	    }
+
+	    
+        System.out.println("introduced date : ");
+        String time = sc1.nextLine();
+        
+        Date tm1;
+        if (time.toLowerCase().equals("")) {
+        	tm1 = null;
+        }
+        else {
+        	tm1 = Date.valueOf(time);
+        }
+        
+        
+        System.out.println("discontinued date : ");
+        String time2 = sc1.nextLine();
+        
+        Date tm2;
+        if (time.toLowerCase().equals("")) {
+        	tm2 = null;
+        }
+        else {
+        	tm2 = Date.valueOf(time2);
+        }
+        
+        
+        
+	    System.out.println("give the manufacturer : ");
+	    String manufacturer = sc1.nextLine(); 
+	    
+	    computers.createComputer(id_add, name, tm1, tm2, manufacturer);
+	}
+	
+	/**
+	 * Method to update a computer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private static void updateComputer() throws ClassNotFoundException, SQLException {
+		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		System.out.println("Update a computer : ");
+		@SuppressWarnings("resource")
+		Scanner sc2 = new Scanner(System.in);
+		System.out.println("give the id of the computer to Update : ");
+		Long id_update = sc2.nextLong();
+		System.out.println("give the new name : ");
+		sc2.nextLine();
+		String new_name = sc2.nextLine();  
+		
+		while(new_name.equals("")) {
+	    	System.out.println("name of the computer is mandatory");
+	    	new_name = sc2.nextLine();
+	    }
+		
+		System.out.println("give the new introduced date : ");
+        String new_time = sc2.nextLine();
+        
+        Date new_date;
+        if (new_time.toLowerCase().equals("")) {
+        	new_date = null;
+        }
+        else {
+        	new_date = Date.valueOf(new_time);
+        }
+        
+        System.out.println("give the new discontinued date : ");
+        String new_time2 = sc2.nextLine();
+        
+        Date new_date2;
+        if (new_time2.toLowerCase().equals("")) {
+        	new_date2 = null;
+        }
+        else {
+        	new_date2 = Date.valueOf(new_time2);
+        }
+
+		computers.updateComputer(id_update, new_name,new_date, new_date2);
+	}
+	
+	/**
+	 * Method to delete a computer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
+	private static void deleteComputer() throws ClassNotFoundException, SQLException {
+		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		@SuppressWarnings("resource")
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("give the id of the computer to delete : ");
+		Long id_delete = scanner.nextLong();
+		computers.deleteComputer(id_delete);
+	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
-		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
-		CompanyDAO companies = new CompanyDAO(SQLConnection.getConnection());
+		
+		
 		
 		switch (Interface.listFeatures()) {
 			case 1 : 	
-						System.out.println(" Computers :");
-						for(Computer computer : computers.getListComputer()) {
-							System.out.println(computer);
-						}
+						listComputers();
 						break;
 			
 			case 2 : 	
-						System.out.println("\n Companies :");
-						for(Company company : companies.getListCompany()) {
-							System.out.println(company);
-						}
+						listCompanies();
 						break;
 			
 			case 3 : 
-						Scanner sc = new Scanner(System.in);
-						System.out.println("give the id : ");
-						Long id = sc.nextLong();
-						System.out.println("\n Computer "+ computers.getComputer(id));
+						computerDetails();
 						break;
 				
 			case 4 : 
-						System.out.println("Add a computer : ");
-						Scanner sc1 = new Scanner(System.in);
-						System.out.println("give the id : ");
-						Long id_add = sc1.nextLong();
-						System.out.println("give the name : ");
-						sc1.nextLine();
-					    String name = sc1.nextLine();  
-	    
-					    
-			            System.out.println("introduced date : ");
-			            String time = sc1.nextLine();
-			            
-			            Date tm1;
-			            if (time.toLowerCase().equals("")) {
-			            	tm1 = null;
-			            }
-			            else {
-			            	tm1 = Date.valueOf(time);
-			            }
-			            
-			            
-			            System.out.println("discontinued date : ");
-			            String time2 = sc1.nextLine();
-			            
-			            Date tm2;
-			            if (time.toLowerCase().equals("")) {
-			            	tm2 = null;
-			            }
-			            else {
-			            	tm2 = Date.valueOf(time2);
-			            }
-			            
-			            
-			            
-					    System.out.println("give the manufacturer : ");
-					    String manufacturer = sc1.nextLine(); 
-					    
-					    computers.createComputer(id_add, name, tm1, tm2, manufacturer);
-						
-						
+						createComputer();
 						break;
 				
 			case 5 : 
-						System.out.println("Update a computer : ");
-						Scanner sc2 = new Scanner(System.in);
-						System.out.println("give the id of the computer to Update : ");
-						Long id_update = sc2.nextLong();
-						System.out.println("give the new name : ");
-						sc2.nextLine();
-						String new_name = sc2.nextLine();  
-						
-						System.out.println("give the new introduced date : ");
-			            String new_time = sc2.nextLine();
-			            Date new_date = Date.valueOf(new_time);
-			            Date tm3 = new Date(new_date.getTime());
-			            
-			            System.out.println("give the new discontinued date : ");
-			            String new_time2 = sc2.nextLine();
-			            Date new_date2 = Date.valueOf(new_time2);
-			            Date tm4 = new Date(new_date2.getTime());
-						
-						computers.updateComputer(id_update, new_name,tm3, tm4);
+						updateComputer();
 						break;
 				
 			case 6 : 
-						Scanner scanner = new Scanner(System.in);
-						System.out.println("give the id of the computer to delete : ");
-						Long id_delete = scanner.nextLong();
-						computers.deleteComputer(id_delete);
+						deleteComputer();
 						break;
 				
 			default : System.out.println("Choississez une action valide!");
