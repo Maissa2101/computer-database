@@ -5,10 +5,10 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.java.formation.mapper.Computer;
+import com.excilys.java.formation.mapper.ComputerMapper;
 
 public class ComputerDAO {
 		Connection conn;
@@ -43,20 +43,16 @@ public class ComputerDAO {
 	 * @throws SQLException
 	 */
 	public List<Computer> getListComputer() throws SQLException{
-		List<Computer> computers = new ArrayList<Computer>();
+		
 		
 		conn.setAutoCommit(false);
 		String query = "SELECT * FROM computer";
 		PreparedStatement stmt =  conn.prepareStatement(query);
-		ResultSet res = stmt.executeQuery(query);
-		
+		ResultSet res = stmt.executeQuery(query);	
 		conn.commit();
-		
-		while(res.next()) {
-			computers.add(new Computer(res.getLong(1), res.getString(2), res.getDate(3), res.getDate(4), res.getString(5)));
-		}
+		List<Computer> l = ComputerMapper.getComputerMapper().getListComputerFromResultSet(res);
 		stmt.close();
-		return computers;
+		return l;
 	}
 	
 	/**
@@ -66,7 +62,7 @@ public class ComputerDAO {
 	 * @throws SQLException
 	 */
 	public Computer getComputer(Long id) throws SQLException{
-		Computer c = null;
+		
 		
 		conn.setAutoCommit(false);
 		String query = "SELECT * FROM computer WHERE id = ?";
@@ -75,11 +71,7 @@ public class ComputerDAO {
 		ResultSet res = stmt.executeQuery();
 		conn.commit();
 		
-		if(res.next()) {
-			c = new Computer(res.getLong(1), res.getString(2),res.getDate(3), res.getDate(4), res.getString(5));
-		}
-		
-		
+		Computer c = ComputerMapper.getComputerMapper().getComputerDetailsFromResultSet(res);
 		if (stmt != null) {
 		stmt.close();}
 		return c;

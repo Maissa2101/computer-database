@@ -4,10 +4,10 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.java.formation.mapper.Company;
+import com.excilys.java.formation.mapper.CompanyMapper;
 
 public class CompanyDAO {
 	Connection conn;
@@ -17,7 +17,7 @@ public class CompanyDAO {
 	}
 
 	public List<Company> getListCompany() throws SQLException{
-		List<Company> companies = new ArrayList<Company>();
+		
 		
 		conn.setAutoCommit(false);
 		String query = "SELECT * FROM company;";
@@ -26,11 +26,10 @@ public class CompanyDAO {
 		
 		conn.commit();
 		
-		while(res.next()) {
-			companies.add(new Company(res.getLong(1), res.getString(2)));
-		}
+		
+		List<Company> l = CompanyMapper.getCompanyMapper().getListCompanyFromResultSet(res);
 		stmt.close();
-		return companies;
+		return l;
 	}
 
 	}

@@ -1,5 +1,6 @@
 package com.excilys.java.formation.service;
 
-public class Validator {
 
+public class ComputerValidator {
+	
 }
