@@ -4,10 +4,14 @@ package com.excilys.java.formation.ui;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.ListIterator;
 import java.util.Scanner;
 
 import com.excilys.java.formation.mapper.Company;
 import com.excilys.java.formation.mapper.Computer;
+import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
 import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.SQLConnection;
@@ -44,10 +48,39 @@ public class Interface {
 	 */
 	private static void listComputers() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		List<Computer> sourceList = new ArrayList<Computer>();
+		int page = 1;
+		int i = 0;
+		
+		@SuppressWarnings("resource")
+		Scanner sc= new Scanner(System.in);
+		
+		
 		System.out.println(" Computers :");
 		for(Computer computer : computers.getListComputer()) {
-		System.out.println(computer);
-		}
+			sourceList.add(computer);}
+			
+			
+			while (true)
+			{
+			List<Computer> s = Pagination.getPage(sourceList, page, 30);
+			
+			
+			 ListIterator<Computer> li = s.listIterator();
+			 while(li.hasNext()){
+				 System.out.println(li.next());
+				 i++;
+			 }
+			 
+			 sc.nextLine();
+			 page++;
+			 
+			 if(i>=sourceList.size()) {
+				 System.out.println("no more computers to show");
+				 break;}
+			 
+			}
+		
 	}
 	
 	/**

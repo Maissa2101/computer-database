@@ -21,6 +21,22 @@ public class ComputerDAO {
 		this.conn = conn;
 	}
 	
+	/*
+	
+	public int count() throws SQLException {
+		
+		conn.setAutoCommit(false);
+		String query = "SELECT COUNT(*) FROM computer";
+		PreparedStatement stmt =  conn.prepareStatement(query);
+		ResultSet res = stmt.executeQuery(query);
+		res.next();
+		conn.commit();
+		
+		stmt.close();
+		return res.getInt(1);
+	}
+	 */
+	
 	/**
 	 * Method to get the list of computers
 	 * @return list of computers
