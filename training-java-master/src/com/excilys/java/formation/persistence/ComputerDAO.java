@@ -17,34 +17,19 @@ public class ComputerDAO {
 		 * Constructor
 		 * @param conn connection to the BD
 		 */
-	public ComputerDAO(Connection conn) {
-		this.conn = conn;
-	}
+	public ComputerDAO() {
 	
-	/*
-	
-	public int count() throws SQLException {
-		
-		conn.setAutoCommit(false);
-		String query = "SELECT COUNT(*) FROM computer";
-		PreparedStatement stmt =  conn.prepareStatement(query);
-		ResultSet res = stmt.executeQuery(query);
-		res.next();
-		conn.commit();
-		
-		stmt.close();
-		return res.getInt(1);
 	}
-	 */
 	
 	/**
 	 * Method to get the list of computers
 	 * @return list of computers
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public List<Computer> getListComputer() throws SQLException{
+	public List<Computer> getListComputer() throws SQLException, ClassNotFoundException{
 		
-		
+		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
 		String query = "SELECT * FROM computer";
 		PreparedStatement stmt =  conn.prepareStatement(query);
@@ -60,10 +45,11 @@ public class ComputerDAO {
 	 * @param id
 	 * @return the computer where its id = parameter id
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public Computer getComputer(Long id) throws SQLException{
+	public Computer getComputer(Long id) throws SQLException, ClassNotFoundException{
 		
-		
+		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
 		String query = "SELECT * FROM computer WHERE id = ?";
 		PreparedStatement stmt =  conn.prepareStatement(query);
@@ -86,12 +72,14 @@ public class ComputerDAO {
 	 * @param discontinued discontinued time of the computer
 	 * @param manufacturer manufacturer of the new computer
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
 	
-	public void createComputer(Long id, String name, Date intro, Date discontinued, String manufacturer ) throws SQLException{
+	public void createComputer(Long id, String name, Date intro, Date discontinued, String manufacturer ) throws SQLException, ClassNotFoundException{
 		int res = 0;
 		Computer c = new Computer(id, name, intro, discontinued, manufacturer);
 		
+		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
 		String query = "INSERT INTO computer VALUES (?,?,?,?,?)";
 		PreparedStatement stmt =  conn.prepareStatement(query);
@@ -142,11 +130,13 @@ public class ComputerDAO {
 	 * @param intro new introduced date 
 	 * @param discontinued new discontinued date
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-public void updateComputer(Long id, String name, Date intro, Date discontinued) throws SQLException{
+public void updateComputer(Long id, String name, Date intro, Date discontinued) throws SQLException, ClassNotFoundException{
 		int res = 0;
 		Computer c = new Computer(id, name, intro, discontinued);
 		
+		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
 		String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?";
 		PreparedStatement stmt =  conn.prepareStatement(query);
@@ -196,9 +186,11 @@ public void updateComputer(Long id, String name, Date intro, Date discontinued) 
 	 * Method to delete an existing computer
 	 * @param id id of the computer to delete
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
 	 */
-	public void deleteComputer(Long id) throws SQLException{
+	public void deleteComputer(Long id) throws SQLException, ClassNotFoundException{
 	
+	Connection conn = SQLConnection.getConnection();
 	conn.setAutoCommit(false);
 	String query = "DELETE FROM computer WHERE id = ?" + 
 			"";

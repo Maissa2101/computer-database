@@ -12,13 +12,13 @@ import com.excilys.java.formation.mapper.CompanyMapper;
 public class CompanyDAO {
 	Connection conn;
 	
-	public CompanyDAO(Connection conn) {
-		this.conn = conn;
+	public CompanyDAO() {
+		
 	}
 
-	public List<Company> getListCompany() throws SQLException{
+	public List<Company> getListCompany() throws SQLException, ClassNotFoundException{
 		
-		
+		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
 		String query = "SELECT * FROM company;";
 		PreparedStatement stmt =  conn.prepareStatement(query);

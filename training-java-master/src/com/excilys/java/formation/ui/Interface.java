@@ -14,7 +14,6 @@ import com.excilys.java.formation.mapper.Computer;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
 import com.excilys.java.formation.persistence.ComputerDAO;
-import com.excilys.java.formation.persistence.SQLConnection;
 
 public class Interface {
 	
@@ -47,7 +46,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void listComputers() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		ComputerDAO computers = new ComputerDAO();
 		List<Computer> sourceList = new ArrayList<Computer>();
 		int page = 1;
 		int i = 0;
@@ -98,7 +97,7 @@ public class Interface {
 	 * @throws ClassNotFoundException
 	 */
 	private static void listCompanies() throws SQLException, ClassNotFoundException {
-		CompanyDAO companies = new CompanyDAO(SQLConnection.getConnection());
+		CompanyDAO companies = new CompanyDAO();
 		List<Company> sourceList = new ArrayList<Company>();
 		int page = 1;
 		int i = 0;
@@ -149,7 +148,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void computerDetails() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		ComputerDAO computers = new ComputerDAO();
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
@@ -163,7 +162,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void createComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		ComputerDAO computers = new ComputerDAO();
 		System.out.println("Add a computer : ");
 		@SuppressWarnings("resource")
 		Scanner sc1 = new Scanner(System.in);
@@ -216,7 +215,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void updateComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		ComputerDAO computers = new ComputerDAO();
 		System.out.println("Update a computer : ");
 		@SuppressWarnings("resource")
 		Scanner sc2 = new Scanner(System.in);
@@ -262,7 +261,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void deleteComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = new ComputerDAO(SQLConnection.getConnection());
+		ComputerDAO computers = new ComputerDAO();
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the computer to delete : ");
