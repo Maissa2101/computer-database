@@ -1,15 +1,16 @@
 package com.excilys.java.formation.mapper;
 
-import java.sql.Timestamp;
+import java.sql.Date;
+
 
 public class Computer {
 	private long id;
 	
     private String name;
 
-    private Timestamp introduced;
+    private Date introduced;
 
-    private Timestamp discontinued;
+    private Date discontinued;
 
     private String manufacturer;
     
@@ -39,19 +40,19 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Timestamp getIntroduced() {
+	public Date getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(Timestamp introduced) {
+	public void setIntroduced(Date introduced) {
 		this.introduced = introduced;
 	}
 
-	public Timestamp getDiscontinued() {
+	public Date getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDisconnected(Timestamp discontinued) {
+	public void setDisconnected(Date discontinued) {
 		this.discontinued = discontinued;
 	}
 

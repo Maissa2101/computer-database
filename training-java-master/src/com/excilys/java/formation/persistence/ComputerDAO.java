@@ -1,10 +1,10 @@
 package com.excilys.java.formation.persistence;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -79,17 +79,18 @@ public class ComputerDAO {
 	 * @param manufacturer manufacturer of the new computer
 	 * @throws SQLException
 	 */
-	public void createComputer(Long id, String name, Timestamp intro, Timestamp discontinued, String manufacturer ) throws SQLException{
+	
+	public void createComputer(Long id, String name, Date intro, Date discontinued, String manufacturer ) throws SQLException{
 		int res = 0;
 		conn.setAutoCommit(false);
 		String query = "INSERT INTO computer VALUES (?,?,?,?,?)";
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setLong(1, id);
 		stmt.setString(2, name);
-		stmt.setTimestamp(3, intro);
-		stmt.setTimestamp(4, discontinued);
+		stmt.setDate(3, intro);
+		stmt.setDate(4, discontinued);
 		stmt.setString(5, manufacturer);
-		if(discontinued.after(intro)) {
+		 if((discontinued.after(intro)) && (!discontinued.equals(null)) && (!intro.equals(null))) {
 			res = stmt.executeUpdate();
 		}
 		else {
@@ -114,14 +115,14 @@ public class ComputerDAO {
 	 * @param discontinued new discontinued date
 	 * @throws SQLException
 	 */
-public void updateComputer(Long id, String name, Timestamp intro, Timestamp discontinued) throws SQLException{
+public void updateComputer(Long id, String name, Date intro, Date discontinued) throws SQLException{
 		
 		conn.setAutoCommit(false);
 		String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?";
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setString(1, name);
-		stmt.setTimestamp(2, intro);
-		stmt.setTimestamp(3, discontinued);
+		stmt.setDate(2, intro);
+		stmt.setDate(3, discontinued);
 		stmt.setLong(4, id);
 		int res = stmt.executeUpdate();
 		conn.commit();

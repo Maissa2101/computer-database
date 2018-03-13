@@ -1,9 +1,8 @@
 package com.excilys.java.formation.ui;
 
+import java.sql.Date;
 import java.sql.SQLException;
-import java.sql.Timestamp;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Scanner;
 
 import com.excilys.java.formation.mapper.Company;
@@ -65,7 +64,6 @@ public class Interface {
 						break;
 				
 			case 4 : 
-						SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						System.out.println("Add a computer : ");
 						Scanner sc1 = new Scanner(System.in);
 						System.out.println("give the id : ");
@@ -74,16 +72,30 @@ public class Interface {
 						sc1.nextLine();
 					    String name = sc1.nextLine();  
 	    
-						
+					    
 			            System.out.println("introduced date : ");
 			            String time = sc1.nextLine();
-			            java.util.Date date = dateFormat.parse(time);
-			            Timestamp tm1 = new Timestamp(date.getTime());
+			            
+			            Date tm1;
+			            if (time.toLowerCase().equals("")) {
+			            	tm1 = null;
+			            }
+			            else {
+			            	tm1 = Date.valueOf(time);
+			            }
+			            
 			            
 			            System.out.println("discontinued date : ");
 			            String time2 = sc1.nextLine();
-			            java.util.Date date2 = dateFormat.parse(time2);
-			            Timestamp tm2 = new Timestamp(date2.getTime());
+			            
+			            Date tm2;
+			            if (time.toLowerCase().equals("")) {
+			            	tm2 = null;
+			            }
+			            else {
+			            	tm2 = Date.valueOf(time2);
+			            }
+			            
 			            
 			            
 					    System.out.println("give the manufacturer : ");
@@ -95,7 +107,6 @@ public class Interface {
 						break;
 				
 			case 5 : 
-						SimpleDateFormat dateFormat2 = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 						System.out.println("Update a computer : ");
 						Scanner sc2 = new Scanner(System.in);
 						System.out.println("give the id of the computer to Update : ");
@@ -106,13 +117,13 @@ public class Interface {
 						
 						System.out.println("give the new introduced date : ");
 			            String new_time = sc2.nextLine();
-			            java.util.Date new_date = dateFormat2.parse(new_time);
-			            Timestamp tm3 = new Timestamp(new_date.getTime());
+			            Date new_date = Date.valueOf(new_time);
+			            Date tm3 = new Date(new_date.getTime());
 			            
 			            System.out.println("give the new discontinued date : ");
 			            String new_time2 = sc2.nextLine();
-			            java.util.Date new_date2 = dateFormat2.parse(new_time2);
-			            Timestamp tm4 = new Timestamp(new_date2.getTime());
+			            Date new_date2 = Date.valueOf(new_time2);
+			            Date tm4 = new Date(new_date2.getTime());
 						
 						computers.updateComputer(id_update, new_name,tm3, tm4);
 						break;
