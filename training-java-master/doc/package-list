@@ -1,0 +1,8 @@
+com.excilys.java.formation.entities
+com.excilys.java.formation.mapper
+com.excilys.java.formation.pagination
+com.excilys.java.formation.persistence
+com.excilys.java.formation.service
+com.excilys.java.formation.servlets
+com.excilys.java.formation.test
+com.excilys.java.formation.ui
