@@ -3,13 +3,14 @@ package com.excilys.java.formation.ui;
 
 
 import java.sql.SQLException;
-import java.text.ParseException;
 import java.util.Scanner;
+
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
 
 
 public class Interface {
+	
 	
 	/**
 	 * Method to choose the action to execute 
@@ -122,7 +123,7 @@ public class Interface {
 		computerS.deleteComputer();
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, ParseException {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException  {
 			Interface.listFeatures();
 	}
 	

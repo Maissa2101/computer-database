@@ -7,12 +7,14 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.List;
 
+
 import com.excilys.java.formation.mapper.Computer;
 import com.excilys.java.formation.mapper.ComputerMapper;
 
 public class ComputerDAO {
 		
 	private final static ComputerDAO computerDao = new ComputerDAO();
+	
 	
 	/**
 	 * Constructor
@@ -84,36 +86,36 @@ public class ComputerDAO {
 	 * @throws ClassNotFoundException 
 	 */
 	
-	public void createComputer(Long id, String name, Date intro, Date discontinued, String manufacturer ) throws SQLException, ClassNotFoundException{
+	public void createComputer( String name, Date intro, Date discontinued, String manufacturer ) throws SQLException, ClassNotFoundException{
 		int res = 0;
-		Computer c = new Computer(id, name, intro, discontinued, manufacturer);
+		Computer c = new Computer(name, intro, discontinued, manufacturer);
 		
 		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
-		String query = "INSERT INTO computer VALUES (?,?,?,?,?)";
+		String query = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
 		PreparedStatement stmt =  conn.prepareStatement(query);
-		stmt.setLong(1, id);
-		stmt.setString(2, name);
+		
+		stmt.setString(1, name);
 		
 		if (c.getIntroduced() == null) {
-			stmt.setNull(3, java.sql.Types.DATE);
+			stmt.setNull(2, java.sql.Types.DATE);
 		}
 		else {
-			stmt.setDate(3, intro);
+			stmt.setDate(2, intro);
 		}
 		
 		if (c.getDiscontinued() == null) {
-			stmt.setNull(4, java.sql.Types.DATE);
+			stmt.setNull(3, java.sql.Types.DATE);
 		}
 		else {
-			stmt.setDate(4, discontinued);
+			stmt.setDate(3, discontinued);
 		}
 		
 		if(c.getManufacturer() == null) {
-			stmt.setNull(5, java.sql.Types.VARCHAR);
+			stmt.setNull(4, java.sql.Types.VARCHAR);
 		}
 		else {
-			stmt.setString(5, manufacturer);
+			stmt.setString(4, manufacturer);
 		}
 		
 		res = stmt.executeUpdate();
@@ -201,5 +203,6 @@ public class ComputerDAO {
 	if (stmt != null) {
 		stmt.close();}		
 }
+
 	
 }

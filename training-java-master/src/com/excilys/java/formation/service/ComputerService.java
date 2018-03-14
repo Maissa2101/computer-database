@@ -7,6 +7,7 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
+
 import com.excilys.java.formation.mapper.Computer;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.ComputerDAO;
@@ -64,8 +65,8 @@ public class ComputerService {
 			 case "n" : 	
 			 	page++;
 			 	if(i>=sourceList.size()) {
-				System.out.println("no more computers to show");
-				break;
+			 		System.out.println("no more computers to show");
+			 		break;
 				}
 			 	break;
 			 	
@@ -112,19 +113,14 @@ public class ComputerService {
 		System.out.println("Add a computer : ");
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
-		System.out.println("give the id : ");
-		Long id_add = sc.nextLong();
 		System.out.println("give the name : ");
-		sc.nextLine();
 	    String name = sc.nextLine();  
-	    
 	    
 	    while(!computerV.nameValidator(name)) {
 	    	name = sc.nextLine();
 	    }	
-	   
 	    
-        System.out.println("introduced date : ");
+	    System.out.println("introduced date : ");
         String time = sc.nextLine();
         
         Date tm1;
@@ -165,7 +161,7 @@ public class ComputerService {
         	 }
         }
 	    
-	    computers.createComputer(id_add, name, tm1, tm2, manufacturer);
+	    computers.createComputer(name, tm1, tm2, manufacturer);
 	}
 	
 	/**

@@ -4,6 +4,9 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.java.formation.mapper.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
@@ -13,6 +16,7 @@ public class CompanyValidator {
 	 * The instance is initialized when the class is first referenced
 	 */
 	private final static CompanyValidator companyValidator = new CompanyValidator();
+	
 	
 	private CompanyValidator() {
 		

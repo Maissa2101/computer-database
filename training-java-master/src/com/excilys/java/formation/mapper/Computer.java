@@ -37,6 +37,13 @@ public class Computer {
     	this.discontinued = discontinued;
 	}
 
+	public Computer(String name, Date introduced, Date discontinued, String manufacturer) {
+		this.name = name;
+    	this.introduced = introduced;
+    	this.discontinued = discontinued;
+    	this.manufacturer = manufacturer;
+	}
+
 	public long getId() {
 		return id;
 	}

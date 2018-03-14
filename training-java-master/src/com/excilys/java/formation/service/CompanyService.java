@@ -66,7 +66,7 @@ public class CompanyService {
 		 case "n" : 	
 		 	page++;
 		 	if(i>=sourceList.size()) {
-			System.out.println("no more companies to show");
+		 		System.out.println("no more companies to show");
 			break;
 			}
 		 	break;

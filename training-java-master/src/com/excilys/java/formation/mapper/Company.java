@@ -1,9 +1,11 @@
 package com.excilys.java.formation.mapper;
 
+
 public class Company {
 	
 	private long id;
 	private String name;
+	
 	
 	/**
 	 * Constructor of company
