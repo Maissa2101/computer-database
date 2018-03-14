@@ -12,7 +12,7 @@ import com.excilys.java.formation.service.ComputerService;
 public class Interface {
 	
 	/**
-	 * Method to choose the action to execute
+	 * Method to choose the action to execute 
 	 * @return number of the action to execute 
 	 * @throws SQLException 
 	 * @throws ClassNotFoundException 

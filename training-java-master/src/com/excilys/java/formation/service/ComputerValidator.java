@@ -12,18 +12,29 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 
 public class ComputerValidator {
 	
+	/**
+	 * The instance is initialized when the class is first referenced
+	 */
 	private final static ComputerValidator computerValidator = new ComputerValidator();
 	
-	public ComputerValidator() {
+	private ComputerValidator() {
 		
 	}
 	
+	/**
+	 * controls the access to the unique instance of the ComputerValidator class
+	 * @return the unique instance of the ComputerValidator class
+	 */
 	public static ComputerValidator getComputerValidator() {	
 		return computerValidator;
 	}
 	
 	
-	
+	/**
+	 * Method to verify if the name is not empty
+	 * @param name
+	 * @return true if the name is not empty, false otherwise
+	 */
 	public boolean nameValidator(String name) {
 		
 			if(name.equals("")) {
@@ -34,6 +45,13 @@ public class ComputerValidator {
 		
 	}
 	
+	/**
+	 * Method to verify if the id of the computer to delete, to update or to show its details is valid or not
+	 * @param id
+	 * @return true if the id is valid, false otherwise
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException {
 		int index = 0;
 		
@@ -58,6 +76,12 @@ public class ComputerValidator {
 		return false;
 	}
 	
+	/**
+	 * Method to verify if the dates are valid or not
+	 * @param introduced
+	 * @param discontinued
+	 * @return true if the date the computer was discontinued is greater than the one it was introduced
+	 */
 	public boolean DateValidator(Date introduced, Date discontinued) {
 		if((discontinued != null) && (introduced != null)) {
 			if (discontinued.after(introduced)) {

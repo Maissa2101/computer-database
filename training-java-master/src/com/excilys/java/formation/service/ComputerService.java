@@ -13,16 +13,28 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 
 public class ComputerService {
 	
+	/**
+	 * The instance is initialized when the class is first referenced
+	 */
 	private final static ComputerService computerService = new ComputerService();
 	
 	private ComputerService() {
 		
 	}
 	
+	/**
+	 * controls the access to the unique instance of the ComputerService class
+	 * @return the unique instance of the ComputerService class
+	 */
 	public static ComputerService getComputerService() {
 		return computerService;
 	}
-
+	
+	/**
+	 * Method to show the list of computers
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void listComputers() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
 		List<Computer> sourceList = new ArrayList<Computer>();
@@ -69,6 +81,11 @@ public class ComputerService {
 		
 	}
 	
+	/**
+	 * Method to show the details of a computer given its ID
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void computerDetails() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
 		ComputerValidator computerV = ComputerValidator.getComputerValidator();
@@ -82,6 +99,11 @@ public class ComputerService {
 		System.out.println("\n Computer "+ computers.getComputer(id));
 	}
 	
+	/**
+	 * Method to create a computer
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void createComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
 		ComputerValidator computerV = ComputerValidator.getComputerValidator();
@@ -146,6 +168,11 @@ public class ComputerService {
 	    computers.createComputer(id_add, name, tm1, tm2, manufacturer);
 	}
 	
+	/**
+	 * Method to update a computer details given its ID
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void updateComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
 		ComputerValidator computerV = ComputerValidator.getComputerValidator();
@@ -199,6 +226,11 @@ public class ComputerService {
 		computers.updateComputer(id_update, new_name,new_date, new_date2);
 	}
 	
+	/**
+	 * Method to delete a computer given its ID
+	 * @throws ClassNotFoundException
+	 * @throws SQLException
+	 */
 	public void deleteComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
 		ComputerValidator computerV = ComputerValidator.getComputerValidator();

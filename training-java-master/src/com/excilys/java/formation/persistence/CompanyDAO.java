@@ -11,19 +11,17 @@ import com.excilys.java.formation.mapper.CompanyMapper;
 
 public class CompanyDAO {
 	
-	private static CompanyDAO companyDao;
+	private final static CompanyDAO companyDao = new CompanyDAO();
 	
 	public CompanyDAO() {
 		
 	}
 	
 	/**
-	 * 
-	 * @return the companyDAO
+	 * controls the access to the unique instance of the CompanyDAO class
+	 * @return the unique instance of the CompanyDAO class
 	 */
 	public static CompanyDAO getCompanyDAO() {
-		if(companyDao == null)
-			companyDao = new CompanyDAO();
 		return companyDao;
 	}
 	

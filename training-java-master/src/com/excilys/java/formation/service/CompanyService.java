@@ -11,17 +11,29 @@ import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
 public class CompanyService {
-
+	
+	/**
+	 * The instance is initialized when the class is first referenced
+	 */
 	private final static CompanyService companyService = new CompanyService();
 	
 	private CompanyService() {
 		
 	}
 	
+	/**
+	 * controls the access to the unique instance of the CompanyService class
+	 * @return the unique instance of the CompanyService class
+	 */
 	public static CompanyService getCompanyService() {
 		return companyService;
 	}
 	
+	/**
+	 * Method to show the list of companies
+	 * @throws SQLException
+	 * @throws ClassNotFoundException
+	 */
 	public void listCompanies() throws SQLException, ClassNotFoundException {
 		CompanyDAO companies = CompanyDAO.getCompanyDAO();
 		List<Company> sourceList = new ArrayList<Company>();

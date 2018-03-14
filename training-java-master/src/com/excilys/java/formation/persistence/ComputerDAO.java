@@ -12,19 +12,21 @@ import com.excilys.java.formation.mapper.ComputerMapper;
 
 public class ComputerDAO {
 		
-	private static ComputerDAO computerDao;
+	private final static ComputerDAO computerDao = new ComputerDAO();
 	
-		/**
-		 * Constructor
-		 * @param conn connection to the BD
-		 */
+	/**
+	 * Constructor
+	 * @param conn connection to the BD
+	*/
 	public ComputerDAO(){
 		
 	}
 	
-	public static ComputerDAO getComputerDAO() {
-		if(computerDao == null)
-			computerDao = new ComputerDAO();
+	/**
+	 * controls the access to the unique instance of the ComputerService class
+	 * @return the unique instance of the ComputerDAO class
+	 */
+	public static ComputerDAO getComputerDAO() {	
 		return computerDao;
 	}
 	
@@ -114,10 +116,7 @@ public class ComputerDAO {
 			stmt.setString(5, manufacturer);
 		}
 		
-		
 		res = stmt.executeUpdate();
-		
-		
 		conn.commit();
 		
 		if(res == 1 )
@@ -138,7 +137,7 @@ public class ComputerDAO {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException 
 	 */
-public void updateComputer(Long id, String name, Date intro, Date discontinued) throws SQLException, ClassNotFoundException{
+	public void updateComputer(Long id, String name, Date intro, Date discontinued) throws SQLException, ClassNotFoundException{
 		int res = 0;
 		Computer c = new Computer(id, name, intro, discontinued);
 		
