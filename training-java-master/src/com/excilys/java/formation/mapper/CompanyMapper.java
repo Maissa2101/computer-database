@@ -7,9 +7,9 @@ import java.util.List;
 
 public class CompanyMapper {
 
-	private static CompanyMapper companyMapper;
+	private final static CompanyMapper companyMapper = new CompanyMapper();
 	
-	public CompanyMapper() {
+	private CompanyMapper() {
 		
 	}
 	
@@ -35,9 +35,6 @@ public class CompanyMapper {
 	 * @return the companyMapper
 	 */
 	public static CompanyMapper getCompanyMapper() {
-		
-		if(companyMapper == null)
-			companyMapper = new CompanyMapper();
-	return companyMapper;
+		return companyMapper;
 	}
 }

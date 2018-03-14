@@ -7,9 +7,9 @@ import java.util.List;
 
 public class ComputerMapper {
 	
-	private static ComputerMapper computerMapper;
+	private final static ComputerMapper computerMapper = new ComputerMapper();
 	
-	public ComputerMapper() {
+	private ComputerMapper() {
 		
 	}
 	
@@ -49,9 +49,6 @@ public class ComputerMapper {
 	 * @return the computerMapper
 	 */
 	public static ComputerMapper getComputerMapper() {
-		
-		if(computerMapper == null)
-			computerMapper = new ComputerMapper();
 		return computerMapper;
 	}
 }
