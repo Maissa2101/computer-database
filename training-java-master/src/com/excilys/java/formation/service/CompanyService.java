@@ -6,6 +6,9 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.java.formation.mapper.Company;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
@@ -66,7 +69,8 @@ public class CompanyService {
 		 case "n" : 	
 		 	page++;
 		 	if(i>=sourceList.size()) {
-		 		System.out.println("no more companies to show");
+		 		final Logger LOG = LoggerFactory.getLogger(CompanyService.class);
+		 		LOG.info("no more companies to show");
 			break;
 			}
 		 	break;

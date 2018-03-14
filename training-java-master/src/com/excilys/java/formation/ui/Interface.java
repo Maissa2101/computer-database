@@ -26,7 +26,7 @@ public class Interface {
 		System.out.println("4. Create a computer");
 		System.out.println("5. Update a computer");
 		System.out.println("6. Delete a computer");
-		System.out.println("\n \n");
+		System.out.println("\n");
 		
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
