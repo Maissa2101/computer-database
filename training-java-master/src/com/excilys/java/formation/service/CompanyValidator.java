@@ -21,6 +21,7 @@ public class CompanyValidator {
 	}
 	
 	public boolean idCompanyValidator(String manufacturer) throws ClassNotFoundException, SQLException {
+		if (manufacturer != null ) {
 		Long companyId = Long.valueOf(manufacturer);
 		int index = 0;
 		
@@ -43,6 +44,8 @@ public class CompanyValidator {
 		}
 		return false;
 	
+	}
+		return true;
 	}
 		
 }

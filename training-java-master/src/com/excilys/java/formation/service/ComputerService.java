@@ -71,10 +71,14 @@ public class ComputerService {
 	
 	public void computerDetails() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
+		ComputerValidator computerV = ComputerValidator.getComputerValidator();
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
-		Long id = sc.nextLong();
+		Long id = sc.nextLong();	
+		while(!computerV.idValidator(id)) {
+			id = sc.nextLong();
+		}
 		System.out.println("\n Computer "+ computers.getComputer(id));
 	}
 	
@@ -85,21 +89,21 @@ public class ComputerService {
 		
 		System.out.println("Add a computer : ");
 		@SuppressWarnings("resource")
-		Scanner sc1 = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
-		Long id_add = sc1.nextLong();
+		Long id_add = sc.nextLong();
 		System.out.println("give the name : ");
-		sc1.nextLine();
-	    String name = sc1.nextLine();  
+		sc.nextLine();
+	    String name = sc.nextLine();  
 	    
 	    
 	    while(!computerV.nameValidator(name)) {
-	    	name = sc1.nextLine();
+	    	name = sc.nextLine();
 	    }	
 	   
 	    
         System.out.println("introduced date : ");
-        String time = sc1.nextLine();
+        String time = sc.nextLine();
         
         Date tm1;
         if (time.toLowerCase().equals("")) {
@@ -111,7 +115,7 @@ public class ComputerService {
         
         
         System.out.println("discontinued date : ");
-        String time2 = sc1.nextLine();
+        String time2 = sc.nextLine();
         
         Date tm2;
         if (time.toLowerCase().equals("")) {
@@ -121,35 +125,51 @@ public class ComputerService {
         	tm2 = Date.valueOf(time2);
         }
         
-        System.out.println("give the manufacturer : ");
-        String manufacturer = sc1.nextLine(); 
-        while(!companyV.idCompanyValidator(manufacturer)) {
-        	manufacturer = sc1.nextLine(); 
+        if (!computerV.DateValidator(tm1, tm2) && (tm2 != null)) {
+        	System.out.println("give a valid discontinued date : ");
+        	time2 = sc.nextLine();
+        	tm2 = Date.valueOf(time2);
         }
-	   
-	    
+        
+        System.out.println("give the manufacturer : ");
+        String manufacturer = sc.nextLine(); 
+       
+        if(manufacturer.toLowerCase().equals("")) {
+        	manufacturer = null;
+        } 
+        else {
+        	 while(!companyV.idCompanyValidator(manufacturer)) {
+             	manufacturer = sc.nextLine(); 
+        	 }
+        }
 	    
 	    computers.createComputer(id_add, name, tm1, tm2, manufacturer);
 	}
 	
 	public void updateComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
+		ComputerValidator computerV = ComputerValidator.getComputerValidator();
+		
 		System.out.println("Update a computer : ");
 		@SuppressWarnings("resource")
-		Scanner sc2 = new Scanner(System.in);
+		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id of the computer to Update : ");
-		Long id_update = sc2.nextLong();
-		System.out.println("give the new name : ");
-		sc2.nextLine();
-		String new_name = sc2.nextLine();  
+		Long id_update = sc.nextLong();
 		
-		while(new_name.equals("")) {
-	    	System.out.println("name of the computer is mandatory");
-	    	new_name = sc2.nextLine();
+		while(!computerV.idValidator(id_update)) {
+	    	id_update = sc.nextLong();
+	    }	
+
+		System.out.println("give the new name : ");
+		sc.nextLine();
+		String new_name = sc.nextLine();  
+		
+		while(!computerV.nameValidator(new_name)) {
+	    	new_name = sc.nextLine();
 	    }
 		
 		System.out.println("give the new introduced date : ");
-        String new_time = sc2.nextLine();
+        String new_time = sc.nextLine();
         
         Date new_date;
         if (new_time.toLowerCase().equals("")) {
@@ -160,7 +180,7 @@ public class ComputerService {
         }
         
         System.out.println("give the new discontinued date : ");
-        String new_time2 = sc2.nextLine();
+        String new_time2 = sc.nextLine();
         
         Date new_date2;
         if (new_time2.toLowerCase().equals("")) {
@@ -169,16 +189,29 @@ public class ComputerService {
         else {
         	new_date2 = Date.valueOf(new_time2);
         }
+        
+        if (!computerV.DateValidator(new_date, new_date2) && (new_date2 != null)) {
+        	System.out.println("give a valid discontinued date : ");
+        	new_time2 = sc.nextLine();
+        	new_date2 = Date.valueOf(new_time2);
+        }
 
 		computers.updateComputer(id_update, new_name,new_date, new_date2);
 	}
 	
 	public void deleteComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
+		ComputerValidator computerV = ComputerValidator.getComputerValidator();
+		
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
-		System.out.println("give the id of the computer to delete : ");
+		System.out.println("give the id of the computer to delete : ");	
 		Long id_delete = scanner.nextLong();
+		
+		while(!computerV.idValidator(id_delete)) {
+	    	id_delete = scanner.nextLong();
+	    }	
+		
 		computers.deleteComputer(id_delete);
 	}
 }

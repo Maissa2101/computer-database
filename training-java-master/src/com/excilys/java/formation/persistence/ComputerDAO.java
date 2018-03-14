@@ -106,18 +106,17 @@ public class ComputerDAO {
 		else {
 			stmt.setDate(4, discontinued);
 		}
-		stmt.setString(5, manufacturer);
-		if((discontinued != null) && (intro != null)) {
-		 if(discontinued.after(intro)) {
-			res = stmt.executeUpdate();
-		 }
-		 else {
-			System.out.println("\n Date problem : the discontinued date must be greater than the introduced date");
-		 }
+		
+		if(c.getManufacturer() == null) {
+			stmt.setNull(5, java.sql.Types.VARCHAR);
 		}
 		else {
-			res = stmt.executeUpdate();
+			stmt.setString(5, manufacturer);
 		}
+		
+		
+		res = stmt.executeUpdate();
+		
 		
 		conn.commit();
 		
@@ -166,21 +165,10 @@ public void updateComputer(Long id, String name, Date intro, Date discontinued) 
 
 		stmt.setLong(4, id);
 		
-		if((discontinued != null) && (intro != null)) {
-			 if(discontinued.after(intro)) {
-				 res = stmt.executeUpdate();
-			 }
-			 else{
-					System.out.println("\n Date problem : the discontinued date must be greater than the introduced date");
-				 }
-		}
-		else {
-			res = stmt.executeUpdate();
-		}
-			
+		res = stmt.executeUpdate();
 		conn.commit();
 		
-		if(res == 1 )
+		if(res == 1)
 			System.out.println("\n computer updated");
 		else
 			System.out.println("\n computer not updated");
