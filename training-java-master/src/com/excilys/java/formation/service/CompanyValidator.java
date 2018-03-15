@@ -19,8 +19,9 @@ public enum CompanyValidator {
 	 * @return true if the id exists in the DB, false otherwise
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
+	 * @throws ValidatorException 
 	 */
-	public boolean idCompanyValidator(String manufacturer) throws ClassNotFoundException, SQLException {
+	public boolean idCompanyValidator(String manufacturer) throws ClassNotFoundException, SQLException, ValidatorException {
 		if (manufacturer != null ) {
 		Long companyId = Long.valueOf(manufacturer);
 		int index = 0;
@@ -40,7 +41,7 @@ public enum CompanyValidator {
 			}
 		}
 		if(index >= sourceList.size()) {
-			System.out.println("ID not valid, give a new one : ");
+			throw new ValidatorException("ID not valid, give a new one : ");
 		}
 		return false;
 	

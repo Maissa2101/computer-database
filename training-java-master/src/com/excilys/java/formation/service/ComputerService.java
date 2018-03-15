@@ -72,8 +72,9 @@ public enum ComputerService {
 	 * Method to show the details of a computer given its ID
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
+	 * @throws ValidatorException 
 	 */
-	public void computerDetails() throws ClassNotFoundException, SQLException {
+	public void computerDetails() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		@SuppressWarnings("resource")
@@ -90,8 +91,9 @@ public enum ComputerService {
 	 * Method to create a computer
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
+	 * @throws ValidatorException 
 	 */
-	public void createComputer() throws ClassNotFoundException, SQLException {
+	public void createComputer() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		CompanyValidator companyV = CompanyValidator.INSTANCE;
@@ -154,8 +156,9 @@ public enum ComputerService {
 	 * Method to update a computer details given its ID
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
+	 * @throws ValidatorException 
 	 */
-	public void updateComputer() throws ClassNotFoundException, SQLException {
+	public void updateComputer() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		
@@ -212,8 +215,9 @@ public enum ComputerService {
 	 * Method to delete a computer given its ID
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
+	 * @throws ValidatorException 
 	 */
-	public void deleteComputer() throws ClassNotFoundException, SQLException {
+	public void deleteComputer() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		

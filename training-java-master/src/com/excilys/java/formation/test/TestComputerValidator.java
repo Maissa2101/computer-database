@@ -8,18 +8,19 @@ import java.sql.SQLException;
 import org.junit.Test;
 
 import com.excilys.java.formation.service.ComputerValidator;
+import com.excilys.java.formation.service.ValidatorException;
 
 public class TestComputerValidator {
 
 	@Test
-	public void testNameValidator() {
+	public void testNameValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
 		assertTrue(cv.nameValidator("ASUS"));
 		assertFalse(cv.nameValidator(""));
 	}
 
 	@Test
-	public void testIdValidator() {
+	public void testIdValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
 		
 		try {
@@ -31,7 +32,7 @@ public class TestComputerValidator {
 	}
 
 	@Test
-	public void testDateValidator() {
+	public void testDateValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
 		
 		assertFalse(cv.DateValidator(Date.valueOf("2008-01-01"), Date.valueOf("2007-01-01")));

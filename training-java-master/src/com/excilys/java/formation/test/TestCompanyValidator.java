@@ -7,11 +7,12 @@ import java.sql.SQLException;
 import org.junit.Test;
 
 import com.excilys.java.formation.service.CompanyValidator;
+import com.excilys.java.formation.service.ValidatorException;
 
 public class TestCompanyValidator {
 
 	@Test
-	public void testIdCompanyValidator() {
+	public void testIdCompanyValidator() throws ValidatorException {
 		CompanyValidator cv = CompanyValidator.INSTANCE;
 		
 			try {

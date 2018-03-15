@@ -7,6 +7,7 @@ import java.util.Scanner;
 
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.ValidatorException;
 
 
 public class Interface {
@@ -16,8 +17,9 @@ public class Interface {
 	 * Method to choose and execute an action
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
+	 * @throws ValidatorException 
 	 */
-	public static void listFeatures() throws ClassNotFoundException, SQLException {
+	public static void listFeatures() throws ClassNotFoundException, SQLException, ValidatorException {
 		System.out.println("Select an action :\n");
 		System.out.println("1. List computers");
 		System.out.println("2. List companies");
@@ -86,8 +88,9 @@ public class Interface {
 	 * Method to show a computer details giving its ID
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ValidatorException 
 	 */
-	private static void computerDetails() throws ClassNotFoundException, SQLException {
+	private static void computerDetails() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.computerDetails();
 	}
@@ -96,8 +99,9 @@ public class Interface {
 	 * Method to create a computer
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ValidatorException 
 	 */
-	private static void createComputer() throws ClassNotFoundException, SQLException {
+	private static void createComputer() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.createComputer();
 	}
@@ -106,8 +110,9 @@ public class Interface {
 	 * Method to update a computer
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ValidatorException 
 	 */
-	private static void updateComputer() throws ClassNotFoundException, SQLException {
+	private static void updateComputer() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.updateComputer();
 	}
@@ -116,13 +121,14 @@ public class Interface {
 	 * Method to delete a computer
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
+	 * @throws ValidatorException 
 	 */
-	private static void deleteComputer() throws ClassNotFoundException, SQLException {
+	private static void deleteComputer() throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.deleteComputer();
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException  {
+	public static void main(String[] args) throws ClassNotFoundException, SQLException, ValidatorException  {
 			Interface.listFeatures();
 	}
 	

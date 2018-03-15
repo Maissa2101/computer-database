@@ -20,15 +20,14 @@ public enum ComputerValidator {
 	 * Method to verify if the name is not empty
 	 * @param name the name of the computer
 	 * @return true if the name is not empty, false otherwise
+	 * @throws ValidatorException 
 	 */
-	public boolean nameValidator(String name) {
+	public boolean nameValidator(String name) throws ValidatorException {
 		
 			if(name.equals("")) {
-				System.out.println("name of the computer is mandatory");
-				return false;
+				throw new ValidatorException(" The name of the computer is mandatory");
 			}
 			return true;
-		
 	}
 	
 	/**
@@ -37,8 +36,9 @@ public enum ComputerValidator {
 	 * @return true if the id is valid, false otherwise
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
+	 * @throws ValidatorException 
 	 */
-	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException {
+	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException, ValidatorException {
 		int index = 0;
 		
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
@@ -57,7 +57,7 @@ public enum ComputerValidator {
 		}
 		
 		if(index >= sourceList.size()) {
-			System.out.println("This computer doesn't exist, give another id : ");
+			throw new ValidatorException("This computer doesn't exist, give another id : ");
 		}
 		return false;
 	}
@@ -67,15 +67,15 @@ public enum ComputerValidator {
 	 * @param introduced the introduced date of the computer
 	 * @param discontinued the discontinued date of the computer
 	 * @return true if the date the computer was discontinued is greater than the one it was introduced
+	 * @throws ValidatorException 
 	 */
-	public boolean DateValidator(Date introduced, Date discontinued) {
+	public boolean DateValidator(Date introduced, Date discontinued) throws ValidatorException {
 		if((discontinued != null) && (introduced != null)) {
 			if (discontinued.after(introduced)) {
 				return true;
 			}
 			else {
-				System.out.println("\n Date problem : the discontinued date must be greater than the introduced date\n");
-				return false;
+				throw new ValidatorException("\n Date problem : the discontinued date must be greater than the introduced date\n");
 			}
 		}
 		else {
