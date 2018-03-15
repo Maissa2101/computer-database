@@ -12,24 +12,9 @@ import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
-public class ComputerService {
+public enum ComputerService {
 	
-	/**
-	 * The instance is initialized when the class is first referenced
-	 */
-	private final static ComputerService computerService = new ComputerService();
-	
-	private ComputerService() {
-		
-	}
-	
-	/**
-	 * controls the access to the unique instance of the ComputerService class
-	 * @return the unique instance of the ComputerService class
-	 */
-	public static ComputerService getComputerService() {
-		return computerService;
-	}
+	INSTANCE;
 	
 	/**
 	 * Method to show the list of computers
@@ -37,7 +22,7 @@ public class ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void listComputers() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.getComputerDAO();
+		ComputerDAO computers = ComputerDAO.INSTANCE;
 		List<Computer> sourceList = new ArrayList<Computer>();
 		int page = 1;
 		int i = 0;
@@ -88,8 +73,8 @@ public class ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void computerDetails() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.getComputerDAO();
-		ComputerValidator computerV = ComputerValidator.getComputerValidator();
+		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
@@ -106,9 +91,9 @@ public class ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void createComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.getComputerDAO();
-		ComputerValidator computerV = ComputerValidator.getComputerValidator();
-		CompanyValidator companyV = CompanyValidator.getCompanyValidator();
+		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerValidator computerV = ComputerValidator.INSTANCE;
+		CompanyValidator companyV = CompanyValidator.INSTANCE;
 		
 		System.out.println("Add a computer : ");
 		@SuppressWarnings("resource")
@@ -170,8 +155,8 @@ public class ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void updateComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.getComputerDAO();
-		ComputerValidator computerV = ComputerValidator.getComputerValidator();
+		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		
 		System.out.println("Update a computer : ");
 		@SuppressWarnings("resource")
@@ -228,8 +213,8 @@ public class ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void deleteComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.getComputerDAO();
-		ComputerValidator computerV = ComputerValidator.getComputerValidator();
+		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);

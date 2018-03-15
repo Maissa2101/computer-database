@@ -12,26 +12,15 @@ import java.util.List;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerMapper;
 
-public class ComputerDAO {
+public enum ComputerDAO {
 		
-	private final static ComputerDAO computerDao = new ComputerDAO();
+	INSTANCE;
 	
-	
-	/**
-	 * Constructor
-	 * 
-	*/
-	public ComputerDAO(){
-		
-	}
-	
-	/**
-	 * controls the access to the unique instance of the ComputerService class
-	 * @return the unique instance of the ComputerDAO class
-	 */
-	public static ComputerDAO getComputerDAO() {	
-		return computerDao;
-	}
+	private final String SELECT_REQUEST_LIST = "SELECT * FROM computer;";
+	private final String SELECT_REQUEST_DETAILS = "SELECT * FROM computer WHERE id = ?;";
+	private final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
+	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?;";
+	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
 	
 	/**
 	 * Method to get the list of computers
@@ -41,14 +30,16 @@ public class ComputerDAO {
 	 */
 	public List<Computer> getListComputer() throws SQLException, ClassNotFoundException{
 		
+		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
-		String query = "SELECT * FROM computer";
+		String query = SELECT_REQUEST_LIST;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		ResultSet res = stmt.executeQuery(query);	
 		conn.commit();
-		List<Computer> l = ComputerMapper.getComputerMapper().getListComputerFromResultSet(res);
+		List<Computer> l = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 		stmt.close();
+		SQLConnection.closeConnection();
 		return l;
 	}
 	
@@ -61,17 +52,19 @@ public class ComputerDAO {
 	 */
 	public Computer getComputer(Long id) throws SQLException, ClassNotFoundException{
 		
+		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
-		String query = "SELECT * FROM computer WHERE id = ?";
+		String query = SELECT_REQUEST_DETAILS;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setLong(1, id);
 		ResultSet res = stmt.executeQuery();
 		conn.commit();
 		
-		Computer c = ComputerMapper.getComputerMapper().getComputerDetailsFromResultSet(res);
+		Computer c = ComputerMapper.INSTANCE.getComputerDetailsFromResultSet(res);
 		if (stmt != null) {
 		stmt.close();}
+		SQLConnection.closeConnection();
 		return c;
 		
 	}
@@ -90,9 +83,10 @@ public class ComputerDAO {
 		int res = 0;
 		Computer c = new Computer(name, intro, discontinued, manufacturer);
 		
+		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
-		String query = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
+		String query = INSERT_REQUEST;
 		PreparedStatement stmt =  conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
 		stmt.setString(1, name);
@@ -135,6 +129,7 @@ public class ComputerDAO {
 		if (stmt != null) {
 			stmt.close();
 		}
+		SQLConnection.closeConnection();
 		return result;
 	}
 
@@ -151,9 +146,10 @@ public class ComputerDAO {
 		int res = 0;
 		Computer c = new Computer(id, name, intro, discontinued);
 		
+		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
-		String query = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?";
+		String query = UPDATE_REQUEST;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setString(1, name);
 		
@@ -183,7 +179,8 @@ public class ComputerDAO {
 			System.out.println("\n computer not updated");
 		
 		if (stmt != null) {
-			stmt.close();}		
+			stmt.close();}	
+		SQLConnection.closeConnection();
 	}
 
 	/**
@@ -194,10 +191,10 @@ public class ComputerDAO {
 	 */
 	public void deleteComputer(Long id) throws SQLException, ClassNotFoundException{
 	
+	SQLConnection.getInstance();
 	Connection conn = SQLConnection.getConnection();
 	conn.setAutoCommit(false);
-	String query = "DELETE FROM computer WHERE id = ?" + 
-			"";
+	String query = DELETE_REQUEST;
 	PreparedStatement stmt =  conn.prepareStatement(query);
 	stmt.setLong(1, id);
 	int res = stmt.executeUpdate();
@@ -210,6 +207,7 @@ public class ComputerDAO {
 	
 	if (stmt != null) {
 		stmt.close();}		
+	SQLConnection.closeConnection();
 }
 
 	

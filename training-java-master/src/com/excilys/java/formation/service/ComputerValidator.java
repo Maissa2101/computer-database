@@ -10,24 +10,9 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 
 
 
-public class ComputerValidator {
+public enum ComputerValidator {
 	
-	/**
-	 * The instance is initialized when the class is first referenced
-	 */
-	private final static ComputerValidator computerValidator = new ComputerValidator();
-	
-	private ComputerValidator() {
-		
-	}
-	
-	/**
-	 * controls the access to the unique instance of the ComputerValidator class
-	 * @return the unique instance of the ComputerValidator class
-	 */
-	public static ComputerValidator getComputerValidator() {	
-		return computerValidator;
-	}
+	INSTANCE;
 	
 	
 	/**
@@ -55,7 +40,7 @@ public class ComputerValidator {
 	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException {
 		int index = 0;
 		
-		ComputerDAO computers = ComputerDAO.getComputerDAO();
+		ComputerDAO computers = ComputerDAO.INSTANCE;
 		List<Computer> sourceList = new ArrayList<Computer>();
 		for(Computer computer : computers.getListComputer()) {
 			sourceList.add(computer);

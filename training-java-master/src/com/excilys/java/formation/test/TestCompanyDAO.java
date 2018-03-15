@@ -14,7 +14,7 @@ public class TestCompanyDAO {
 
 	@Test
 	public void testGetListCompany() {
-		CompanyDAO cd = CompanyDAO.getCompanyDAO();
+		CompanyDAO cd = CompanyDAO.INSTANCE;
 		
 		try {
 			List<Company> list = cd.getListCompany();

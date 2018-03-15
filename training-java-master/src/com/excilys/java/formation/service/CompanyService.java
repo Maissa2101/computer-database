@@ -13,24 +13,9 @@ import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
-public class CompanyService {
+public enum CompanyService {
 	
-	/**
-	 * The instance is initialized when the class is first referenced
-	 */
-	private final static CompanyService companyService = new CompanyService();
-	
-	private CompanyService() {
-		
-	}
-	
-	/**
-	 * controls the access to the unique instance of the CompanyService class
-	 * @return the unique instance of the CompanyService class
-	 */
-	public static CompanyService getCompanyService() {
-		return companyService;
-	}
+	INSTANCE;
 	
 	/**
 	 * Method to show the list of companies
@@ -38,7 +23,7 @@ public class CompanyService {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	public void listCompanies() throws SQLException, ClassNotFoundException {
-		CompanyDAO companies = CompanyDAO.getCompanyDAO();
+		CompanyDAO companies = CompanyDAO.INSTANCE;
 		List<Company> sourceList = new ArrayList<Company>();
 		int page = 1;
 		int i = 0;

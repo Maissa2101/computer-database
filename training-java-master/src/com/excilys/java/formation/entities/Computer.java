@@ -90,6 +90,17 @@ public class Computer {
 		return "Computer " + id + ": name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
 				+ ", manufacturer=" + manufacturer;
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	public boolean equals(Computer computer) {
+		if(computer.getId() == this.getId())
+			return true;
+		return false;
+	}
     
 	
     

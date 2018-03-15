@@ -32,6 +32,15 @@ public class Company {
 	public String toString() {
 		return "Company " + id + ": name=" + name;
 	}
+
+	@Override
+	public int hashCode() {
+		return super.hashCode();
+	}
+
+	public boolean equals(Company company) {
+		return (company.getId() == this.getId());
+	}
 	
 	
 	

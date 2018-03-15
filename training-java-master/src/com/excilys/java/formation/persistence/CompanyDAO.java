@@ -9,21 +9,11 @@ import java.util.List;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.mapper.CompanyMapper;
 
-public class CompanyDAO {
+public enum CompanyDAO {
 	
-	private final static CompanyDAO companyDao = new CompanyDAO();
+	INSTANCE;
 	
-	public CompanyDAO() {
-		
-	}
-	
-	/**
-	 * controls the access to the unique instance of the CompanyDAO class
-	 * @return the unique instance of the CompanyDAO class
-	 */
-	public static CompanyDAO getCompanyDAO() {
-		return companyDao;
-	}
+	private final String SELECT_REQUEST_LIST = "SELECT * FROM company;";
 	
 	/**
 	 * Method to get the list of companies
@@ -33,17 +23,19 @@ public class CompanyDAO {
 	 */
 	public List<Company> getListCompany() throws SQLException, ClassNotFoundException{
 		
+		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
-		String query = "SELECT * FROM company;";
+		String query = SELECT_REQUEST_LIST;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		ResultSet res = stmt.executeQuery(query);
 		
 		conn.commit();
 		
 		
-		List<Company> l = CompanyMapper.getCompanyMapper().getListCompanyFromResultSet(res);
+		List<Company> l = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
 		stmt.close();
+		SQLConnection.closeConnection();
 		return l;
 	}
 

@@ -12,7 +12,7 @@ public class TestCompanyValidator {
 
 	@Test
 	public void testIdCompanyValidator() {
-		CompanyValidator cv = CompanyValidator.getCompanyValidator();
+		CompanyValidator cv = CompanyValidator.INSTANCE;
 		
 			try {
 				for(int i = 1; (i < 44 && i != 21) ; i++) {

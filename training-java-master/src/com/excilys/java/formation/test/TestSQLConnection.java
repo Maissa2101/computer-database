@@ -6,7 +6,9 @@ import java.sql.SQLException;
 import com.excilys.java.formation.persistence.SQLConnection;
 
 public class TestSQLConnection {
+	
 	static void test() throws ClassNotFoundException, SQLException {
+		SQLConnection.getInstance();
 		Connection c = SQLConnection.getConnection();
 		c.close();}
 	

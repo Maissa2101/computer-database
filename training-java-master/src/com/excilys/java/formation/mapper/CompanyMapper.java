@@ -7,13 +7,9 @@ import java.util.List;
 
 import com.excilys.java.formation.entities.Company;
 
-public class CompanyMapper {
+public enum CompanyMapper {
 
-	private final static CompanyMapper companyMapper = new CompanyMapper();
-	
-	private CompanyMapper() {
-		
-	}
+	INSTANCE;
 	
 	/**
 	 * Method to get the list of companies from a ResultSet
@@ -32,11 +28,4 @@ public class CompanyMapper {
 		
 	}
 	
-	/**
-	 * 
-	 * @return the companyMapper
-	 */
-	public static CompanyMapper getCompanyMapper() {
-		return companyMapper;
-	}
 }

@@ -15,7 +15,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testGetListComputer() {
-		ComputerDAO cd = ComputerDAO.getComputerDAO();
+		ComputerDAO cd = ComputerDAO.INSTANCE;
 		
 		
 		try {
@@ -36,7 +36,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testGetComputer() {
-		ComputerDAO cd = ComputerDAO.getComputerDAO();
+		ComputerDAO cd = ComputerDAO.INSTANCE;
 		
 		try {
 			Computer details = cd.getComputer(512L);
@@ -52,7 +52,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testCreateComputer() {
-		ComputerDAO cd = ComputerDAO.getComputerDAO();	
+		ComputerDAO cd = ComputerDAO.INSTANCE;	
 		
 		try {
 			Long id = cd.createComputer("ASUS", Date.valueOf("2008-01-04"), Date.valueOf("2018-01-01"), "1");
@@ -76,7 +76,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testUpdateComputer() {
-		ComputerDAO cd = ComputerDAO.getComputerDAO();	
+		ComputerDAO cd = ComputerDAO.INSTANCE;
 		
 		try {
 			cd.updateComputer(572L, "HP", Date.valueOf("2008-01-04"), null);
@@ -94,7 +94,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testDeleteComputer() {
-		ComputerDAO cd = ComputerDAO.getComputerDAO();	
+		ComputerDAO cd = ComputerDAO.INSTANCE;
 		
 		
 		try {

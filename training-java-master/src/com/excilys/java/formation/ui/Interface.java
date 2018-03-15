@@ -68,7 +68,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void listComputers() throws ClassNotFoundException, SQLException {
-		ComputerService computerS = ComputerService.getComputerService();
+		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.listComputers();
 	}
 	
@@ -78,7 +78,7 @@ public class Interface {
 	 * @throws ClassNotFoundException
 	 */
 	private static void listCompanies() throws ClassNotFoundException, SQLException {
-		CompanyService companyS = CompanyService.getCompanyService();
+		CompanyService companyS = CompanyService.INSTANCE;
 		companyS.listCompanies();
 	}
 	
@@ -88,7 +88,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void computerDetails() throws ClassNotFoundException, SQLException {
-		ComputerService computerS = ComputerService.getComputerService();
+		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.computerDetails();
 	}
 	
@@ -98,7 +98,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void createComputer() throws ClassNotFoundException, SQLException {
-		ComputerService computerS = ComputerService.getComputerService();
+		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.createComputer();
 	}
 	
@@ -108,7 +108,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void updateComputer() throws ClassNotFoundException, SQLException {
-		ComputerService computerS = ComputerService.getComputerService();
+		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.updateComputer();
 	}
 	
@@ -118,7 +118,7 @@ public class Interface {
 	 * @throws SQLException
 	 */
 	private static void deleteComputer() throws ClassNotFoundException, SQLException {
-		ComputerService computerS = ComputerService.getComputerService();
+		ComputerService computerS = ComputerService.INSTANCE;
 		computerS.deleteComputer();
 	}
 

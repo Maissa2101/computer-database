@@ -8,14 +8,9 @@ import java.util.List;
 import com.excilys.java.formation.entities.Computer;
 
 
-public class ComputerMapper {
+public enum ComputerMapper {
 	
-	private final static ComputerMapper computerMapper = new ComputerMapper();
-	
-	
-	private ComputerMapper() {
-		
-	}
+	INSTANCE;
 	
 	/**
 	 * Method to get the list of computers from a ResultSet
@@ -49,11 +44,4 @@ public class ComputerMapper {
 		return c;
 	}
 	
-	/**
-	 * 
-	 * @return the computerMapper
-	 */
-	public static ComputerMapper getComputerMapper() {
-		return computerMapper;
-	}
 }

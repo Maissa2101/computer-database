@@ -8,25 +8,9 @@ import java.util.List;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
-public class CompanyValidator {
+public enum CompanyValidator {
 	
-	/**
-	 * The instance is initialized when the class is first referenced
-	 */
-	private final static CompanyValidator companyValidator = new CompanyValidator();
-	
-	
-	private CompanyValidator() {
-		
-	}
-	
-	/**
-	 * controls the access to the unique instance of the CompanyValidator class
-	 * @return the unique instance of the CompanyValidator class
-	 */
-	public static CompanyValidator getCompanyValidator() {
-		return companyValidator;
-	}
+	INSTANCE;
 	
 	/**
 	 * Method to verify if the id of the company is valid or not
@@ -40,7 +24,7 @@ public class CompanyValidator {
 		Long companyId = Long.valueOf(manufacturer);
 		int index = 0;
 		
-		CompanyDAO companies = CompanyDAO.getCompanyDAO();
+		CompanyDAO companies = CompanyDAO.INSTANCE;
 		List<Company> sourceList = new ArrayList<Company>();
 		for(Company company : companies.getListCompany()) {
 			sourceList.add(company);
