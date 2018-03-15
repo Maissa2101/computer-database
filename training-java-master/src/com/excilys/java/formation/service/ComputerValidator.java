@@ -92,7 +92,9 @@ public class ComputerValidator {
 				return false;
 			}
 		}
-		return false;
+		else {
+			return true;
+		}
 	}
 		
 		
