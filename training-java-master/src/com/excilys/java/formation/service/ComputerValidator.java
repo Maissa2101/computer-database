@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.ComputerDAOInterface;
 
 
 
@@ -40,7 +41,7 @@ public enum ComputerValidator {
 	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException {
 		int index = 0;
 		
-		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		List<Computer> sourceList = new ArrayList<Computer>();
 		for(Computer computer : computers.getListComputer()) {
 			sourceList.add(computer);

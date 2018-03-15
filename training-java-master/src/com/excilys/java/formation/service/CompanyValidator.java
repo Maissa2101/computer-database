@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.CompanyDAOInterface;
 
 public enum CompanyValidator {
 	
@@ -24,7 +25,7 @@ public enum CompanyValidator {
 		Long companyId = Long.valueOf(manufacturer);
 		int index = 0;
 		
-		CompanyDAO companies = CompanyDAO.INSTANCE;
+		CompanyDAOInterface companies = CompanyDAO.INSTANCE;
 		List<Company> sourceList = new ArrayList<Company>();
 		for(Company company : companies.getListCompany()) {
 			sourceList.add(company);

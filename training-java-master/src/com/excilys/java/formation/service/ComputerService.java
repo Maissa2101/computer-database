@@ -11,6 +11,7 @@ import java.util.Scanner;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.ComputerDAOInterface;
 
 public enum ComputerService {
 	
@@ -22,7 +23,7 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void listComputers() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		List<Computer> sourceList = new ArrayList<Computer>();
 		int page = 1;
 		int i = 0;
@@ -73,7 +74,7 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void computerDetails() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
@@ -91,7 +92,7 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void createComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		CompanyValidator companyV = CompanyValidator.INSTANCE;
 		
@@ -155,7 +156,7 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void updateComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		
 		System.out.println("Update a computer : ");
@@ -213,7 +214,7 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 */
 	public void deleteComputer() throws ClassNotFoundException, SQLException {
-		ComputerDAO computers = ComputerDAO.INSTANCE;
+		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		
 		@SuppressWarnings("resource")

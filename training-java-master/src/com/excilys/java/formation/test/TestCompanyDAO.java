@@ -9,12 +9,13 @@ import org.junit.Test;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.CompanyDAOInterface;
 
 public class TestCompanyDAO {
 
 	@Test
 	public void testGetListCompany() {
-		CompanyDAO cd = CompanyDAO.INSTANCE;
+		CompanyDAOInterface cd = CompanyDAO.INSTANCE;
 		
 		try {
 			List<Company> list = cd.getListCompany();

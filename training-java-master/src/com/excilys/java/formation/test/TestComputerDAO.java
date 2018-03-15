@@ -10,12 +10,13 @@ import org.junit.Test;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.ComputerDAOInterface;
 
 public class TestComputerDAO {
 
 	@Test
 	public void testGetListComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;
+		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
 		
 		
 		try {
@@ -36,7 +37,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testGetComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;
+		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
 		
 		try {
 			Computer details = cd.getComputer(512L);
@@ -52,7 +53,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testCreateComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;	
+		ComputerDAOInterface cd = ComputerDAO.INSTANCE;	
 		
 		try {
 			Long id = cd.createComputer("ASUS", Date.valueOf("2008-01-04"), Date.valueOf("2018-01-01"), "1");
@@ -76,7 +77,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testUpdateComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;
+		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
 		
 		try {
 			cd.updateComputer(572L, "HP", Date.valueOf("2008-01-04"), null);
@@ -94,7 +95,7 @@ public class TestComputerDAO {
 
 	@Test
 	public void testDeleteComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;
+		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
 		
 		
 		try {

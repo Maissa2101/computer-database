@@ -9,18 +9,14 @@ import java.util.List;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.mapper.CompanyMapper;
 
-public enum CompanyDAO {
+public enum CompanyDAO implements CompanyDAOInterface {
 	
 	INSTANCE;
 	
 	private final String SELECT_REQUEST_LIST = "SELECT * FROM company;";
 	
-	/**
-	 * Method to get the list of companies
-	 * @return the list of companies
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 */
+
+	@Override
 	public List<Company> getListCompany() throws SQLException, ClassNotFoundException{
 		
 		SQLConnection.getInstance();

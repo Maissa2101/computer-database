@@ -12,7 +12,7 @@ import java.util.List;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerMapper;
 
-public enum ComputerDAO {
+public enum ComputerDAO implements ComputerDAOInterface {
 		
 	INSTANCE;
 	
@@ -22,12 +22,8 @@ public enum ComputerDAO {
 	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?;";
 	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
 	
-	/**
-	 * Method to get the list of computers
-	 * @return list of computers
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 */
+	
+	@Override
 	public List<Computer> getListComputer() throws SQLException, ClassNotFoundException{
 		
 		SQLConnection.getInstance();
@@ -43,13 +39,8 @@ public enum ComputerDAO {
 		return l;
 	}
 	
-	/**
-	 * Method to get a specific computer given its id
-	 * @param id the id of the computer
-	 * @return the computer where its id = parameter id
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 */
+	
+	@Override
 	public Computer getComputer(Long id) throws SQLException, ClassNotFoundException{
 		
 		SQLConnection.getInstance();
@@ -69,16 +60,8 @@ public enum ComputerDAO {
 		
 	}
 	
-	/**
-	 * Method to create a new computer
-	 * @param name name of the computer to create 
-	 * @param intro introduced time of the computer
-	 * @param discontinued discontinued time of the computer
-	 * @param manufacturer manufacturer of the new computer
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 */
 	
+	@Override
 	public Long createComputer( String name, Date intro, Date discontinued, String manufacturer ) throws SQLException, ClassNotFoundException{
 		int res = 0;
 		Computer c = new Computer(name, intro, discontinued, manufacturer);
@@ -133,15 +116,8 @@ public enum ComputerDAO {
 		return result;
 	}
 
-	/**
-	 * Method to update a computer
-	 * @param id id of the computer to update
-	 * @param name new name of the computer
-	 * @param intro new introduced date 
-	 * @param discontinued new discontinued date
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 */
+
+	@Override
 	public void updateComputer(Long id, String name, Date intro, Date discontinued) throws SQLException, ClassNotFoundException{
 		int res = 0;
 		Computer c = new Computer(id, name, intro, discontinued);
@@ -183,12 +159,8 @@ public enum ComputerDAO {
 		SQLConnection.closeConnection();
 	}
 
-	/**
-	 * Method to delete an existing computer
-	 * @param id id of the computer to delete
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 */
+
+	@Override
 	public void deleteComputer(Long id) throws SQLException, ClassNotFoundException{
 	
 	SQLConnection.getInstance();

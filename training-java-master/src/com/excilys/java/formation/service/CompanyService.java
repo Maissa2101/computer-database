@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.CompanyDAOInterface;
 
 public enum CompanyService {
 	
@@ -23,7 +24,7 @@ public enum CompanyService {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	public void listCompanies() throws SQLException, ClassNotFoundException {
-		CompanyDAO companies = CompanyDAO.INSTANCE;
+		CompanyDAOInterface companies = CompanyDAO.INSTANCE;
 		List<Company> sourceList = new ArrayList<Company>();
 		int page = 1;
 		int i = 0;
