@@ -8,8 +8,7 @@ public class SQLConnection {
 	private static Connection conn = null;
 	
 	/**
-	 * Constructor of SQLConnection connect to the DB
-	 * @throws ClassNotFoundException 
+	 * Constructor of SQLConnection 
 	 * 
 	 */
 	public SQLConnection() {}
@@ -17,8 +16,8 @@ public class SQLConnection {
 	/**
 	 * Create the connection to the DB
 	 * @return the connection to the DB 
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	synchronized public static Connection getConnection() throws ClassNotFoundException, SQLException {    
 		
@@ -37,7 +36,7 @@ public class SQLConnection {
 	
 	/**
 	 * Close the connection to the DB
-	 * @throws SQLException
+	 * @throws SQLException in case of a database access error
 	 */
 	public static void closeConnection() throws SQLException {
 		if ( conn != null )

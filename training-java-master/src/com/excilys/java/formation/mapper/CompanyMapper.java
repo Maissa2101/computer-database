@@ -5,6 +5,8 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.excilys.java.formation.entities.Company;
+
 public class CompanyMapper {
 
 	private final static CompanyMapper companyMapper = new CompanyMapper();
@@ -15,9 +17,9 @@ public class CompanyMapper {
 	
 	/**
 	 * Method to get the list of companies from a ResultSet
-	 * @param res
+	 * @param res is the result set
 	 * @return the list of companies
-	 * @throws SQLException
+	 * @throws SQLException in case of a database access error
 	 */
 	public List<Company> getListCompanyFromResultSet(ResultSet res) throws SQLException {
 		

@@ -1,102 +1,98 @@
 package com.excilys.java.formation.entities;
 
 
-import java.sql.Timestamp;
+import java.sql.Date;
 
 
 public class Computer {
-
-		private Long id;
-		
-	    private String name;
-
-	    private Timestamp introduced;
-
-	    private Timestamp discontinued;
+	private long id;
 	
-	    private String manufacturer;
-	    
-	    /**
-	     * 
-	     * @return the id of the computer
-	     */
-	    public Long getId() {
-			return id;
-		}
-	    
-	    /**
-	     * 
-	     * @param id of the computer to set
-	     */
-		public void setId(Long id) {
-			this.id = id;
-		}
-	    
-	    /**
-	     * 
-	     * @return name of the computer
-	     */
-		public String getName() {
-			return name;
-		}
-		
-		/**
-		 * 
-		 * @param name is the name of the computer
-		 */
-		public void setName(String name) {
-			this.name = name;
-		}
-		
-		/**
-		 * 
-		 * @return date introduction of the computer
-		 */
-		public Timestamp getDateIntro() {
-			return introduced;
-		}
-		
-		/**
-		 * 
-		 * @param dateIntro is the date of introduction of the computer
-		 */
-		public void setDateIntro(Timestamp dateIntro) {
-			this.introduced = dateIntro;
-		}
-		
-		/***
-		 *
-		 * @return date of disconnect of the computer
-		 */
-		public Timestamp getDateDiscontinued() {
-			return discontinued;
-		}
-		
-		/**
-		 * 
-		 * @param dateDisconnect is the date of disconnection of the computer
-		 */
-		public void setDateDisconnect(Timestamp dateDiscontinued) {
-			this.discontinued = dateDiscontinued;
-		}
-		
-		/**
-		 * 
-		 * @return the manufacturer 
-		 */
-		public String getManufacturer() {
-			return manufacturer;
-		}
-		
-		/**
-		 * 
-		 * @param manufacturer is the manufacturer of the computer
-		 */
-		public void setManufacturer(String manufacturer) {
-			this.manufacturer = manufacturer;
-		}
+    private String name;
 
-	   
+    private Date introduced;
+
+    private Date discontinued;
+
+    private String manufacturer;
+    
+    /**
+     * Constructor of the computer
+     * @param id the id of the computer
+     * @param name the name of the computer
+     * @param introduced the introduced date of the computer
+     * @param discontinued the discontinued date
+     * @param manufacturer the manufacturer of the computer
+     */
+    public Computer(long id, String name, Date introduced, Date discontinued, String manufacturer) {
+    	this.id = id;
+    	this.name = name;
+    	this.introduced = introduced;
+    	this.discontinued = discontinued;
+    	this.manufacturer = manufacturer;
+    }
+
+	public Computer(Long id, String name, Date introduced, Date discontinued) {
+		this.id = id;
+    	this.name = name;
+    	this.introduced = introduced;
+    	this.discontinued = discontinued;
+	}
+
+	public Computer(String name, Date introduced, Date discontinued, String manufacturer) {
+		this.name = name;
+    	this.introduced = introduced;
+    	this.discontinued = discontinued;
+    	this.manufacturer = manufacturer;
+	}
+
+	public long getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public Date getIntroduced() {
+		return introduced;
+	}
+
+	public void setIntroduced(Date introduced) {
+		this.introduced = introduced;
+	}
+
+	public Date getDiscontinued() {
+		return discontinued;
+	}
+
+	public void setDisconnected(Date discontinued) {
+		this.discontinued = discontinued;
+	}
+
+	public String getManufacturer() {
+		return manufacturer;
+	}
+
+	public void setManufacturer(String manufacturer) {
+		this.manufacturer = manufacturer;
+	}
+
+	@Override
+	public String toString() {
+		return "Computer " + id + ": name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", manufacturer=" + manufacturer;
+	}
+    
+	
+    
 }
 	
 

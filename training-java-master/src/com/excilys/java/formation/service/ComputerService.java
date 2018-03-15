@@ -8,7 +8,7 @@ import java.util.ListIterator;
 import java.util.Scanner;
 
 
-import com.excilys.java.formation.mapper.Computer;
+import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
@@ -33,8 +33,8 @@ public class ComputerService {
 	
 	/**
 	 * Method to show the list of computers
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	public void listComputers() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
@@ -84,8 +84,8 @@ public class ComputerService {
 	
 	/**
 	 * Method to show the details of a computer given its ID
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	public void computerDetails() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
@@ -102,8 +102,8 @@ public class ComputerService {
 	
 	/**
 	 * Method to create a computer
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	public void createComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
@@ -166,8 +166,8 @@ public class ComputerService {
 	
 	/**
 	 * Method to update a computer details given its ID
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	public void updateComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();
@@ -224,8 +224,8 @@ public class ComputerService {
 	
 	/**
 	 * Method to delete a computer given its ID
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	public void deleteComputer() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.getComputerDAO();

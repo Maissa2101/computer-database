@@ -2,44 +2,38 @@ package com.excilys.java.formation.entities;
 
 public class Company {
 	
+	private long id;
 	private String name;
-	private Long id;
 	
-	public Company() {
-		
-	}
 	
 	/**
-	 * 
-	 * @return the name of the company
+	 * Constructor of company
+	 * @param id the id of the company
+	 * @param name the name of the company
 	 */
+	public Company(long id, String name) {
+    	this.id = id;
+    	this.name = name;
+    }
+	
 	public String getName() {
 		return name;
 	}
-	
-	/***
-	 * 
-	 * @param name is the name of the company
-	 */
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	/**
-	 * 
-	 * @return id of the company
-	 */
-	public Long getId() {
+	public long getId() {
 		return id;
 	}
-	
-	/**
-	 * 
-	 * @param id is the id of the company
-	 */
-	public void setId(Long id) {
+	public void setId(int id) {
 		this.id = id;
 	}
+	@Override
+	public String toString() {
+		return "Company " + id + ": name=" + name;
+	}
+	
+	
 	
 	
 }

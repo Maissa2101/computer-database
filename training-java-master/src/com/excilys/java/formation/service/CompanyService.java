@@ -9,7 +9,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.java.formation.mapper.Company;
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
@@ -34,8 +34,8 @@ public class CompanyService {
 	
 	/**
 	 * Method to show the list of companies
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * @throws SQLException in case of a database access error
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	public void listCompanies() throws SQLException, ClassNotFoundException {
 		CompanyDAO companies = CompanyDAO.getCompanyDAO();
@@ -53,7 +53,7 @@ public class CompanyService {
 		}
 		
 		
-		while (true)
+		ETQ:	while (true)
 		{
 			List<Company> s = Pagination.getPage(sourceList, page, 30);
 		
@@ -80,7 +80,8 @@ public class CompanyService {
 			 	page--;
 			 	break;
 		 case "q" : 
-			 	break;
+			 	System.out.println("Quit");
+			 	break ETQ;
 		 }
 		}
 	}

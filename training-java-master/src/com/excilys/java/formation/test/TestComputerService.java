@@ -1,18 +1,19 @@
 package com.excilys.java.formation.test;
 
-import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestComputerService {
+import com.excilys.java.formation.service.ComputerService;
 
-	@Test
-	public void testGetComputerService() {
-		fail("Not yet implemented");
-	}
+import junit.framework.TestCase;
+
+public class TestComputerService extends TestCase{
+
 
 	@Test
 	public void testListComputers() {
+		ComputerService cv = ComputerService.getComputerService();
+		
 		fail("Not yet implemented");
 	}
 

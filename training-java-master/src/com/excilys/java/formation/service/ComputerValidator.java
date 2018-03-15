@@ -5,7 +5,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.excilys.java.formation.mapper.Computer;
+import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
 
@@ -32,7 +32,7 @@ public class ComputerValidator {
 	
 	/**
 	 * Method to verify if the name is not empty
-	 * @param name
+	 * @param name the name of the computer
 	 * @return true if the name is not empty, false otherwise
 	 */
 	public boolean nameValidator(String name) {
@@ -47,10 +47,10 @@ public class ComputerValidator {
 	
 	/**
 	 * Method to verify if the id of the computer to delete, to update or to show its details is valid or not
-	 * @param id
+	 * @param id the id to validate
 	 * @return true if the id is valid, false otherwise
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException {
 		int index = 0;
@@ -78,8 +78,8 @@ public class ComputerValidator {
 	
 	/**
 	 * Method to verify if the dates are valid or not
-	 * @param introduced
-	 * @param discontinued
+	 * @param introduced the introduced date of the computer
+	 * @param discontinued the discontinued date of the computer
 	 * @return true if the date the computer was discontinued is greater than the one it was introduced
 	 */
 	public boolean DateValidator(Date introduced, Date discontinued) {

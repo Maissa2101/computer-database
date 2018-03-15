@@ -13,10 +13,9 @@ public class Interface {
 	
 	
 	/**
-	 * Method to choose the action to execute 
-	 * @return number of the action to execute 
-	 * @throws SQLException 
-	 * @throws ClassNotFoundException 
+	 * Method to choose and execute an action
+	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws SQLException in case of a database access error
 	 */
 	public static void listFeatures() throws ClassNotFoundException, SQLException {
 		System.out.println("Select an action :\n");
