@@ -5,6 +5,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.List;
 
 
@@ -85,14 +86,14 @@ public class ComputerDAO {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	
-	public void createComputer( String name, Date intro, Date discontinued, String manufacturer ) throws SQLException, ClassNotFoundException{
+	public Long createComputer( String name, Date intro, Date discontinued, String manufacturer ) throws SQLException, ClassNotFoundException{
 		int res = 0;
 		Computer c = new Computer(name, intro, discontinued, manufacturer);
 		
 		Connection conn = SQLConnection.getConnection();
 		conn.setAutoCommit(false);
 		String query = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?)";
-		PreparedStatement stmt =  conn.prepareStatement(query);
+		PreparedStatement stmt =  conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
 		stmt.setString(1, name);
 		
@@ -118,15 +119,23 @@ public class ComputerDAO {
 		}
 		
 		res = stmt.executeUpdate();
+		ResultSet res2 = stmt.getGeneratedKeys();
 		conn.commit();
 		
-		if(res == 1 )
-			System.out.println("\n computer added");
-		else
+		Long result = -1L;
+		if(res == 1 ) {
+			res2.next();
+			System.out.println("\n computer added with id : "+ res2.getLong(1));
+			result = res2.getLong(1);
+		}
+		else {
 			System.out.println("\n computer not added");
+		}
 		
 		if (stmt != null) {
-			stmt.close();}		
+			stmt.close();
+		}
+		return result;
 	}
 
 	/**
