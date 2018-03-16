@@ -6,8 +6,8 @@ import java.util.List;
 
 
 import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.persistence.CompanyDAO;
-import com.excilys.java.formation.persistence.CompanyDAOInterface;
 
 public enum CompanyValidator {
 	

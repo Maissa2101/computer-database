@@ -9,9 +9,9 @@ import java.util.Scanner;
 
 
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.ComputerDAO;
-import com.excilys.java.formation.persistence.ComputerDAOInterface;
 
 public enum ComputerService {
 	

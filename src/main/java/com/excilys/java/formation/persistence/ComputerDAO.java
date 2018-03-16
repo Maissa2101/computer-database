@@ -10,6 +10,7 @@ import java.util.List;
 
 
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.mapper.ComputerMapper;
 
 public enum ComputerDAO implements ComputerDAOInterface {

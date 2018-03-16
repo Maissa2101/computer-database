@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
-import com.excilys.java.formation.persistence.ComputerDAOInterface;
 
 
 

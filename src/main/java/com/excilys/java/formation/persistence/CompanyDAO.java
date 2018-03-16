@@ -7,6 +7,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.mapper.CompanyMapper;
 
 public enum CompanyDAO implements CompanyDAOInterface {

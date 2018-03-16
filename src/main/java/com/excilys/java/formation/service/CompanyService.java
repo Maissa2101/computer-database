@@ -10,9 +10,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.pagination.Pagination;
 import com.excilys.java.formation.persistence.CompanyDAO;
-import com.excilys.java.formation.persistence.CompanyDAOInterface;
 
 public enum CompanyService {
 	
