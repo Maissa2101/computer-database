@@ -17,8 +17,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		
 	INSTANCE;
 	
-	private final String SELECT_REQUEST_LIST = "SELECT * FROM computer;";
-	private final String SELECT_REQUEST_DETAILS = "SELECT * FROM computer WHERE id = ?;";
+	private final String SELECT_REQUEST_LIST = "SELECT id, name, introduced, discontinued, company_id FROM computer;";
+	private final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
 	private final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
 	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?;";
 	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
@@ -29,11 +29,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
-		conn.setAutoCommit(false);
 		String query = SELECT_REQUEST_LIST;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		ResultSet res = stmt.executeQuery(query);	
-		conn.commit();
 		List<Computer> l = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 		stmt.close();
 		SQLConnection.closeConnection();
@@ -46,12 +44,10 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
-		conn.setAutoCommit(false);
 		String query = SELECT_REQUEST_DETAILS;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setLong(1, id);
 		ResultSet res = stmt.executeQuery();
-		conn.commit();
 		
 		Computer c = ComputerMapper.INSTANCE.getComputerDetailsFromResultSet(res);
 		if (stmt != null) {
@@ -69,11 +65,11 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
-		conn.setAutoCommit(false);
 		String query = INSERT_REQUEST;
 		PreparedStatement stmt =  conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
 		
 		stmt.setString(1, name);
+		
 		
 		if (c.getIntroduced() == null) {
 			stmt.setNull(2, java.sql.Types.DATE);
@@ -98,7 +94,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		
 		res = stmt.executeUpdate();
 		ResultSet res2 = stmt.getGeneratedKeys();
-		conn.commit();
 		
 		Long result = -1L;
 		if(res == 1 ) {
@@ -125,7 +120,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
-		conn.setAutoCommit(false);
 		String query = UPDATE_REQUEST;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		stmt.setString(1, name);
@@ -148,7 +142,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		stmt.setLong(4, id);
 		
 		res = stmt.executeUpdate();
-		conn.commit();
 		
 		if(res == 1)
 			System.out.println("\n computer updated");
@@ -166,12 +159,10 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	
 	SQLConnection.getInstance();
 	Connection conn = SQLConnection.getConnection();
-	conn.setAutoCommit(false);
 	String query = DELETE_REQUEST;
 	PreparedStatement stmt =  conn.prepareStatement(query);
 	stmt.setLong(1, id);
 	int res = stmt.executeUpdate();
-	conn.commit();
 	
 	if(res == 1 )
 		System.out.println("\n computer deleted");

@@ -11,7 +11,7 @@ import com.excilys.java.formation.service.ValidatorException;
 
 
 public class Interface {
-	
+
 	
 	/**
 	 * Method to choose and execute an action
@@ -36,31 +36,31 @@ public class Interface {
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Veuillez choisir une action :");
 			int action = sc.nextInt();
-			switch(action) {
-				case 1 :	
+			switch(Feature.values()[action-1]) {
+				case LIST_COMPUTERS :	
 					listComputers(); 
 					break;
 					
-				case 2 :
+				case LIST_COMPANIES :
 					listCompanies();
 					break;
 					
-				case 3 :
+				case SHOW_COMPUTER_DETAILS :
 					computerDetails();
 					break;
 					
-				case 4 :
+				case CREATE_COMPUTER :
 					createComputer();
 					break;
 					
-				case 5 : 
+				case UPDATE_COMPUTER : 
 					updateComputer();
 					break;
 					
-				case 6 :
+				case DELETE_COMPUTER :
 					deleteComputer();
 					break;
-				case 7 :
+				case QUIT :
 					return;
 				default :
 					System.out.println("Choississez une action valide!");

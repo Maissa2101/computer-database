@@ -51,7 +51,7 @@ public enum ComputerService {
 			 case "n" : 	
 			 	page++;
 			 	if(i>=sourceList.size()) {
-			 		System.out.println("no more computers to show");
+			 		System.out.println("no more computers to show\n");
 			 		break;
 				}
 			 	break;
@@ -84,7 +84,7 @@ public enum ComputerService {
 		while(!computerV.idValidator(id)) {
 			id = sc.nextLong();
 		}
-		System.out.println("\n Computer "+ computers.getComputer(id));
+		System.out.println("\n"+ computers.getComputer(id) + "\n");
 	}
 	
 	/**

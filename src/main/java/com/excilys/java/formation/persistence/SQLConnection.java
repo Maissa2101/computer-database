@@ -11,14 +11,13 @@ public class SQLConnection {
 		
 	 	private static final String FICHIER_PROPERTIES = "com.excilys.java.formation.persistence.dao";
 	    private static final String PROPERTY_URL = "url";
-	    private static final String PROPERTY_DRIVER = "driver";
 	    private static final String PROPERTY_USER = "user";
 	    private static final String PROPERTY_PASSWORD = "passwd";
 
 	    private static String url;
 	    private static String user;
 	    private static String passwd;
-	    private static String driver;
+	
 	
 	    SQLConnection( String url, String username, String password ) {
 	        SQLConnection.url = url;
@@ -36,15 +35,9 @@ public class SQLConnection {
 	        }
 	        
 	            url = fichierProperties.getString( PROPERTY_URL );
-	            driver = fichierProperties.getString( PROPERTY_DRIVER );
 	            user = fichierProperties.getString( PROPERTY_USER );
 	            passwd = fichierProperties.getString( PROPERTY_PASSWORD );
-	        
-	        try {
-	            Class.forName( driver );
-	        } catch ( ClassNotFoundException e ) {
-	            throw new DAOConfigurationException( "The driver does not exist in the classpath.", e );
-	        }
+	      
 
 	        SQLConnection instance = new SQLConnection( url, user, passwd );
 	        return instance;

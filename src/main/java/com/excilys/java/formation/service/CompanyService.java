@@ -18,6 +18,8 @@ public enum CompanyService {
 	
 	INSTANCE;
 	
+	Logger logger = LoggerFactory.getLogger(CompanyService.class);
+	
 	/**
 	 * Method to show the list of companies
 	 * @throws SQLException in case of a database access error
@@ -55,9 +57,8 @@ public enum CompanyService {
 		 case "n" : 	
 		 	page++;
 		 	if(i>=sourceList.size()) {
-		 		final Logger LOG = LoggerFactory.getLogger(CompanyService.class);
-		 		LOG.info("no more companies to show");
-			break;
+		 		logger.info("no more companies to show");
+		 		break;
 			}
 		 	break;
 		 	

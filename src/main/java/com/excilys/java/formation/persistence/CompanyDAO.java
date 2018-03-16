@@ -14,7 +14,7 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	
 	INSTANCE;
 	
-	private final String SELECT_REQUEST_LIST = "SELECT * FROM company;";
+	private final String SELECT_REQUEST_LIST = "SELECT id, name FROM company;";
 	
 
 	@Override
@@ -22,12 +22,9 @@ public enum CompanyDAO implements CompanyDAOInterface {
 		
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
-		conn.setAutoCommit(false);
 		String query = SELECT_REQUEST_LIST;
 		PreparedStatement stmt =  conn.prepareStatement(query);
 		ResultSet res = stmt.executeQuery(query);
-		
-		conn.commit();
 		
 		
 		List<Company> l = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
