@@ -7,6 +7,8 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
@@ -16,6 +18,8 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 public enum ComputerService {
 	
 	INSTANCE;
+	
+	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 	
 	/**
 	 * Method to show the list of computers
@@ -51,7 +55,7 @@ public enum ComputerService {
 			 case "n" : 	
 			 	page++;
 			 	if(i>=sourceList.size()) {
-			 		System.out.println("no more computers to show\n");
+			 		logger.info("no more computers to show\n");
 			 		break;
 				}
 			 	break;

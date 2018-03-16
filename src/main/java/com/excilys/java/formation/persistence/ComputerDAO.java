@@ -8,14 +8,18 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.mapper.ComputerMapper;
+import com.excilys.java.formation.service.CompanyService;
 
 public enum ComputerDAO implements ComputerDAOInterface {
 		
 	INSTANCE;
+	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 	
 	private final String SELECT_REQUEST_LIST = "SELECT id, name, introduced, discontinued, company_id FROM computer;";
 	private final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
@@ -98,11 +102,11 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		Long result = -1L;
 		if(res == 1 ) {
 			res2.next();
-			System.out.println("\n computer added with id : "+ res2.getLong(1));
+			logger.info("computer added with id : "+ res2.getLong(1));
 			result = res2.getLong(1);
 		}
 		else {
-			System.out.println("\n computer not added");
+			logger.info("computer not added");
 		}
 		
 		if (stmt != null) {
@@ -144,9 +148,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		res = stmt.executeUpdate();
 		
 		if(res == 1)
-			System.out.println("\n computer updated");
+			logger.info("computer updated");
 		else
-			System.out.println("\n computer not updated");
+			logger.info("computer not updated");
 		
 		if (stmt != null) {
 			stmt.close();}	
@@ -165,9 +169,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	int res = stmt.executeUpdate();
 	
 	if(res == 1 )
-		System.out.println("\n computer deleted");
+		logger.info("computer deleted");
 	else
-		System.out.println("\n computer not deleted");
+		logger.info("computer not deleted");
 	
 	if (stmt != null) {
 		stmt.close();}		

@@ -3,6 +3,7 @@ package com.excilys.java.formation.ui;
 
 
 import java.sql.SQLException;
+import java.util.InputMismatchException;
 import java.util.Scanner;
 
 import com.excilys.java.formation.service.CompanyService;
@@ -34,8 +35,9 @@ public class Interface {
 			
 			@SuppressWarnings("resource")
 			Scanner sc = new Scanner(System.in);
-			System.out.println("Veuillez choisir une action :");
+			System.out.println("Choose an action :");
 			int action = sc.nextInt();
+			
 			switch(Feature.values()[action-1]) {
 				case LIST_COMPUTERS :	
 					listComputers(); 
