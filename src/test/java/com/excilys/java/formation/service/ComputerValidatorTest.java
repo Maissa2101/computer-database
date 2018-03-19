@@ -12,14 +12,17 @@ import com.excilys.java.formation.service.ValidatorException;
 
 public class ComputerValidatorTest {
 
-	@Test
+	@Test(expected = ValidatorException.class)
 	public void testNameValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
 		assertTrue(cv.nameValidator("ASUS"));
 		assertFalse(cv.nameValidator(""));
 	}
-
-	@Test
+	
+	
+	
+	
+	@Test(expected = ValidatorException.class)
 	public void testIdValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
 		
@@ -31,7 +34,7 @@ public class ComputerValidatorTest {
 		}
 	}
 
-	@Test
+	@Test(expected = ValidatorException.class)
 	public void testDateValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
 		

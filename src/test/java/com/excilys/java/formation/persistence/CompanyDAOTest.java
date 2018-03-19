@@ -10,14 +10,13 @@ import java.sql.SQLException;
 
 
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
 public class CompanyDAOTest {
 
 	@Test
 	public void testGetListCompany() {
-		CompanyDAOInterface cd = CompanyDAO.INSTANCE;
+		CompanyDAO cd = CompanyDAO.INSTANCE;
 		
 		try {
 			List<Company> list = cd.getListCompany();

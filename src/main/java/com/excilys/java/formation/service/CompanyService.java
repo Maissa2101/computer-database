@@ -4,9 +4,6 @@ import java.sql.SQLException;
 import java.util.List;
 
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
@@ -14,7 +11,6 @@ public enum CompanyService {
 	
 	INSTANCE;
 	
-	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 	
 	/**
 	 * Method to show the list of companies
