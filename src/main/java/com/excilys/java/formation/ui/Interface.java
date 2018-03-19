@@ -5,6 +5,7 @@ package com.excilys.java.formation.ui;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.ListIterator;
 import java.util.Scanner;
@@ -42,7 +43,12 @@ public class Interface {
 			@SuppressWarnings("resource")
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Choose an action :");
-			int action = sc.nextInt();
+			int action = 8;
+			
+			try {
+				action = sc.nextInt();
+			} catch (InputMismatchException e) {
+			}
 			
 			switch(Feature.values()[action-1]) {
 				case LIST_COMPUTERS :	
@@ -70,8 +76,8 @@ public class Interface {
 					break;
 				case QUIT :
 					return;
-				default :
-					System.out.println("Choississez une action valide!");
+				case DEFAULT : 
+					System.out.println("Choississez une action valide! \n");
 					break;
 			}
 		}
@@ -121,6 +127,9 @@ public class Interface {
 			 case "q" : 
 				 	System.out.println("Quit");
 				 	break ETQ;
+			default : 
+					System.out.println("Invalid input, Press n to see the next page, p to see the previous page and q to quit : \n ");
+					break;
 			 }
 			}
 	}
@@ -174,6 +183,9 @@ public class Interface {
 		 case "q" : 
 			 	System.out.println("Quit");
 			 	break ETQ;
+		 default : 
+				System.out.println("Invalid input, Press n to see the next page, p to see the previous page and q to quit : \n ");
+				break;
 		 }
 		}
 	}

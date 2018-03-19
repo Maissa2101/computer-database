@@ -7,7 +7,8 @@ public enum Feature {
 	CREATE_COMPUTER,
 	UPDATE_COMPUTER,
 	DELETE_COMPUTER,
-	QUIT	
+	QUIT,	
+	DEFAULT
 };
 
 
