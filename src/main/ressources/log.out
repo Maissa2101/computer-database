@@ -25,3 +25,15 @@
 2018-03-19 14:46:22,940 [INFO ] (ComputerDAO.java:updateComputer:152) computer updated
 2018-03-19 14:46:22,954 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 790
 2018-03-19 14:46:22,970 [INFO ] (ComputerDAO.java:deleteComputer:175) computer not deleted
+2018-03-19 16:17:59,253 [INFO ] (?:logInfoEvent:?) Checkpoint start
+2018-03-19 16:17:59,255 [INFO ] (?:logInfoEvent:?) checkpointClose start
+2018-03-19 16:17:59,262 [INFO ] (?:logInfoEvent:?) checkpointClose synched
+2018-03-19 16:17:59,272 [INFO ] (?:logInfoEvent:?) checkpointClose script done
+2018-03-19 16:17:59,284 [INFO ] (?:logInfoEvent:?) checkpointClose end
+2018-03-19 16:17:59,284 [INFO ] (?:logInfoEvent:?) Checkpoint end - txts: 1
+2018-03-19 16:19:00,509 [INFO ] (?:logInfoEvent:?) Checkpoint start
+2018-03-19 16:19:00,510 [INFO ] (?:logInfoEvent:?) checkpointClose start
+2018-03-19 16:19:00,515 [INFO ] (?:logInfoEvent:?) checkpointClose synched
+2018-03-19 16:19:00,523 [INFO ] (?:logInfoEvent:?) checkpointClose script done
+2018-03-19 16:19:00,539 [INFO ] (?:logInfoEvent:?) checkpointClose end
+2018-03-19 16:19:00,540 [INFO ] (?:logInfoEvent:?) Checkpoint end - txts: 1
