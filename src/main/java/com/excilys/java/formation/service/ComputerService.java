@@ -4,9 +4,6 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
@@ -15,7 +12,6 @@ public enum ComputerService {
 	
 	INSTANCE;
 	
-	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 	
 	/**
 	 * Method to show the list of computers
@@ -25,7 +21,6 @@ public enum ComputerService {
 	public List<Computer> listComputers() throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		return computers.getListComputer();
-		
 	}
 	
 	/**
