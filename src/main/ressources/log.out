@@ -1,2 +1,12 @@
 2018-03-16 17:42:36,066 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
 2018-03-16 17:43:41,706 [INFO ] (ComputerDAO.java:createComputer:105) computer added with id : 779
+2018-03-19 09:38:10,880 [INFO ] (ComputerDAO.java:createComputer:105) computer added with id : 780
+2018-03-19 10:43:16,663 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 781
+2018-03-19 10:43:45,242 [INFO ] (ComputerDAO.java:deleteComputer:173) computer deleted
+2018-03-19 10:44:29,353 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 782
+2018-03-19 10:48:01,731 [INFO ] (ComputerDAO.java:deleteComputer:173) computer deleted
+2018-03-19 10:48:08,747 [INFO ] (ComputerDAO.java:deleteComputer:175) computer not deleted
+2018-03-19 10:57:26,233 [INFO ] (ComputerDAO.java:deleteComputer:173) computer deleted
+2018-03-19 11:04:09,703 [INFO ] (ComputerDAO.java:updateComputer:152) computer updated
+2018-03-19 11:18:33,133 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 784
+2018-03-19 11:21:02,495 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 785

@@ -3,6 +3,7 @@ package com.excilys.java.formation.interfaceDAO;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import com.excilys.java.formation.entities.Computer;
 
@@ -23,7 +24,7 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	Computer getComputer(Long id) throws SQLException, ClassNotFoundException;
+	Optional<Computer> getComputer(Long id) throws SQLException, ClassNotFoundException;
 
 	/**
 	 * Method to create a new computer

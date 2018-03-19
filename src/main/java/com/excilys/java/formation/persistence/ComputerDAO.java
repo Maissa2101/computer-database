@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -44,7 +45,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	
 	
 	@Override
-	public Computer getComputer(Long id) throws SQLException, ClassNotFoundException{
+	public Optional<Computer> getComputer(Long id) throws SQLException, ClassNotFoundException{
 		
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
@@ -57,7 +58,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		if (stmt != null) {
 		stmt.close();}
 		SQLConnection.closeConnection();
-		return c;
+		return Optional.ofNullable(c);
 		
 	}
 	

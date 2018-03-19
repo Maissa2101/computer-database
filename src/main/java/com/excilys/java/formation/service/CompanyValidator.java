@@ -26,6 +26,7 @@ public enum CompanyValidator {
 		Long companyId = Long.valueOf(manufacturer);
 		int index = 0;
 		
+		
 		CompanyDAOInterface companies = CompanyDAO.INSTANCE;
 		List<Company> sourceList = new ArrayList<Company>();
 		for(Company company : companies.getListCompany()) {
@@ -41,7 +42,7 @@ public enum CompanyValidator {
 			}
 		}
 		if(index >= sourceList.size()) {
-			throw new ValidatorException("ID not valid, give a new one : ");
+			throw new ValidatorException("ID not valid \n");
 		}
 		return false;
 	

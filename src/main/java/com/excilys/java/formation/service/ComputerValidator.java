@@ -6,7 +6,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
 
@@ -25,7 +24,7 @@ public enum ComputerValidator {
 	public boolean nameValidator(String name) throws ValidatorException {
 		
 			if(name.equals("")) {
-				throw new ValidatorException(" The name of the computer is mandatory");
+				throw new ValidatorException(" The name of the computer is mandatory \n");
 			}
 			return true;
 	}
@@ -41,7 +40,7 @@ public enum ComputerValidator {
 	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException, ValidatorException {
 		int index = 0;
 		
-		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
+		ComputerDAO computers = ComputerDAO.INSTANCE;
 		List<Computer> sourceList = new ArrayList<Computer>();
 		for(Computer computer : computers.getListComputer()) {
 			sourceList.add(computer);
@@ -57,7 +56,7 @@ public enum ComputerValidator {
 		}
 		
 		if(index >= sourceList.size()) {
-			throw new ValidatorException("This computer doesn't exist, give another id : ");
+			throw new ValidatorException("This computer doesn't exist \n");
 		}
 		return false;
 	}

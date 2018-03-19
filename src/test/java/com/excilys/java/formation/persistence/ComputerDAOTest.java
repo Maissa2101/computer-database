@@ -6,6 +6,7 @@ import static org.junit.Assert.fail;
 import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.Test;
 
@@ -36,16 +37,16 @@ public class ComputerDAOTest {
 		}
 	}
 
-	@Test
+	
 	public void testGetComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
 		
 		try {
-			Computer details = cd.getComputer(512L);
-			assertEquals("iPad", details.getName());
-			assertEquals(Date.valueOf("2010-01-01"), details.getIntroduced());
-			assertEquals(Date.valueOf("2011-03-02"), details.getDiscontinued());
-			assertEquals("1", details.getManufacturer());
+			Optional<Computer> details = cd.getComputer(512L);
+			assertEquals("iPad", details.get().getName());
+			assertEquals(Date.valueOf("2010-01-01"), details.get().getIntroduced());
+			assertEquals(Date.valueOf("2011-03-02"), details.get().getDiscontinued());
+			assertEquals("1", details.get().getManufacturer());
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -83,10 +84,10 @@ public class ComputerDAOTest {
 		try {
 			cd.updateComputer(572L, "HP", Date.valueOf("2008-01-04"), null);
 			
-			Computer c = cd.getComputer(572L);
-			assertEquals("HP", c.getName());
-			assertEquals(Date.valueOf("2008-01-04"), c.getIntroduced());
-			assertEquals(null, c.getDiscontinued());
+			Optional<Computer> c = cd.getComputer(572L);
+			assertEquals("HP", c.get().getName());
+			assertEquals(Date.valueOf("2008-01-04"), c.get().getIntroduced());
+			assertEquals(null, c.get().getDiscontinued());
 
 			
 		} catch (ClassNotFoundException | SQLException e) {
