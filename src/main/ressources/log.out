@@ -54,3 +54,6 @@
 2018-03-20 17:35:40,451 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 793
 2018-03-20 17:36:35,193 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 794
 2018-03-20 17:36:56,723 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 795
+2018-03-20 17:38:35,304 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-20 17:38:35,325 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 796
+2018-03-20 17:38:35,355 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted

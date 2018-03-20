@@ -18,14 +18,11 @@ public class ComputerValidatorTest {
 		assertTrue(cv.nameValidator("ASUS"));
 		assertFalse(cv.nameValidator(""));
 	}
-	
-	
-	
-	
+
 	@Test(expected = ValidatorException.class)
 	public void testIdValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
-		
+
 		try {
 			assertTrue(cv.idValidator(1L));
 			assertFalse(cv.idValidator(8000L));
@@ -37,11 +34,10 @@ public class ComputerValidatorTest {
 	@Test(expected = ValidatorException.class)
 	public void testDateValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
-		
+
 		assertFalse(cv.DateValidator(Date.valueOf("2008-01-01"), Date.valueOf("2007-01-01")));
 		assertTrue(cv.DateValidator(Date.valueOf("2008-01-01"), Date.valueOf("2010-01-01")));
 		assertTrue(cv.DateValidator(null, null));
 		assertTrue(cv.DateValidator(null, Date.valueOf("2007-01-01")));
 	}
-
 }

@@ -17,16 +17,16 @@ public class CompanyDAOTest {
 	@Test
 	public void testGetListCompany() {
 		CompanyDAO cd = CompanyDAO.INSTANCE;
-		
+
 		try {
 			List<Company> list = cd.getListCompany(42, 1);
-			
+
 			for(Company company: list) {
 				if(company.getId() == 42) {
 					assertEquals("Research In Motion", company.getName());
 				}
 			}
-			
+
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}

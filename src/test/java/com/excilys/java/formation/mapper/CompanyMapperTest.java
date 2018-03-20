@@ -23,11 +23,11 @@ public class CompanyMapperTest {
 		ResultSet result = statement.executeQuery("SELECT count(*) as total FROM company");
 		List<Company> companies = cm.getListCompanyFromResultSet(result);
 		int total = 0;
-		 if (result.next()) {
-            total = result.getInt("total");
-         }
-		 assertEquals(total, companies.size());
-		 connection.close();
+		if (result.next()) {
+			total = result.getInt("total");
+		}
+		assertEquals(total, companies.size());
+		connection.close();
 	}
 
 }

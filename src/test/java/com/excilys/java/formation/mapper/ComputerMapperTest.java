@@ -23,11 +23,11 @@ public class ComputerMapperTest {
 		ResultSet result = statement.executeQuery("SELECT count(*) as total FROM computer");
 		List<Computer> computers= cm.getListComputerFromResultSet(result);
 		int total = 0;
-		 if (result.next()) {
-            total = result.getInt("total");
-         }
-		 assertEquals(total, computers.size());
-		 connection.close();
+		if (result.next()) {
+			total = result.getInt("total");
+		}
+		assertEquals(total, computers.size());
+		connection.close();
 	}
 
 	@Test(expected = SQLException.class)
@@ -39,7 +39,7 @@ public class ComputerMapperTest {
 		ResultSet result = statement.executeQuery("SELECT name FROM computer WHERE id = 1");
 		Computer computer= cm.getComputerDetailsFromResultSet(result);
 		assertEquals(computer.getName(), "MacBook Pro 15.4 inch ");
-		
+
 	}
 
 }

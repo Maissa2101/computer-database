@@ -18,23 +18,23 @@ public class ComputerServiceTest {
 	public void testListComputers() throws ClassNotFoundException, SQLException {
 		ComputerService cs = ComputerService.INSTANCE;
 		List<Computer> computers = cs.listComputers(100,1);
-		
+
 		SQLConnection.getInstance();
 		Connection connection = SQLConnection.getConnection();
 		java.sql.Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT count(*) as total FROM computer");
 
 		int total = 0;
-		 if (result.next()) {
-            total = result.getInt("total");
-         }
+		if (result.next()) {
+			total = result.getInt("total");
+		}
 		assertEquals(computers.size(), total );
 	}
 
 	@Test(expected = ValidatorException.class)
 	public void testComputerDetails() throws ClassNotFoundException, SQLException, ValidatorException {
 		fail("Not yet implemented");
-		
+
 	}
 
 	@Test(expected = ValidatorException.class)
