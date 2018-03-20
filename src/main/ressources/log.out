@@ -37,3 +37,13 @@
 2018-03-19 16:19:00,523 [INFO ] (?:logInfoEvent:?) checkpointClose script done
 2018-03-19 16:19:00,539 [INFO ] (?:logInfoEvent:?) checkpointClose end
 2018-03-19 16:19:00,540 [INFO ] (?:logInfoEvent:?) Checkpoint end - txts: 1
+2018-03-20 15:43:10,414 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 15:44:15,822 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 15:48:06,333 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 15:48:12,483 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 15:49:39,818 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 16:01:24,968 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 16:04:17,303 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 16:04:51,858 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 16:10:42,378 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 16:25:23,431 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.

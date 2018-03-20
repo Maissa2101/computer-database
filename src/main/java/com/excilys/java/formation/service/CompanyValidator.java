@@ -1,12 +1,6 @@
 package com.excilys.java.formation.service;
 
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-
-
-import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
 public enum CompanyValidator {
@@ -23,31 +17,16 @@ public enum CompanyValidator {
 	 */
 	public boolean idCompanyValidator(String manufacturer) throws ClassNotFoundException, SQLException, ValidatorException {
 		if (manufacturer != null ) {
-		Long companyId = Long.valueOf(manufacturer);
-		int index = 0;
-		
-		
-		CompanyDAOInterface companies = CompanyDAO.INSTANCE;
-		List<Company> sourceList = new ArrayList<Company>();
-		for(Company company : companies.getListCompany()) {
-			sourceList.add(company);
-		}
-		
-		while(index < sourceList.size()) {
-			if((manufacturer != null) && (companyId == Long.valueOf(sourceList.get(index).getId()))) {
+			Long companyId = Long.valueOf(manufacturer);
+			CompanyDAO companies = CompanyDAO.INSTANCE;
+			if(companies.getCompany(companyId).isPresent()) {
 				return true;
 			}
 			else {
-				index++;
+				throw new ValidatorException("ID not valid \\n");
 			}
 		}
-		if(index >= sourceList.size()) {
-			throw new ValidatorException("ID not valid \n");
-		}
 		return false;
-	
-	}
-		return true;
 	}
 		
 }

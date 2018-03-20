@@ -28,4 +28,14 @@ public enum CompanyMapper {
 		
 	}
 	
+	
+	public Company getCompanyDetailsFromResultSet(ResultSet res) throws SQLException {
+		Company c = null;
+
+		if(res.next()) {
+			
+			c = new Company(res.getLong(1), res.getString(2));
+		}
+		return c;
+	}
 }

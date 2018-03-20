@@ -15,7 +15,7 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	List<Computer> getListComputer() throws SQLException, ClassNotFoundException;
+	List<Computer> getListComputer(int limit,int offset) throws SQLException, ClassNotFoundException;
 
 	/**
 	 * Method to get a specific computer given its id
@@ -58,5 +58,7 @@ public interface ComputerDAOInterface {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	void deleteComputer(Long id) throws SQLException, ClassNotFoundException;
+	
+	int count() throws SQLException;
 
 }

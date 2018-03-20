@@ -2,10 +2,7 @@ package com.excilys.java.formation.service;
 
 import java.sql.Date;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
 
-import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
 
@@ -38,27 +35,14 @@ public enum ComputerValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException, ValidatorException {
-		int index = 0;
 		
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		List<Computer> sourceList = new ArrayList<Computer>();
-		for(Computer computer : computers.getListComputer()) {
-			sourceList.add(computer);
+		if(computers.getComputer(id).isPresent()) {
+			return true;
 		}
-		
-		while(index < sourceList.size()) {
-			if(id == sourceList.get(index).getId()) {
-				return true;
-			}
-			else {
-				index++;
-			}
-		}
-		
-		if(index >= sourceList.size()) {
+		else {
 			throw new ValidatorException("This computer doesn't exist \n");
 		}
-		return false;
 	}
 	
 	/**

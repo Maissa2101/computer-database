@@ -4,6 +4,9 @@ import java.sql.Date;
 import java.sql.SQLException;
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
@@ -11,16 +14,16 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 public enum ComputerService {
 	
 	INSTANCE;
-	
+	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 	
 	/**
 	 * Method to show the list of computers
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
 	 */
-	public List<Computer> listComputers() throws ClassNotFoundException, SQLException {
+	public List<Computer> listComputers(int limit, int offset) throws ClassNotFoundException, SQLException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		return computers.getListComputer();
+		return computers.getListComputer(limit, offset);
 	}
 	
 	/**
@@ -30,7 +33,7 @@ public enum ComputerService {
 	 * @throws ValidatorException 
 	 */
 	public String computerDetails(Long id) throws ClassNotFoundException, SQLException, ValidatorException {
-		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
+		ComputerDAO computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		String rsult = null;
 		
@@ -61,7 +64,7 @@ public enum ComputerService {
 		    	computers.createComputer(name, tm1, tm2, manufacturer);
 		    }	
 		} catch (ValidatorException e) {
-			System.out.println(e.getMessage());
+			logger.info(e.getMessage());
 		}	
 
 	}
@@ -81,7 +84,7 @@ public enum ComputerService {
 				computers.updateComputer(id_update, new_name,new_date, new_date2);
 			}
 	    } catch (ValidatorException e) {
-			System.out.println(e.getMessage());
+	    	logger.info(e.getMessage());
 		}	
 
 	}
@@ -102,8 +105,17 @@ public enum ComputerService {
 					computers.deleteComputer(id_delete);
 			    }	
 		} catch (ValidatorException e) {
-			System.out.println(e.getMessage());
+			logger.info(e.getMessage());
 		}	
 		
+	}
+	
+	/**
+	 * Counts the number of computers in the DB
+	 * @return total number of computers
+	 * @throws SQLException
+	 */
+	public int count() throws SQLException {
+		return ComputerDAO.INSTANCE.count();
 	}
 }

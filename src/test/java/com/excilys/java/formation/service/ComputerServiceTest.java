@@ -17,7 +17,7 @@ public class ComputerServiceTest {
 	@Test(expected = SQLException.class)
 	public void testListComputers() throws ClassNotFoundException, SQLException {
 		ComputerService cs = ComputerService.INSTANCE;
-		List<Computer> computers = cs.listComputers();
+		List<Computer> computers = cs.listComputers(100,1);
 		
 		SQLConnection.getInstance();
 		Connection connection = SQLConnection.getConnection();

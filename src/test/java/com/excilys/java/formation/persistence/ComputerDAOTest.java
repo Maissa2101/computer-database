@@ -17,7 +17,7 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 public class ComputerDAOTest {
 
 	@Test
-	public void testGetListComputer() {
+/*	public void testGetListComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
 		
 		
@@ -35,7 +35,7 @@ public class ComputerDAOTest {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	} */
 
 	
 	public void testGetComputer() {
@@ -53,7 +53,7 @@ public class ComputerDAOTest {
 		
 	}
 
-	@Test
+	/*	@Test
 	public void testCreateComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;	
 		
@@ -75,7 +75,7 @@ public class ComputerDAOTest {
 			e.printStackTrace();
 		}
 		
-	}
+	} 
 
 	@Test
 	public void testUpdateComputer() {
@@ -113,6 +113,6 @@ public class ComputerDAOTest {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-	}
+	} */
 
 }

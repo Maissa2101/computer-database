@@ -17,9 +17,17 @@ public enum CompanyService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	public List<Company> listCompanies() throws SQLException, ClassNotFoundException {
+	public List<Company> listCompanies(int limit, int offset) throws SQLException, ClassNotFoundException {
 		CompanyDAO companies = CompanyDAO.INSTANCE;
-		return companies.getListCompany();
-		
+		return companies.getListCompany(limit, offset);
+	}
+	
+	/**
+	 * counts the number of companies in the DB
+	 * @return total number of companies
+	 * @throws SQLException
+	 */
+	public int count() throws SQLException {
+		return CompanyDAO.INSTANCE.count();
 	}
 }
