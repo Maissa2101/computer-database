@@ -58,7 +58,6 @@ public interface ComputerDAOInterface {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	void deleteComputer(Long id) throws SQLException, ClassNotFoundException;
-	
-	int count() throws SQLException;
 
+	int count() throws SQLException;
 }

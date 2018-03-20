@@ -32,7 +32,6 @@ public class SQLConnection {
 		SQLConnection.passwd = password;
 	}
 
-
 	public static SQLConnection getInstance() throws DAOConfigurationException {
 
 		ResourceBundle fichierProperties = ResourceBundle.getBundle( FICHIER_PROPERTIES );
@@ -54,9 +53,6 @@ public class SQLConnection {
 		return DriverManager.getConnection(url, user, passwd);
 	}
 
-
-
-
 	/**
 	 * Close the connection to the DB
 	 * @throws SQLException in case of a database access error
@@ -71,7 +67,5 @@ public class SQLConnection {
 			}
 		}
 	}
-
-
 }
 

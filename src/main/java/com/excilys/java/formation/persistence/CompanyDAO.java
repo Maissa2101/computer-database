@@ -17,12 +17,10 @@ public enum CompanyDAO implements CompanyDAOInterface {
 
 	private final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
 	private final String COUNT = "SELECT count(*) as total FROM company;";
-	private final String SELECT_REQUEST_DETAILS = "SELECT id FROM company WHERE id=?;";
-
+	private final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
 
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws SQLException, ClassNotFoundException{
-
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 		String query = SELECT_REQUEST_LIST;
@@ -30,8 +28,6 @@ public enum CompanyDAO implements CompanyDAOInterface {
 		stmt.setInt(1, limit);
 		stmt.setInt(2, offset);
 		ResultSet res = stmt.executeQuery();
-
-
 		List<Company> l = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
 		stmt.close();
 		SQLConnection.closeConnection(conn);
@@ -47,11 +43,11 @@ public enum CompanyDAO implements CompanyDAOInterface {
 		stmt.setLong(1, id);
 		ResultSet res = stmt.executeQuery();
 		Company c = CompanyMapper.INSTANCE.getCompanyDetailsFromResultSet(res);
-		
+
 		if (stmt != null) {
 			stmt.close();
 		}
-		
+
 		SQLConnection.closeConnection(conn);
 		return Optional.ofNullable(c);
 	}
@@ -60,7 +56,7 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	public int count() throws SQLException {
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
-		
+
 		PreparedStatement stmt =  conn.prepareStatement(COUNT);
 		ResultSet res = stmt.executeQuery();
 		int rslt = 0;
@@ -78,7 +74,6 @@ public enum CompanyDAO implements CompanyDAOInterface {
 		SQLConnection.closeConnection(conn);
 		return rslt;
 	}
-
 }
 
 

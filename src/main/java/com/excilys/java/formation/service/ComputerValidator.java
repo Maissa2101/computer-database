@@ -8,10 +8,9 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 
 
 public enum ComputerValidator {
-	
+
 	INSTANCE;
-	
-	
+
 	/**
 	 * Method to verify if the name is not empty
 	 * @param name the name of the computer
@@ -19,13 +18,13 @@ public enum ComputerValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean nameValidator(String name) throws ValidatorException {
-		
-			if(name.equals("")) {
-				throw new ValidatorException(" The name of the computer is mandatory \n");
-			}
-			return true;
+
+		if(name.equals("")) {
+			throw new ValidatorException(" The name of the computer is mandatory");
+		}
+		return true;
 	}
-	
+
 	/**
 	 * Method to verify if the id of the computer to delete, to update or to show its details is valid or not
 	 * @param id the id to validate
@@ -35,7 +34,7 @@ public enum ComputerValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean idValidator(Long id) throws ClassNotFoundException, SQLException, ValidatorException {
-		
+
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		if(computers.getComputer(id).isPresent()) {
 			return true;
@@ -44,7 +43,7 @@ public enum ComputerValidator {
 			throw new ValidatorException("This computer doesn't exist \n");
 		}
 	}
-	
+
 	/**
 	 * Method to verify if the dates are valid or not
 	 * @param introduced the introduced date of the computer
@@ -58,15 +57,13 @@ public enum ComputerValidator {
 				return true;
 			}
 			else {
-				throw new ValidatorException("\n Date problem : the discontinued date must be greater than the introduced date\n");
+				throw new ValidatorException("Date problem : the discontinued date must be greater than the introduced date");
 			}
 		}
-		else {
+		else if (((discontinued == null) && (introduced != null)) || ((discontinued != null) && (introduced == null)))
+		{
 			return true;
 		}
+		return true;
 	}
-		
-		
-		
-		
 }

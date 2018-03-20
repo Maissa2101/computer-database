@@ -14,12 +14,12 @@ import com.excilys.java.formation.persistence.CompanyDAO;
 
 public class CompanyDAOTest {
 
-/*	@Test
+	@Test
 	public void testGetListCompany() {
 		CompanyDAO cd = CompanyDAO.INSTANCE;
 		
 		try {
-			List<Company> list = cd.getListCompany();
+			List<Company> list = cd.getListCompany(42, 1);
 			
 			for(Company company: list) {
 				if(company.getId() == 42) {
@@ -30,6 +30,6 @@ public class CompanyDAOTest {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-	}*/
+	}
 
 }

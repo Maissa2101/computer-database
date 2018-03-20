@@ -47,3 +47,7 @@
 2018-03-20 16:04:51,858 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
 2018-03-20 16:10:42,378 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
 2018-03-20 16:25:23,431 [INFO ] (SQLConnection.java:closeConnection:69) Could not create connection to database server.
+2018-03-20 16:33:19,011 [INFO ] (ComputerDAO.java:deleteComputer:176) computer deleted
+2018-03-20 16:55:19,068 [INFO ] (ComputerDAO.java:createComputer:109) computer added with id : 791
+2018-03-20 17:11:05,634 [INFO ] (ComputerService.java:createComputer:67) ID not valid \n
+2018-03-20 17:14:06,664 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 792

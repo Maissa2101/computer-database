@@ -7,10 +7,10 @@ import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.service.ComputerService;
 
 public class PaginationComputer extends Page {
-	
+
 	private List<Computer> computers;
 	private ComputerService cs;
-	
+
 	public PaginationComputer(int limit) throws SQLException, ClassNotFoundException {
 		this.offset = 0;
 		this.limit = limit;
@@ -18,35 +18,32 @@ public class PaginationComputer extends Page {
 		this.dbSize = cs.count();
 		this.computers = cs.listComputers(limit, offset);
 	}
-	
+
 	private void updateComputer() throws ClassNotFoundException, SQLException {
 		this.computers = cs.listComputers(limit, offset);
 	}
-	
 
 	@Override
 	public void getNext() throws ClassNotFoundException, SQLException {
+		dbSize = cs.count();
 		super.getNextOffset();
 		updateComputer();
-		
+
 	}
 
 	@Override
 	public void getPrevious() throws ClassNotFoundException, SQLException {
+		dbSize = cs.count();
 		super.getPreviousOffset();
 		updateComputer();
-		
-	}
 
+	}
 
 	@Override
 	public void printPage() {
 		for(Computer computer : this.computers) {
 			System.out.println(computer);
 		}
-		
+
 	}
-	
-	
-	
 }

@@ -5,10 +5,10 @@ public class Company {
 	private String name;
 
 	public Company(long id, String name) {
-    	this.id = id;
-    	this.name = name;
-    }
-	
+		this.id = id;
+		this.name = name;
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -34,10 +34,10 @@ public class Company {
 	public boolean equals(Company company) {
 		return (company.getId() == this.getId());
 	}
-	
-	
-	
-	
-	
-	
+
+
+
+
+
+
 }

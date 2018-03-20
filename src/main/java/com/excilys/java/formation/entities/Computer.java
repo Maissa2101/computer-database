@@ -6,31 +6,31 @@ import java.sql.Date;
 
 public class Computer {
 	private long id;	
-    private String name;
-    private Date introduced;
-    private Date discontinued;
-    private String manufacturer;
-    
-    public Computer(long id, String name, Date introduced, Date discontinued, String manufacturer) {
-    	this.id = id;
-    	this.name = name;
-    	this.introduced = introduced;
-    	this.discontinued = discontinued;
-    	this.manufacturer = manufacturer;
-    }
+	private String name;
+	private Date introduced;
+	private Date discontinued;
+	private String manufacturer;
+
+	public Computer(long id, String name, Date introduced, Date discontinued, String manufacturer) {
+		this.id = id;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.manufacturer = manufacturer;
+	}
 
 	public Computer(Long id, String name, Date introduced, Date discontinued) {
 		this.id = id;
-    	this.name = name;
-    	this.introduced = introduced;
-    	this.discontinued = discontinued;
+		this.name = name;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
 	}
 
 	public Computer(String name, Date introduced, Date discontinued, String manufacturer) {
 		this.name = name;
-    	this.introduced = introduced;
-    	this.discontinued = discontinued;
-    	this.manufacturer = manufacturer;
+		this.introduced = introduced;
+		this.discontinued = discontinued;
+		this.manufacturer = manufacturer;
 	}
 
 	public long getId() {
@@ -89,10 +89,10 @@ public class Computer {
 			return true;
 		return false;
 	}
-    
-	
-    
+
+
+
 }
-	
+
 
 

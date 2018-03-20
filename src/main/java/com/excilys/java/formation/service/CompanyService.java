@@ -8,10 +8,10 @@ import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
 public enum CompanyService {
-	
+
 	INSTANCE;
-	
-	
+
+
 	/**
 	 * Method to show the list of companies
 	 * @throws SQLException in case of a database access error
@@ -21,7 +21,7 @@ public enum CompanyService {
 		CompanyDAO companies = CompanyDAO.INSTANCE;
 		return companies.getListCompany(limit, offset);
 	}
-	
+
 	/**
 	 * counts the number of companies in the DB
 	 * @return total number of companies

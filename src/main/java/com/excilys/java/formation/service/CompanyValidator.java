@@ -4,9 +4,9 @@ import java.sql.SQLException;
 import com.excilys.java.formation.persistence.CompanyDAO;
 
 public enum CompanyValidator {
-	
+
 	INSTANCE;
-	
+
 	/**
 	 * Method to verify if the id of the company is valid or not
 	 * @param manufacturer the id of the company to validate
@@ -23,10 +23,10 @@ public enum CompanyValidator {
 				return true;
 			}
 			else {
-				throw new ValidatorException("ID not valid \\n");
+				throw new ValidatorException("ID not valid");
 			}
 		}
 		return false;
 	}
-		
+
 }

@@ -8,7 +8,7 @@ import com.excilys.java.formation.service.CompanyService;
 public class PaginationCompany extends Page{
 	private List<Company> companies;
 	private CompanyService cs;
-	
+
 	public PaginationCompany(int limit) throws SQLException, ClassNotFoundException {
 		this.offset = 0;
 		this.limit = limit;
@@ -16,23 +16,24 @@ public class PaginationCompany extends Page{
 		this.dbSize = cs.count();
 		this.companies = cs.listCompanies(limit, offset);
 	}
-	
+
 	private void updateCompany() throws ClassNotFoundException, SQLException {
 		this.companies = cs.listCompanies(limit, offset);
 	}
 
 	@Override
 	public void getNext() throws ClassNotFoundException, SQLException {
-		getNextOffset();
+		dbSize = cs.count();
+		super.getNextOffset();
 		updateCompany();
-		
+
 	}
 
 	@Override
 	public void getPrevious() throws ClassNotFoundException, SQLException {
-		getPreviousOffset();
+		dbSize = cs.count();
+		super.getPreviousOffset();
 		updateCompany();
-		
 	}
 
 
@@ -41,8 +42,6 @@ public class PaginationCompany extends Page{
 		for(Company company : this.companies) {
 			System.out.println(company);
 		}
-		
+
 	}
-	
-	
 }

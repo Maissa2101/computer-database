@@ -17,13 +17,13 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 public class ComputerDAOTest {
 
 	@Test
-/*	public void testGetListComputer() {
+	public void testGetListComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
-		
-		
+
+
 		try {
-			List<Computer> list = cd.getListComputer();
-			
+			List<Computer> list = cd.getListComputer(500,0);
+
 			for(Computer computer : list) {
 				if(computer.getId() == 512) {
 					assertEquals("iPad", computer.getName());
@@ -35,12 +35,12 @@ public class ComputerDAOTest {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-	} */
+	} 
 
-	
+
 	public void testGetComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
-		
+
 		try {
 			Optional<Computer> details = cd.getComputer(512L);
 			assertEquals("iPad", details.get().getName());
@@ -50,18 +50,18 @@ public class ComputerDAOTest {
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	}
 
-	/*	@Test
+	@Test
 	public void testCreateComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;	
-		
+
 		try {
 			Long id = cd.createComputer("ASUS", Date.valueOf("2008-01-04"), Date.valueOf("2018-01-01"), "1");
 
-			List<Computer> list = cd.getListComputer();
-			
+			List<Computer> list = cd.getListComputer(500,0);
+
 			for(Computer computer : list) {
 				if(computer.getId() == id) {
 					assertEquals("ASUS", computer.getName());
@@ -71,25 +71,25 @@ public class ComputerDAOTest {
 				}
 			}
 		}	
-		 catch (ClassNotFoundException | SQLException e) {
+		catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-		
+
 	} 
 
 	@Test
 	public void testUpdateComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
-		
+
 		try {
 			cd.updateComputer(572L, "HP", Date.valueOf("2008-01-04"), null);
-			
+
 			Optional<Computer> c = cd.getComputer(572L);
 			assertEquals("HP", c.get().getName());
 			assertEquals(Date.valueOf("2008-01-04"), c.get().getIntroduced());
 			assertEquals(null, c.get().getDiscontinued());
 
-			
+
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
@@ -98,21 +98,21 @@ public class ComputerDAOTest {
 	@Test
 	public void testDeleteComputer() {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
-		
-		
+
+
 		try {
 			cd.deleteComputer(771L);
-			
-			List<Computer> list = cd.getListComputer();
-			
+
+			List<Computer> list = cd.getListComputer(500,0);
+
 			for(Computer computer : list) {
 				if(computer.getId() == 771L) {
 					fail("Computer still exists");				}
 			}
-			
+
 		} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
 		}
-	} */
+	} 
 
 }

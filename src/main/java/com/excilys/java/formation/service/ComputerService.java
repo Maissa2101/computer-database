@@ -12,10 +12,10 @@ import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
 public enum ComputerService {
-	
+
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(CompanyService.class);
-	
+
 	/**
 	 * Method to show the list of computers
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
@@ -25,7 +25,7 @@ public enum ComputerService {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		return computers.getListComputer(limit, offset);
 	}
-	
+
 	/**
 	 * Method to show the details of a computer given its ID
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
@@ -36,18 +36,18 @@ public enum ComputerService {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		String rsult = null;
-		
+
 		try {
 			if(computerV.idValidator(id)) {
-			rsult = "\n"+ computers.getComputer(id) + "\n";
-		}
+				rsult = "\n"+ computers.getComputer(id) + "\n";
+			}
 		} catch (ValidatorException e) {
 			rsult = e.getMessage();
 		}
 		return rsult;
 
 	}
-	
+
 	/**
 	 * Method to create a computer
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
@@ -58,17 +58,17 @@ public enum ComputerService {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		CompanyValidator companyV = CompanyValidator.INSTANCE;
-	
+
 		try {
-		    if((computerV.nameValidator(name)) && (computerV.DateValidator(tm1, tm2)) && (companyV.idCompanyValidator(manufacturer))) {
-		    	computers.createComputer(name, tm1, tm2, manufacturer);
-		    }	
+			if((computerV.nameValidator(name)) && (computerV.DateValidator(tm1, tm2)) && (companyV.idCompanyValidator(manufacturer))) {
+				computers.createComputer(name, tm1, tm2, manufacturer);
+			}	
 		} catch (ValidatorException e) {
 			logger.info(e.getMessage());
 		}	
 
 	}
-	
+
 	/**
 	 * Method to update a computer details given its ID
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
@@ -83,12 +83,12 @@ public enum ComputerService {
 			if((computerV.idValidator(id_update)) && (computerV.nameValidator(new_name)) && computerV.DateValidator(new_date, new_date2) ) {
 				computers.updateComputer(id_update, new_name,new_date, new_date2);
 			}
-	    } catch (ValidatorException e) {
-	    	logger.info(e.getMessage());
+		} catch (ValidatorException e) {
+			logger.info(e.getMessage());
 		}	
 
 	}
-	
+
 	/**
 	 * Method to delete a computer given its ID
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
@@ -98,18 +98,18 @@ public enum ComputerService {
 	public void deleteComputer(Long id_delete) throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
-		
-		
+
+
 		try {
-				if(computerV.idValidator(id_delete)) {
-					computers.deleteComputer(id_delete);
-			    }	
+			if(computerV.idValidator(id_delete)) {
+				computers.deleteComputer(id_delete);
+			}	
 		} catch (ValidatorException e) {
 			logger.info(e.getMessage());
 		}	
-		
+
 	}
-	
+
 	/**
 	 * Counts the number of computers in the DB
 	 * @return total number of computers
