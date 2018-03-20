@@ -5,24 +5,12 @@ import java.sql.Date;
 
 
 public class Computer {
-	private long id;
-	
+	private long id;	
     private String name;
-
     private Date introduced;
-
     private Date discontinued;
-
     private String manufacturer;
     
-    /**
-     * Constructor of the computer
-     * @param id the id of the computer
-     * @param name the name of the computer
-     * @param introduced the introduced date of the computer
-     * @param discontinued the discontinued date
-     * @param manufacturer the manufacturer of the computer
-     */
     public Computer(long id, String name, Date introduced, Date discontinued, String manufacturer) {
     	this.id = id;
     	this.name = name;
