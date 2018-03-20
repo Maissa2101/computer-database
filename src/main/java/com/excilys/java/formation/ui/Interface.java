@@ -186,7 +186,7 @@ public class Interface {
 		String time2 = sc.nextLine();
 
 		Date tm2;
-		if (time.toLowerCase().equals("")) {
+		if (time2.toLowerCase().equals("")) {
 			tm2 = null;
 		}
 		else {

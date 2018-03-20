@@ -51,3 +51,6 @@
 2018-03-20 16:55:19,068 [INFO ] (ComputerDAO.java:createComputer:109) computer added with id : 791
 2018-03-20 17:11:05,634 [INFO ] (ComputerService.java:createComputer:67) ID not valid \n
 2018-03-20 17:14:06,664 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 792
+2018-03-20 17:35:40,451 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 793
+2018-03-20 17:36:35,193 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 794
+2018-03-20 17:36:56,723 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 795
