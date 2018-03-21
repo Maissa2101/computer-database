@@ -75,7 +75,33 @@ public class DashboardServlet extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new ServletException(e);
 		} 
+/*	  int page = 1;
+	      int recordsPerPage = 25;
+	      if(request.getParameter("page") != null)
+	      page = Integer.parseInt(request.getParameter("page"));
+		
 
+		try {
+			int i = cs.count();
+			list = cs.listComputers(recordsPerPage,(page-1)*recordsPerPage);
+
+			request.setAttribute("computerList", list);
+			request.setAttribute("count", i);
+			
+			
+			int noOfRecords = i;
+            int noOfPages = (int) Math.ceil(noOfRecords / recordsPerPage);
+            request.setAttribute("noOfPages", noOfPages);
+            request.setAttribute("currentPage", page);
+			
+			
+			
+			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
+			dispatcher.forward(request, response);
+		} catch (ClassNotFoundException | SQLException e) {
+			throw new ServletException(e);
+		} 
+*/
 
 	}
 

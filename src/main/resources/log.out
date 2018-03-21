@@ -297,3 +297,66 @@
 2018-03-21 17:25:25,682 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
 2018-03-21 17:25:25,696 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 876
 2018-03-21 17:25:25,712 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:32:57,088 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:32:57,098 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 877
+2018-03-21 17:32:57,113 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:36:04,621 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:36:04,637 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 878
+2018-03-21 17:36:04,659 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:36:39,439 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:36:39,449 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 879
+2018-03-21 17:36:39,465 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:38:05,806 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:38:05,816 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 880
+2018-03-21 17:38:05,830 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:39:10,408 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:39:10,424 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 881
+2018-03-21 17:39:10,441 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:39:57,545 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:39:57,556 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 882
+2018-03-21 17:39:57,570 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:40:58,483 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:40:58,497 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 883
+2018-03-21 17:40:58,511 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:42:37,314 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:42:37,325 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 884
+2018-03-21 17:42:37,339 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:43:28,371 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:43:28,383 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 885
+2018-03-21 17:43:28,399 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:44:11,996 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:44:12,011 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 886
+2018-03-21 17:44:12,025 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 17:46:45,583 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 17:46:45,594 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 887
+2018-03-21 17:46:45,610 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:09:14,476 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:09:14,487 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 888
+2018-03-21 18:09:14,502 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:10:12,344 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:10:12,356 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 889
+2018-03-21 18:10:12,372 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:17:53,891 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:17:53,902 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 890
+2018-03-21 18:17:53,928 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:18:36,913 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:18:36,925 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 891
+2018-03-21 18:18:36,941 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:21:53,710 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:21:53,722 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 892
+2018-03-21 18:21:53,737 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:23:16,198 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:23:16,211 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 893
+2018-03-21 18:23:16,230 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:25:34,121 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:25:34,133 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 894
+2018-03-21 18:25:34,152 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:27:26,113 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:27:26,130 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 895
+2018-03-21 18:27:26,145 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:29:51,974 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:29:51,985 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 896
+2018-03-21 18:29:52,000 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-21 18:31:28,956 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-21 18:31:28,970 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 897
+2018-03-21 18:31:28,984 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted

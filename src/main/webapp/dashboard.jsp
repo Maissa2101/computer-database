@@ -41,7 +41,7 @@
                     </form>
                 </div>
                 <div class="pull-right">
-                    <a class="btn btn-success" id="addComputer" href="addComputer.html">Add Computer</a> 
+                    <a class="btn btn-success" id="addComputer" href="addComputer.jsp">Add Computer</a> 
                     <a class="btn btn-default" id="editComputer" href="#" onclick="$.fn.toggleEditMode();">Edit</a>
                 </div>
             </div>
@@ -105,14 +105,7 @@
         </div>
     </section>
     
-    
-    <c:set var="from1" value="${from - 10}" />
-	<c:set var="from2" value="${from + 10}" />
-	<c:set var="to1" value="${to - 10}" />
-	<c:set var="to2" value="${to + 10}" />
-
-
-    <footer class="navbar-fixed-bottom">
+     <footer class="navbar-fixed-bottom">
         <div class="container text-center">
             <ul class="pagination">
                 <li>
@@ -140,7 +133,7 @@
             <button type="button" class="btn btn-default">100</button>
         </div>
 
-    </footer>
+    </footer>		
 <script src="../js/jquery.min.js"></script>
 <script src="../js/bootstrap.min.js"></script>
 <script src="../js/dashboard.js"></script>
