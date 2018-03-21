@@ -53,7 +53,7 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	}
 
 	@Override
-	public int count() throws SQLException {
+	public int count() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 

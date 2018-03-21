@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
 
 public enum ComputerService {
 
@@ -114,8 +115,10 @@ public enum ComputerService {
 	 * Counts the number of computers in the DB
 	 * @return total number of computers
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
+	 * @throws DAOConfigurationException 
 	 */
-	public int count() throws SQLException {
+	public int count() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		return ComputerDAO.INSTANCE.count();
 	}
 }

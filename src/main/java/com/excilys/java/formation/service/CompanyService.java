@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
 
 public enum CompanyService {
 
@@ -26,8 +27,10 @@ public enum CompanyService {
 	 * counts the number of companies in the DB
 	 * @return total number of companies
 	 * @throws SQLException
+	 * @throws ClassNotFoundException 
+	 * @throws DAOConfigurationException 
 	 */
-	public int count() throws SQLException {
+	public int count() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		return CompanyDAO.INSTANCE.count();
 	}
 }

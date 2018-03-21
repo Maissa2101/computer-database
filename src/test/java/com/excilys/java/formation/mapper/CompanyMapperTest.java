@@ -10,12 +10,13 @@ import java.util.List;
 import org.junit.Test;
 
 import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.SQLConnection;
 
 public class CompanyMapperTest {
 
 	@Test(expected = SQLException.class)
-	public void testGetListCompanyFromResultSet() throws SQLException {
+	public void testGetListCompanyFromResultSet() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		CompanyMapper cm = CompanyMapper.INSTANCE;
 		SQLConnection.getInstance();
 		Connection connection = SQLConnection.getConnection();

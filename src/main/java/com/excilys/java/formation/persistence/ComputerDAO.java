@@ -22,7 +22,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
-	private final String SELECT_REQUEST_LIST = "SELECT id, name, introduced, discontinued, company_id FROM computer LIMIT ? OFFSET ?;";
+	private final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ? OFFSET ?;";
 	private final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
 	private final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
 	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?;";
@@ -178,7 +178,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	}
 
 	@Override
-	public int count() throws SQLException {
+	public int count() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		SQLConnection.getInstance();
 		Connection conn = SQLConnection.getConnection();
 		String query = COUNT;

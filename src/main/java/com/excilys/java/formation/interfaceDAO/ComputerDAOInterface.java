@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
 
 public interface ComputerDAOInterface {
 
@@ -59,5 +60,5 @@ public interface ComputerDAOInterface {
 	 */
 	void deleteComputer(Long id) throws SQLException, ClassNotFoundException;
 
-	int count() throws SQLException;
+	int count() throws SQLException, DAOConfigurationException, ClassNotFoundException;
 }

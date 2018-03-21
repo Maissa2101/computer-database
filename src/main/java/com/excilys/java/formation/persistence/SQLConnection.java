@@ -32,8 +32,8 @@ public class SQLConnection {
 		SQLConnection.passwd = password;
 	}
 
-	public static SQLConnection getInstance() throws DAOConfigurationException {
-
+	public static SQLConnection getInstance() throws DAOConfigurationException, ClassNotFoundException {
+		Class.forName("com.mysql.cj.jdbc.Driver");
 		ResourceBundle fichierProperties = ResourceBundle.getBundle( FICHIER_PROPERTIES );
 
 		if ( fichierProperties == null ) {

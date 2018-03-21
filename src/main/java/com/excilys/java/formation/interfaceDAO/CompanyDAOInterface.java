@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
 
 public interface CompanyDAOInterface {
 
@@ -16,7 +17,7 @@ public interface CompanyDAOInterface {
 	 */
 	List<Company> getListCompany(int limit, int offset) throws SQLException, ClassNotFoundException;
 
-	int count() throws SQLException;
+	int count() throws SQLException, DAOConfigurationException, ClassNotFoundException;
 
 	Optional<Company> getCompany(Long id) throws SQLException, ClassNotFoundException;
 

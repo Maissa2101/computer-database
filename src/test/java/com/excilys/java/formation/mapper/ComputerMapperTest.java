@@ -10,12 +10,13 @@ import java.util.List;
 import org.junit.Test;
 
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.SQLConnection;
 
 public class ComputerMapperTest {
 
 	@Test(expected = SQLException.class)
-	public void testGetListComputerFromResultSet() throws SQLException {
+	public void testGetListComputerFromResultSet() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		ComputerMapper cm = ComputerMapper.INSTANCE;
 		SQLConnection.getInstance();
 		Connection connection = SQLConnection.getConnection();
@@ -31,7 +32,7 @@ public class ComputerMapperTest {
 	}
 
 	@Test(expected = SQLException.class)
-	public void testGetComputerDetailsFromResultSet() throws SQLException {
+	public void testGetComputerDetailsFromResultSet() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		ComputerMapper cm = ComputerMapper.INSTANCE;
 		SQLConnection.getInstance();
 		Connection connection = SQLConnection.getConnection();
