@@ -35,9 +35,9 @@ public class ComputerValidatorTest {
 	public void testDateValidator() throws ValidatorException {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
 
-		assertFalse(cv.DateValidator(Date.valueOf("2008-01-01"), Date.valueOf("2007-01-01")));
-		assertTrue(cv.DateValidator(Date.valueOf("2008-01-01"), Date.valueOf("2010-01-01")));
+		assertFalse(cv.DateValidator(Date.valueOf("2008-01-01").toLocalDate(), Date.valueOf("2007-01-01").toLocalDate()));
+		assertTrue(cv.DateValidator(Date.valueOf("2008-01-01").toLocalDate(), Date.valueOf("2010-01-01").toLocalDate()));
 		assertTrue(cv.DateValidator(null, null));
-		assertTrue(cv.DateValidator(null, Date.valueOf("2007-01-01")));
+		assertTrue(cv.DateValidator(null, Date.valueOf("2007-01-01").toLocalDate()));
 	}
 }

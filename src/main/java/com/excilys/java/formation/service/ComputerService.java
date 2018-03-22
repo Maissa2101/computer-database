@@ -1,7 +1,7 @@
 package com.excilys.java.formation.service;
 
-import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.slf4j.Logger;
@@ -55,7 +55,7 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
-	public void createComputer(String name, Date tm1, Date tm2, String manufacturer) throws ClassNotFoundException, SQLException, ValidatorException {
+	public void createComputer(String name, LocalDate tm1, LocalDate tm2, String manufacturer) throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 		CompanyValidator companyV = CompanyValidator.INSTANCE;
@@ -76,7 +76,7 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
-	public void updateComputer(Long id_update, String new_name, Date new_date, Date new_date2 ) throws ClassNotFoundException, SQLException, ValidatorException {
+	public void updateComputer(Long id_update, String new_name, LocalDate new_date, LocalDate new_date2 ) throws ClassNotFoundException, SQLException, ValidatorException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerV = ComputerValidator.INSTANCE;
 

@@ -1,9 +1,7 @@
 package com.excilys.java.formation.servlets;
 
 import java.io.IOException;
-import java.sql.Date;
 import java.sql.SQLException;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -15,8 +13,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.mapper.ComputerDTOMapper;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
@@ -25,22 +24,27 @@ import com.excilys.java.formation.service.ValidatorException;
 /**
  * Servlet implementation class AddComputerServlet
  */
-@WebServlet("/AddComputerServlet")
+@WebServlet("/addComputer")
 public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-
+	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public AddComputerServlet() {
 		super();
-		// TODO Auto-generated constructor stub
 	}
 
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+		
+		try {
+			request.setAttribute("companyList", CompanyService.INSTANCE.listCompanies(CompanyService.INSTANCE.count(), 0));
+		} catch (ClassNotFoundException | DAOConfigurationException | SQLException e) {
+			logger.info("Problem in get : AddComputerServlet");
+		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/addComputer.jsp");
 		dispatcher.forward(request, response);
 	}
@@ -49,46 +53,29 @@ public class AddComputerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+		ComputerService computer_service = ComputerService.INSTANCE;
+		ComputerDTOMapper computer_dto_mapper = ComputerDTOMapper.INSTANCE;
+		
+		String name = request.getParameter("computerName");
+		String introduced = request.getParameter("introduced");
+		String discontinued = request.getParameter("discontinued");
+		String manufacturer = request.getParameter("companyId");
 
-		String name = (String) request.getParameter("name");
-		String introducedStr =  (String) request.getParameter("introduced");
-		String discontinuedStr =  (String) request.getParameter("discontinued");
-		String manufacturer = (String) request.getParameter("price");
-		List<Company> list = null;
-		Date introduced = null, discontinued = null;
-		try {
-			introduced = Date.valueOf(introducedStr);
-			discontinued = Date.valueOf(discontinuedStr);
-
-		} catch (Exception e) {
-			logger.info("Date invalid !");
-		}
-		Computer computer = new Computer(name, introduced, discontinued, manufacturer);
-		ComputerService cs = ComputerService.INSTANCE;
-		CompanyService company_service = CompanyService.INSTANCE;
+		ComputerDTO computerDTO = new ComputerDTO();
+		computerDTO.setName(name);
+		computerDTO.setIntroduced(introduced);
+		computerDTO.setDiscontinued(discontinued);
+		computerDTO.setManufacturer(manufacturer);
 		
-		
-		int i;
+		Computer computer = computer_dto_mapper.getComputerFromComputerDTO(computerDTO);
 		try {
-			i = company_service.count();
-			list = company_service.listCompanies(i,0);
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e1) {
-			logger.info("PB");
-		}
-		
-		try {
-			cs.createComputer(name, introduced, discontinued, manufacturer);
+			computer_service.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ClassNotFoundException | SQLException | ValidatorException e) {
-			logger.info("Erreur");
+			logger.info("Problem in AddCompanyServlet");
 		}
-		request.setAttribute("companyList", list);
 		request.setAttribute("computer", computer);
+		response.sendRedirect(request.getContextPath() + "/addComputer.jsp");
 
-	
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/addComputer.jsp");
-		dispatcher.forward(request, response);
-	
-}
+	}
 
 }

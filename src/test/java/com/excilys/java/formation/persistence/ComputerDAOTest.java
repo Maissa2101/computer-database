@@ -58,7 +58,7 @@ public class ComputerDAOTest {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;	
 
 		try {
-			Long id = cd.createComputer("ASUS", Date.valueOf("2008-01-04"), Date.valueOf("2018-01-01"), "1");
+			Long id = cd.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), "1");
 
 			List<Computer> list = cd.getListComputer(500,0);
 
@@ -82,7 +82,7 @@ public class ComputerDAOTest {
 		ComputerDAOInterface cd = ComputerDAO.INSTANCE;
 
 		try {
-			cd.updateComputer(572L, "HP", Date.valueOf("2008-01-04"), null);
+			cd.updateComputer(572L, "HP", Date.valueOf("2008-01-04").toLocalDate(), null);
 
 			Optional<Computer> c = cd.getComputer(572L);
 			assertEquals("HP", c.get().getName());

@@ -2,6 +2,7 @@ package com.excilys.java.formation.servlets;
 
 import java.io.IOException;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.mapper.ComputerDTOMapper;
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
 
@@ -35,9 +38,13 @@ public class DashboardServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ComputerService cs = ComputerService.INSTANCE;
+		ComputerService computer_service = ComputerService.INSTANCE;
+		ComputerDTOMapper computer_mapper = ComputerDTOMapper.INSTANCE;
+		
 		List<Computer> list = null;
+		 
 		Logger logger = LoggerFactory.getLogger(CompanyService.class);
 		
 		String froms = request.getParameter("from");
@@ -59,13 +66,17 @@ public class DashboardServlet extends HttpServlet {
 		}
 
 		try {
-			int i = cs.count();
-			list = cs.listComputers(to - from,from);
-
+			int i = computer_service.count();
+			list = computer_service.listComputers(to - from,from);
+			List<ComputerDTO> listDTO = new ArrayList<ComputerDTO>();
+			for(Computer computer : list) {
+				listDTO.add(computer_mapper.getComputerDTOFromComputer(computer));
+			}
+			
 			to = Integer.min(to,i);
 			from = Integer.max(from,  0);
 
-			request.setAttribute("computerList", list);
+			request.setAttribute("computerList", listDTO);
 			request.setAttribute("count", i);
 			request.setAttribute("to", new Integer(to));
 			request.setAttribute("from", new Integer(from));
@@ -75,33 +86,7 @@ public class DashboardServlet extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e) {
 			throw new ServletException(e);
 		} 
-/*	  int page = 1;
-	      int recordsPerPage = 25;
-	      if(request.getParameter("page") != null)
-	      page = Integer.parseInt(request.getParameter("page"));
-		
 
-		try {
-			int i = cs.count();
-			list = cs.listComputers(recordsPerPage,(page-1)*recordsPerPage);
-
-			request.setAttribute("computerList", list);
-			request.setAttribute("count", i);
-			
-			
-			int noOfRecords = i;
-            int noOfPages = (int) Math.ceil(noOfRecords / recordsPerPage);
-            request.setAttribute("noOfPages", noOfPages);
-            request.setAttribute("currentPage", page);
-			
-			
-			
-			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
-			dispatcher.forward(request, response);
-		} catch (ClassNotFoundException | SQLException e) {
-			throw new ServletException(e);
-		} 
-*/
 
 	}
 
@@ -109,7 +94,6 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		// TODO Auto-generated method stub
 		doGet(request, response);
 	}
 

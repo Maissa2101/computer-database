@@ -1,17 +1,17 @@
 package com.excilys.java.formation.entities;
 
 
-import java.sql.Date;
+import java.time.LocalDate;
 
 
 public class Computer {
 	private long id;	
 	private String name;
-	private Date introduced;
-	private Date discontinued;
+	private LocalDate introduced;
+	private LocalDate discontinued;
 	private String manufacturer;
 
-	public Computer(long id, String name, Date introduced, Date discontinued, String manufacturer) {
+	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, String manufacturer) {
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
@@ -19,25 +19,28 @@ public class Computer {
 		this.manufacturer = manufacturer;
 	}
 
-	public Computer(Long id, String name, Date introduced, Date discontinued) {
+	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued) {
 		this.id = id;
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 	}
 
-	public Computer(String name, Date introduced, Date discontinued, String manufacturer) {
+	public Computer(String name, LocalDate introduced, LocalDate discontinued, String manufacturer) {
 		this.name = name;
 		this.introduced = introduced;
 		this.discontinued = discontinued;
 		this.manufacturer = manufacturer;
+	}
+
+	public Computer() {
 	}
 
 	public long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(long id) {
 		this.id = id;
 	}
 
@@ -49,19 +52,19 @@ public class Computer {
 		this.name = name;
 	}
 
-	public Date getIntroduced() {
+	public LocalDate getIntroduced() {
 		return introduced;
 	}
 
-	public void setIntroduced(Date introduced) {
+	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
 
-	public Date getDiscontinued() {
+	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
 
-	public void setDisconnected(Date discontinued) {
+	public void setDisconnected(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
 

@@ -6,7 +6,6 @@ import java.util.List;
 
 import org.junit.Test;
 
-import java.sql.SQLException;
 
 
 import com.excilys.java.formation.entities.Company;
@@ -27,7 +26,7 @@ public class CompanyDAOTest {
 				}
 			}
 
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (DAOException e) {
 			e.printStackTrace();
 		}
 	}

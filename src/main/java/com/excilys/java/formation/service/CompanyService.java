@@ -12,7 +12,6 @@ public enum CompanyService {
 
 	INSTANCE;
 
-
 	/**
 	 * Method to show the list of companies
 	 * @throws SQLException in case of a database access error

@@ -1,7 +1,7 @@
 package com.excilys.java.formation.service;
 
-import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 
 import com.excilys.java.formation.persistence.ComputerDAO;
 
@@ -19,7 +19,7 @@ public enum ComputerValidator {
 	 */
 	public boolean nameValidator(String name) throws ValidatorException {
 
-		if(name.equals("")) {
+		if(name == null || name.equals("")) {
 			throw new ValidatorException(" The name of the computer is mandatory");
 		}
 		return true;
@@ -46,21 +46,21 @@ public enum ComputerValidator {
 
 	/**
 	 * Method to verify if the dates are valid or not
-	 * @param introduced the introduced date of the computer
-	 * @param discontinued the discontinued date of the computer
+	 * @param tm1 the introduced date of the computer
+	 * @param tm2 the discontinued date of the computer
 	 * @return true if the date the computer was discontinued is greater than the one it was introduced
 	 * @throws ValidatorException 
 	 */
-	public boolean DateValidator(Date introduced, Date discontinued) throws ValidatorException {
-		if((discontinued != null) && (introduced != null)) {
-			if (discontinued.after(introduced)) {
+	public boolean DateValidator(LocalDate tm1, LocalDate tm2) throws ValidatorException {
+		if((tm2 != null) && (tm1 != null)) {
+			if (tm2.isAfter(tm1)) {
 				return true;
 			}
 			else {
 				throw new ValidatorException("Date problem : the discontinued date must be greater than the introduced date");
 			}
 		}
-		else if (((discontinued == null) && (introduced != null)) || ((discontinued != null) && (introduced == null)))
+		else if (((tm2 == null) && (tm1 != null)) || ((tm2 != null) && (tm1 == null)))
 		{
 			return true;
 		}

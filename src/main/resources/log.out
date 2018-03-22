@@ -360,3 +360,16 @@
 2018-03-21 18:31:28,956 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
 2018-03-21 18:31:28,970 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 897
 2018-03-21 18:31:28,984 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-22 08:55:22,918 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-22 08:55:22,928 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 898
+2018-03-22 08:55:22,943 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-22 09:12:47,099 [INFO ] (ComputerDAO.java:updateComputer:151) computer updated
+2018-03-22 09:12:47,110 [INFO ] (ComputerDAO.java:createComputer:106) computer added with id : 899
+2018-03-22 09:12:47,136 [INFO ] (ComputerDAO.java:deleteComputer:173) computer not deleted
+2018-03-22 11:11:58,149 [INFO ] (ComputerService.java:createComputer:68) Date problem : the discontinued date must be greater than the introduced date
+2018-03-22 11:12:29,197 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 900
+2018-03-22 11:42:57,725 [INFO ] (ComputerDAO.java:deleteComputer:198) computer deleted
+2018-03-22 11:43:05,685 [INFO ] (ComputerDAO.java:deleteComputer:198) computer deleted
+2018-03-22 14:16:27,076 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 901
+2018-03-22 14:16:59,050 [INFO ] (ComputerDAO.java:deleteComputer:198) computer deleted
+2018-03-22 14:17:29,879 [INFO ] (ComputerService.java:createComputer:68)  The name of the computer is mandatory

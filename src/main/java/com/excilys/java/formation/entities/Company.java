@@ -9,6 +9,9 @@ public class Company {
 		this.name = name;
 	}
 
+	public Company() {
+	}
+
 	public String getName() {
 		return name;
 	}
@@ -18,8 +21,8 @@ public class Company {
 	public long getId() {
 		return id;
 	}
-	public void setId(int id) {
-		this.id = id;
+	public void setId(long id2) {
+		this.id = id2;
 	}
 	@Override
 	public String toString() {

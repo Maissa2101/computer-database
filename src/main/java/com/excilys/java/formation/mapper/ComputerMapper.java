@@ -22,7 +22,12 @@ public enum ComputerMapper {
 
 		List<Computer> computers = new ArrayList<Computer>();
 		while(res.next()) {
-			computers.add(new Computer(res.getLong(1), res.getString(2), res.getDate(3), res.getDate(4), res.getString(5)));
+			if((res.getDate(3) != null) && (res.getDate(4) != null)) {
+				computers.add(new Computer(res.getLong(1), res.getString(2), res.getDate(3).toLocalDate(), res.getDate(4).toLocalDate(), res.getString(5)));
+			}
+			else {
+				computers.add(new Computer(res.getLong(1), res.getString(2), null, null, res.getString(5)));
+			}
 		}
 		return computers;
 
@@ -38,8 +43,18 @@ public enum ComputerMapper {
 		Computer c = null;
 
 		if(res.next()) {
-
-			c = new Computer(res.getLong(1), res.getString(2),res.getDate(3), res.getDate(4), res.getString(5));
+			if((res.getDate(3) != null) && (res.getDate(4) != null)) {
+				c = new Computer(res.getLong(1), res.getString(2),res.getDate(3).toLocalDate(), res.getDate(4).toLocalDate(), res.getString(5));
+			}
+			else if ((res.getDate(3) == null) && (res.getDate(4) != null)){
+				c = new Computer(res.getLong(1), res.getString(2),null, res.getDate(4).toLocalDate(), res.getString(5));
+			}
+			else if((res.getDate(3) != null) && (res.getDate(4) == null)) {
+				c = new Computer(res.getLong(1), res.getString(2),res.getDate(3).toLocalDate(), null, res.getString(5));
+			}
+			else {
+				c = new Computer(res.getLong(1), res.getString(2),null, null, res.getString(5));
+			}
 		}
 		return c;
 	}

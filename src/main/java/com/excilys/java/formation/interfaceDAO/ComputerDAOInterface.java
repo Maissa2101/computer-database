@@ -2,6 +2,7 @@ package com.excilys.java.formation.interfaceDAO;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -37,7 +38,7 @@ public interface ComputerDAOInterface {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 
-	Long createComputer(String name, Date intro, Date discontinued, String manufacturer)
+	Long createComputer(String name, LocalDate intro, LocalDate discontinued, String manufacturer)
 			throws SQLException, ClassNotFoundException;
 
 	/**
@@ -49,7 +50,7 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	void updateComputer(Long id, String name, Date intro, Date discontinued)
+	void updateComputer(Long id, String name, LocalDate intro, LocalDate discontinued)
 			throws SQLException, ClassNotFoundException;
 
 	/**

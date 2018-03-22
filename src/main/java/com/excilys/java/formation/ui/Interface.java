@@ -4,6 +4,7 @@ package com.excilys.java.formation.ui;
 
 import java.sql.Date;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
@@ -175,22 +176,22 @@ public class Interface {
 		System.out.println("introduced date : ");
 		String time = sc.nextLine();
 
-		Date tm1;
+		LocalDate tm1;
 		if (time.toLowerCase().equals("")) {
 			tm1 = null;
 		}
 		else {
-			tm1 = Date.valueOf(time);
+			tm1 = Date.valueOf(time).toLocalDate();
 		}
 		System.out.println("discontinued date : ");
 		String time2 = sc.nextLine();
 
-		Date tm2;
+		LocalDate tm2;
 		if (time2.toLowerCase().equals("")) {
 			tm2 = null;
 		}
 		else {
-			tm2 = Date.valueOf(time2);
+			tm2 = Date.valueOf(time2).toLocalDate();
 		}
 
 		System.out.println("give the manufacturer : ");
@@ -226,23 +227,23 @@ public class Interface {
 		System.out.println("give the new introduced date : ");
 		String new_time = sc.nextLine();
 
-		Date new_date;
+		LocalDate new_date;
 		if (new_time.toLowerCase().equals("")) {
 			new_date = null;
 		}
 		else {
-			new_date = Date.valueOf(new_time);
+			new_date = Date.valueOf(new_time).toLocalDate();
 		}
 
 		System.out.println("give the new discontinued date : ");
 		String new_time2 = sc.nextLine();
 
-		Date new_date2;
+		LocalDate new_date2;
 		if (new_time2.toLowerCase().equals("")) {
 			new_date2 = null;
 		}
 		else {
-			new_date2 = Date.valueOf(new_time2);
+			new_date2 = Date.valueOf(new_time2).toLocalDate();
 		}
 
 		computerS.updateComputer(id_update, new_name, new_date, new_date2);
