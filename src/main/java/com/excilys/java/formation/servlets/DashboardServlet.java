@@ -1,6 +1,7 @@
 package com.excilys.java.formation.servlets;
 
 import java.io.IOException;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -17,6 +18,7 @@ import org.slf4j.LoggerFactory;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
+import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.service.CompanyService;
@@ -43,52 +45,49 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerService computer_service = ComputerService.INSTANCE;
 		ComputerDTOMapper computer_mapper = ComputerDTOMapper.INSTANCE;
-
-		List<Computer> list = null;
-
 		Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
-		String froms = request.getParameter("from");
-		String tos = request.getParameter("to");
-
-		int from = 0;
+		PaginationComputer page = (PaginationComputer) request.getAttribute("ComputerPage");
+		
+		List<Computer> list = null;
+		String offsetStr = request.getParameter("offset");
+		String limitStr = request.getParameter("limit");
+		
+		int offset = 0;
+		int limit = 0;
 		try {
-			from = Integer.parseInt(froms);
-		} catch (NumberFormatException e) {
-			logger.error("from Not valid");
+			offset = Integer.parseInt(offsetStr);
+			limit = Integer.parseInt(limitStr);
+		} catch(NumberFormatException e) {
+			logger.error("offset and limit problem");
 		}
-
-		int to = from + 15;
-
+		
 		try {
-			to = Integer.parseInt(tos);
-		} catch (NumberFormatException e) {
-			logger.error("to Not valid");
+			if (page == null) {
+				page = new PaginationComputer(limit);
+			}
+		} catch (ClassNotFoundException | SQLException e1) {
+			logger.error("Pagination error");
 		}
-
+		
 		try {
 			int i = computer_service.count();
-			list = computer_service.listComputers(to - from,from);
+			list = computer_service.listComputers(limit,offset);
 			List<ComputerDTO> listDTO = new ArrayList<ComputerDTO>();
 			for(Computer computer : list) {
 				listDTO.add(computer_mapper.getComputerDTOFromComputer(computer));
 			}
-
-			to = Integer.min(to,i);
-			from = Integer.max(from,  0);
-
+			
 			request.setAttribute("computerList", listDTO);
 			request.setAttribute("count", i);
-			request.setAttribute("to", new Integer(to));
-			request.setAttribute("from", new Integer(from));
-
+			request.setAttribute("pagination", page);
+			
+			
 			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
 			dispatcher.forward(request, response);
 		} catch (DAOConfigurationException | DAOException e) {
 			logger.error("");
 		} 
-
-
 	}
 
 	/**

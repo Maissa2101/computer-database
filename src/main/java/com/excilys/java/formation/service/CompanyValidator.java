@@ -19,18 +19,19 @@ public enum CompanyValidator {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
+
 	public boolean idCompanyValidator(String manufacturer) throws ClassNotFoundException, SQLException, ValidatorException {
 		try {
-		if (manufacturer != null) {
-			Long companyId = Long.valueOf(manufacturer);
-			CompanyDAO companies = CompanyDAO.INSTANCE;
-			if(companies.getCompany(companyId).isPresent()) {
-				return true;
+			if (manufacturer != null && !manufacturer.equals("null")) {
+				Long companyId = Long.valueOf(manufacturer);
+				CompanyDAO companies = CompanyDAO.INSTANCE;
+				if(companies.getCompany(companyId).isPresent()) {
+					return true;
+				}
+				else {
+					throw new ValidatorException("ID not valid");
+				}
 			}
-			else {
-				throw new ValidatorException("ID not valid");
-			}
-		}
 		} catch(NumberFormatException e) {
 			logger.error("NumberFormatException");
 		}

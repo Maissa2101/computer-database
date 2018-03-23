@@ -22,14 +22,32 @@
 	</header>
 
 	<c:choose>
+		<c:when test="${offset == null}">
+			<c:set var="offset" value="1" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="offset" value="${offset}" />
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
+		<c:when test="${limit == null}">
+			<c:set var="limit" value="20" />
+		</c:when>
+		<c:otherwise>
+			<c:set var="limit" value="${limit}" />
+		</c:otherwise>
+	</c:choose>
+
+	<c:choose>
 		<c:when test="${computerList == null}">
-			<c:redirect url="DashboardServlet" />
+			<c:redirect url="DashboardServlet?offset=0&limit=20" />
 		</c:when>
 	</c:choose>
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${count} Computers found</h1>
+		<h1 id="homeTitle">${count}Computersfound</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -77,7 +95,7 @@
 			</thead>
 			<!-- Browse attribute computers -->
 			<tbody id="results">
-				<c:forEach items="${computerList}" var="computer">
+				<c:forEach items="${pagination.computers}" var="computer">
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
@@ -98,17 +116,16 @@
 	<footer class="navbar-fixed-bottom">
 	<div class="container text-center">
 		<ul class="pagination">
-			<li><c:if test="${from1 >= 0 }">
-					<a href="DashboardServlet?from=${from1}&to=${to1}"
-						aria-label="Previous">
-				</c:if> <span aria-hidden="true">&laquo;</span> </a></li>
-			<li><a href="DashboardServlet">1</a></li>
-			<li><a href="DashboardServlet?from=${from2}&to=${to2}">2</a></li>
-			<li><a href="DashboardServlet?from=${from2}&to=${to2}">3</a></li>
-			<li><a href="DashboardServlet?from=${from2}&to=${to2}">4</a></li>
-			<li><a href="DashboardServlet?from=${from2}&to=${to2}">5</a></li>
-			<li><a href="DashboardServlet?from=${from2}&to=${to2}"
-				aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			<li><a href="" aria-label="Previous"> <span
+					aria-hidden="true">&laquo;</span>
+			</a></li>
+
+			<c:forEach var="i" begin="1" end="4">
+				<li><a
+					href=<c:url value="DashboardServlet?offset=${offset+i}&limit=${limit}"/>>${i}</a></li>
+			</c:forEach>
+
+			<li><a href="" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 	</div>

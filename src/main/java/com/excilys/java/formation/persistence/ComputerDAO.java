@@ -104,7 +104,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				stmt.setDate(3, disc);
 			}
 
-			if(c.getManufacturer() == null || c.getManufacturer().equals("")) {
+			if(c.getManufacturer() == null || c.getManufacturer().equals("null")) {
 				stmt.setNull(4, java.sql.Types.VARCHAR);
 			}
 			else {
