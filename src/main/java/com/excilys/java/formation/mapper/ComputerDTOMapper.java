@@ -12,6 +12,7 @@ import com.excilys.java.formation.entities.Computer;
 public enum ComputerDTOMapper {
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(ComputerDTOMapper.class);
+	private static final String NULL ="";
 	
 	public ComputerDTO getComputerDTOFromComputer(Computer computer) {
 		String introduced = null;
@@ -41,19 +42,18 @@ public enum ComputerDTOMapper {
 	public Computer getComputerFromComputerDTO(ComputerDTO computerDTO) {
 		LocalDate introduced = null; 
 		LocalDate discontinued = null;
-
+		
 		try{
-			if(computerDTO.getIntroduced() != null && computerDTO.getDiscontinued() != null) {
+			if(!computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
 				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
 			}
-			else if(computerDTO.getIntroduced() == null && computerDTO.getDiscontinued() != null) {
+			else if(computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
 				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
-			} else if(computerDTO.getIntroduced() != null && computerDTO.getDiscontinued() == null) {
+			} else if(!computerDTO.getIntroduced().equals(NULL) && computerDTO.getDiscontinued().equals(NULL)) {
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
 			}
 		}
-
 		catch(DateTimeParseException e) {
 			logger.error("Parser");
 		}

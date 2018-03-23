@@ -46,7 +46,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			SQLConnection.closeConnection(conn);
 			return l;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in ComputerDAO");
+			logger.error("Problem in ComputerDAO");
 		}
 		return l;
 	}
@@ -68,7 +68,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			SQLConnection.closeConnection(conn);
 			return Optional.ofNullable(c);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in ComputerDAO");
+			logger.error("Problem in ComputerDAO");
 		}
 		return Optional.ofNullable(c);
 	}
@@ -104,7 +104,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				stmt.setDate(3, disc);
 			}
 
-			if(c.getManufacturer() == null) {
+			if(c.getManufacturer() == null || c.getManufacturer().equals("")) {
 				stmt.setNull(4, java.sql.Types.VARCHAR);
 			}
 			else {
@@ -130,7 +130,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			SQLConnection.closeConnection(conn);
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in ComputerDAO");
+			logger.error("Problem in ComputerDAO");
 		}
 		return result;
 
@@ -178,7 +178,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				stmt.close();}	
 			SQLConnection.closeConnection(conn);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in ComputerDAO");
+			logger.error("Problem in ComputerDAO");
 		}
 
 	}
@@ -195,15 +195,15 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			int res = stmt.executeUpdate();
 
 			if(res == 1 )
-				logger.info("computer deleted");
+				{logger.info("computer deleted");}
 			else
-				logger.info("computer not deleted");
+				{logger.info("computer not deleted");}
 
 			if (stmt != null) {
 				stmt.close();}		
 			SQLConnection.closeConnection(conn);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in ComputerDAO");
+			logger.error("Problem in ComputerDAO");
 		}
 
 	}
@@ -228,7 +228,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			SQLConnection.closeConnection(conn);
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in ComputerDAO");
+			logger.error("Problem in ComputerDAO");
 		}
 		return result;
 

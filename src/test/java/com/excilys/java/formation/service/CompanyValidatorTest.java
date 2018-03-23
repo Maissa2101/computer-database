@@ -10,7 +10,8 @@ import com.excilys.java.formation.service.CompanyValidator;
 import com.excilys.java.formation.service.ValidatorException;
 
 public class CompanyValidatorTest {
-
+	
+	
 	@Test
 	public void testIdCompanyValidator() throws ValidatorException {
 		CompanyValidator cv = CompanyValidator.INSTANCE;
@@ -22,5 +23,6 @@ public class CompanyValidatorTest {
 			e.printStackTrace();
 		}
 	}
+	
 }
 

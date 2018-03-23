@@ -15,8 +15,8 @@ import com.excilys.java.formation.persistence.SQLConnection;
 
 public class ComputerMapperTest {
 
-	@Test(expected = SQLException.class)
-	public void testGetListComputerFromResultSet() throws SQLException, DAOConfigurationException, ClassNotFoundException {
+	@Test
+	public void testGetListComputerFromResultSet() throws Exception {
 		ComputerMapper cm = ComputerMapper.INSTANCE;
 		SQLConnection.getInstance();
 		Connection connection = SQLConnection.getConnection();

@@ -1,10 +1,10 @@
 package com.excilys.java.formation.persistence;
 
 
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.Locale;
 import java.util.ResourceBundle;
 
 import org.slf4j.Logger;
@@ -16,7 +16,7 @@ public class SQLConnection {
 
 	static Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
-	private static final String FICHIER_PROPERTIES = "com.excilys.java.formation.persistence.dao";
+	private static final String FICHIER_PROPERTIES = "dao";
 	private static final String PROPERTY_URL = "url";
 	private static final String PROPERTY_USER = "user";
 	private static final String PROPERTY_PASSWORD = "passwd";
@@ -34,7 +34,8 @@ public class SQLConnection {
 
 	public static SQLConnection getInstance() throws DAOConfigurationException, ClassNotFoundException {
 		Class.forName("com.mysql.cj.jdbc.Driver");
-		ResourceBundle fichierProperties = ResourceBundle.getBundle( FICHIER_PROPERTIES );
+		
+		ResourceBundle fichierProperties = ResourceBundle.getBundle( FICHIER_PROPERTIES, Locale.getDefault());
 
 		if ( fichierProperties == null ) {
 			throw new DAOConfigurationException( "The file properties " + FICHIER_PROPERTIES + " was not found." );
@@ -63,7 +64,7 @@ public class SQLConnection {
 			try {
 				conn.close();
 			} catch ( SQLException e) {
-				logger.info(e.getMessage());
+				logger.error("Problem in closing the connection");
 			}
 		}
 	}

@@ -373,3 +373,15 @@
 2018-03-22 14:16:27,076 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 901
 2018-03-22 14:16:59,050 [INFO ] (ComputerDAO.java:deleteComputer:198) computer deleted
 2018-03-22 14:17:29,879 [INFO ] (ComputerService.java:createComputer:68)  The name of the computer is mandatory
+2018-03-22 17:43:31,424 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 902
+2018-03-23 10:05:42,025 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 911
+2018-03-23 10:29:21,754 [INFO ] (ComputerDAO.java:updateComputer:173) computer updated
+2018-03-23 10:29:21,767 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 913
+2018-03-23 10:29:21,783 [INFO ] (ComputerDAO.java:deleteComputer:200) computer not deleted
+2018-03-23 10:30:32,351 [INFO ] (ComputerDAO.java:updateComputer:173) computer updated
+2018-03-23 10:30:32,377 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 914
+2018-03-23 10:30:32,398 [INFO ] (ComputerDAO.java:deleteComputer:200) computer not deleted
+2018-03-23 10:30:58,712 [INFO ] (ComputerDAO.java:updateComputer:173) computer updated
+2018-03-23 10:30:58,724 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 915
+2018-03-23 10:30:58,746 [INFO ] (ComputerDAO.java:deleteComputer:200) computer not deleted
+2018-03-23 12:14:30,436 [INFO ] (ComputerDAO.java:createComputer:120) computer added with id : 920

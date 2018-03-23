@@ -1,7 +1,6 @@
 package com.excilys.java.formation.servlets;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,6 +17,8 @@ import org.slf4j.LoggerFactory;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
+import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
 
@@ -27,7 +28,7 @@ import com.excilys.java.formation.service.ComputerService;
 @WebServlet("/DashboardServlet")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -38,23 +39,23 @@ public class DashboardServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-	
+
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerService computer_service = ComputerService.INSTANCE;
 		ComputerDTOMapper computer_mapper = ComputerDTOMapper.INSTANCE;
-		
+
 		List<Computer> list = null;
-		 
+
 		Logger logger = LoggerFactory.getLogger(CompanyService.class);
-		
+
 		String froms = request.getParameter("from");
 		String tos = request.getParameter("to");
-		
+
 		int from = 0;
 		try {
 			from = Integer.parseInt(froms);
 		} catch (NumberFormatException e) {
-			logger.info("from Not valid");
+			logger.error("from Not valid");
 		}
 
 		int to = from + 15;
@@ -62,7 +63,7 @@ public class DashboardServlet extends HttpServlet {
 		try {
 			to = Integer.parseInt(tos);
 		} catch (NumberFormatException e) {
-			logger.info("to Not valid");
+			logger.error("to Not valid");
 		}
 
 		try {
@@ -72,7 +73,7 @@ public class DashboardServlet extends HttpServlet {
 			for(Computer computer : list) {
 				listDTO.add(computer_mapper.getComputerDTOFromComputer(computer));
 			}
-			
+
 			to = Integer.min(to,i);
 			from = Integer.max(from,  0);
 
@@ -83,8 +84,8 @@ public class DashboardServlet extends HttpServlet {
 
 			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
 			dispatcher.forward(request, response);
-		} catch (ClassNotFoundException | SQLException e) {
-			throw new ServletException(e);
+		} catch (DAOConfigurationException | DAOException e) {
+			logger.error("");
 		} 
 
 

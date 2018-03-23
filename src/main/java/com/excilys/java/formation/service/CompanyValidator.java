@@ -1,12 +1,16 @@
 package com.excilys.java.formation.service;
 
 import java.sql.SQLException;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.java.formation.persistence.CompanyDAO;
 
 public enum CompanyValidator {
 
 	INSTANCE;
-
+	Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
 	/**
 	 * Method to verify if the id of the company is valid or not
 	 * @param manufacturer the id of the company to validate
@@ -16,7 +20,8 @@ public enum CompanyValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean idCompanyValidator(String manufacturer) throws ClassNotFoundException, SQLException, ValidatorException {
-		if (manufacturer != null ) {
+		try {
+		if (manufacturer != null) {
 			Long companyId = Long.valueOf(manufacturer);
 			CompanyDAO companies = CompanyDAO.INSTANCE;
 			if(companies.getCompany(companyId).isPresent()) {
@@ -26,7 +31,10 @@ public enum CompanyValidator {
 				throw new ValidatorException("ID not valid");
 			}
 		}
-		return false;
+		} catch(NumberFormatException e) {
+			logger.error("NumberFormatException");
+		}
+		return true;
 	}
 
 }

@@ -7,6 +7,7 @@ import java.util.List;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
+import com.excilys.java.formation.persistence.DAOException;
 
 public enum CompanyService {
 
@@ -17,7 +18,7 @@ public enum CompanyService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	public List<Company> listCompanies(int limit, int offset) throws SQLException, ClassNotFoundException {
+	public List<Company> listCompanies(int limit, int offset) throws DAOException {
 		CompanyDAO companies = CompanyDAO.INSTANCE;
 		return companies.getListCompany(limit, offset);
 	}
@@ -29,7 +30,7 @@ public enum CompanyService {
 	 * @throws ClassNotFoundException 
 	 * @throws DAOConfigurationException 
 	 */
-	public int count() throws SQLException, DAOConfigurationException, ClassNotFoundException {
+	public int count() throws DAOException {
 		return CompanyDAO.INSTANCE.count();
 	}
 }
