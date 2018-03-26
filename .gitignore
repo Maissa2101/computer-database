@@ -35,6 +35,6 @@ target/
 /prodDb.*
 
 # general HSQL database files
-*Db.properties
-*Db.script
+*db.properties
+*db.script
 
