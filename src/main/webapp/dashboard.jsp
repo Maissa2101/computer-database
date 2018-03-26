@@ -16,14 +16,13 @@
 
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard.html"> Application -
-			Computer Database </a>
+		<a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
 	</div>
 	</header>
 
 	<c:choose>
 		<c:when test="${offset == null}">
-			<c:set var="offset" value="1" />
+			<c:set var="offset" value="0" />
 		</c:when>
 		<c:otherwise>
 			<c:set var="offset" value="${offset}" />
@@ -47,7 +46,7 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${count}Computersfound</h1>
+		<h1 id="homeTitle">${count} Computers found</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -116,25 +115,21 @@
 	<footer class="navbar-fixed-bottom">
 	<div class="container text-center">
 		<ul class="pagination">
-			<li><a href="" aria-label="Previous"> <span
-					aria-hidden="true">&laquo;</span>
-			</a></li>
-
+			<li><a href=<c:url value=""/> aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>		
 			<c:forEach var="i" begin="1" end="4">
-				<li><a
-					href=<c:url value="DashboardServlet?offset=${offset+i}&limit=${limit}"/>>${i}</a></li>
+				<li><a href=<c:url value="DashboardServlet?offset=${offset+limit*i}&limit=${limit}"/>>${i}</a></li>
 			</c:forEach>
-
-			<li><a href="" aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			<li><a href=<c:url value=""/> aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
-	</div>
+		
 	<div class="btn-group btn-group-sm pull-right" role="group">
-		<button type="button" class="btn btn-default">10</button>
-		<button type="button" class="btn btn-default">50</button>
-		<button type="button" class="btn btn-default">100</button>
+		<button type="button" class="btn btn-default" onclick="location.href='?offset=${offset}&limit=10'">10</button>
+		<button type="button" class="btn btn-default" onclick="location.href='?offset=${offset}&limit=50'">50</button>
+		<button type="button" class="btn btn-default" onclick="location.href='?offset=${offset}&limit=100'">100</button>
 	</div>
-
+	
+	
 	</footer>
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>

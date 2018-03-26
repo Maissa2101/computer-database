@@ -30,6 +30,7 @@ import com.excilys.java.formation.service.ComputerService;
 @WebServlet("/DashboardServlet")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -45,23 +46,23 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		ComputerService computer_service = ComputerService.INSTANCE;
 		ComputerDTOMapper computer_mapper = ComputerDTOMapper.INSTANCE;
-		Logger logger = LoggerFactory.getLogger(CompanyService.class);
+
 
 		PaginationComputer page = (PaginationComputer) request.getAttribute("ComputerPage");
-		
+
 		List<Computer> list = null;
 		String offsetStr = request.getParameter("offset");
 		String limitStr = request.getParameter("limit");
-		
+
 		int offset = 0;
 		int limit = 0;
 		try {
 			offset = Integer.parseInt(offsetStr);
 			limit = Integer.parseInt(limitStr);
 		} catch(NumberFormatException e) {
-			logger.error("offset and limit problem");
+			logger.error("offset and limit problem "+offset+"  "+limit);
 		}
-		
+
 		try {
 			if (page == null) {
 				page = new PaginationComputer(limit);
@@ -69,7 +70,7 @@ public class DashboardServlet extends HttpServlet {
 		} catch (ClassNotFoundException | SQLException e1) {
 			logger.error("Pagination error");
 		}
-		
+
 		try {
 			int i = computer_service.count();
 			list = computer_service.listComputers(limit,offset);
@@ -77,16 +78,15 @@ public class DashboardServlet extends HttpServlet {
 			for(Computer computer : list) {
 				listDTO.add(computer_mapper.getComputerDTOFromComputer(computer));
 			}
-			
+
 			request.setAttribute("computerList", listDTO);
 			request.setAttribute("count", i);
-			request.setAttribute("pagination", page);
-			
-			
+			request.setAttribute("pagination", page.getComputers());
+
 			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
 			dispatcher.forward(request, response);
 		} catch (DAOConfigurationException | DAOException e) {
-			logger.error("");
+			logger.error("Problem in my Dashboard");
 		} 
 	}
 

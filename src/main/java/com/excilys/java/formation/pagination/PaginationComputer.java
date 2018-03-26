@@ -11,8 +11,8 @@ public class PaginationComputer extends Page {
 
 	private List<Computer> computers;
 	private ComputerService cs;
-	
-	
+
+
 	public PaginationComputer(int limit) throws SQLException, ClassNotFoundException {
 		this.offset = 0;
 		this.limit = limit;
@@ -40,7 +40,7 @@ public class PaginationComputer extends Page {
 		updateComputer();
 
 	}
-	
+
 	public List<Integer> getPageToGo(){
 		List<Integer> list = new ArrayList<Integer>();
 		int count = ComputerService.INSTANCE.count();
@@ -53,11 +53,11 @@ public class PaginationComputer extends Page {
 		list.add(count/limit+1);
 		return list;
 	}
-	
+
 	public List<Computer> getComputers(){
 		return this.computers;
 	}
-	
+
 	@Override
 	public void printPage() {
 		for(Computer computer : this.computers) {
