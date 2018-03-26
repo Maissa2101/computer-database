@@ -83,7 +83,7 @@ public enum CompanyDAO implements CompanyDAOInterface {
 			logger.debug("Problem in CompanyDAO", e);
 		} 
 		return rslt;
-		
+
 	}
 }
 

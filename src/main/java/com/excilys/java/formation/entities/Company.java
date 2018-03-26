@@ -33,24 +33,23 @@ public class Company {
 	public int hashCode() {
 		return super.hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object company) {
 		return (((Company) company).getId() == this.getId());
 	}
-
+	
 	public static class CompanyBuilder {
 		private long id;
 		private String name;
-		
+
 		public CompanyBuilder(long id, String name) {
 			this.id = id;
 			this.name = name;
 		}
-		
+
 		public Company build() {
 			return new Company(this);
 		}
 	}
-
 }

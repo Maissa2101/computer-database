@@ -29,9 +29,9 @@ public class AddComputerServlet extends HttpServlet {
 	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
 	ComputerService computerService = ComputerService.INSTANCE;
 	ComputerDTOMapper computerDTOMapper = ComputerDTOMapper.INSTANCE;
-	
-	
-	
+
+
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -43,7 +43,6 @@ public class AddComputerServlet extends HttpServlet {
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
 		try {
 			request.setAttribute("companyList", CompanyService.INSTANCE.listCompanies(CompanyService.INSTANCE.count(), 0));
 		} catch (DAOException e) {
@@ -57,18 +56,15 @@ public class AddComputerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		
 		String name = request.getParameter("computerName");
 		String introduced = request.getParameter("introduced");
 		String discontinued = request.getParameter("discontinued");
 		String manufacturer = request.getParameter("manufacturer");
-
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setName(name);
 		computerDTO.setIntroduced(introduced);
 		computerDTO.setDiscontinued(discontinued);
 		computerDTO.setManufacturer(manufacturer);
-
 		Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
 		try {
 			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());

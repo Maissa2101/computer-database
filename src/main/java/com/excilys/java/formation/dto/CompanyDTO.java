@@ -3,7 +3,7 @@ package com.excilys.java.formation.dto;
 public class CompanyDTO {
 	private long id;
 	private String name;
-	
+
 	public long getId() {
 		return id;
 	}
@@ -16,6 +16,4 @@ public class CompanyDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	
 }

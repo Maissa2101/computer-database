@@ -10,7 +10,7 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 public enum ComputerValidator {
 
 	INSTANCE;
-	
+
 	/**
 	 * Method to verify if the name is not empty
 	 * @param name the name of the computer
@@ -36,7 +36,8 @@ public enum ComputerValidator {
 	public boolean idValidator(long id) throws ValidatorException {
 
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		if(computers.getComputer(id).isPresent()) {
+		if(computers.getComputer(id).isPresent()) 
+		{
 			return true;
 		}
 		else {
@@ -52,11 +53,14 @@ public enum ComputerValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean DateValidator(LocalDate time1, LocalDate time2) throws ValidatorException {
-		if((time2 != null) && (time1 != null)) {
-			if (time2.isAfter(time1)) {
+		if((time2 != null) && (time1 != null)) 
+		{
+			if (time2.isAfter(time1)) 
+			{
 				return true;
 			}
-			else {
+			else 
+			{
 				throw new ValidatorException("Date problem : the discontinued date must be greater than the introduced date");
 			}
 		}

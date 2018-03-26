@@ -19,7 +19,6 @@ public class Computer {
 		this.manufacturer = builder.manufacturer;
 	}
 
-
 	public Computer() {
 	}
 
@@ -73,51 +72,49 @@ public class Computer {
 	public int hashCode() {
 		return super.hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object computer) {
 		if(((Computer) computer).getId() == this.getId())
 			return true;
 		return false;
 	}
-	
+
 	public static class ComputerBuilder {
 		private long id;	
 		private String name;
 		private LocalDate introduced;
 		private LocalDate discontinued;
 		private String manufacturer;
-		
+
 		public ComputerBuilder(long id, String name) {
 			this.id = id;
 			this.name = name;
 		}
-		
+
 		public ComputerBuilder(String name) {
 			this.name = name;
 		}
-		
+
 		public ComputerBuilder introduced(LocalDate introduced) {
 			this.introduced = introduced;
 			return this;
 		}
-		
+
 		public ComputerBuilder discontinued(LocalDate discontinued) {
 			this.discontinued = discontinued;
 			return this;
 		}
-		
+
 		public ComputerBuilder manufacturer(String manufacturer) {
 			this.manufacturer = manufacturer;
 			return this;
 		}
-		
-		
+
 		public Computer build() {
 			return new Computer(this);
 		}
 	}
-
 }
 
 

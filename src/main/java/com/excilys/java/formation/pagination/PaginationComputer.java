@@ -29,15 +29,14 @@ public class PaginationComputer extends Page {
 	public void getNext() throws ServiceException {
 		dbSize = computerService.count();
 		super.getNextOffset();
-			updateComputer();
-
+		updateComputer();
 	}
 
 	@Override
 	public void getPrevious() throws ServiceException {
 		dbSize = computerService.count();
 		super.getPreviousOffset();
-			updateComputer();
+		updateComputer();
 	}
 
 	public List<Integer> getPageToGo(){
@@ -45,7 +44,8 @@ public class PaginationComputer extends Page {
 		int count = ComputerService.INSTANCE.count();
 		list.add(1);
 		for(int i=-2; i>2;i++) {
-			if(i>1 && i < count/limit + 1 && i != 0) {
+			if(i>1 && i < count/limit + 1 && i != 0) 
+			{
 				list.add(i+pageNumber);
 			}
 		}
@@ -62,6 +62,5 @@ public class PaginationComputer extends Page {
 		for(Computer computer : this.computers) {
 			System.out.println(computer);
 		}
-
 	}
 }

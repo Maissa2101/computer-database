@@ -18,22 +18,18 @@ public enum CompanyMapper {
 	 * @throws SQLException in case of a database access error
 	 */
 	public List<Company> getListCompanyFromResultSet(ResultSet res) throws SQLException {
-
 		List<Company> companies = new ArrayList<Company>();
-
-		while(res.next()) {
+		while(res.next()) 
+		{
 			companies.add(new Company.CompanyBuilder(res.getLong(1), res.getString(2)).build());
 		}
 		return companies;
-
 	}
-
 
 	public Company getCompanyDetailsFromResultSet(ResultSet res) throws SQLException {
 		Company company = null;
-
-		if(res.next()) {
-
+		if(res.next()) 
+		{
 			company = new Company.CompanyBuilder(res.getLong(1), res.getString(2)).build();
 		}
 		return company;

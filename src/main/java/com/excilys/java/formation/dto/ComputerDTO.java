@@ -7,7 +7,6 @@ public class ComputerDTO {
 	private String introduced;
 	private String discontinued;
 	private String manufacturer;
-	
 
 	public long getId() {
 		return id;
@@ -39,5 +38,4 @@ public class ComputerDTO {
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
 	}
-	
 }

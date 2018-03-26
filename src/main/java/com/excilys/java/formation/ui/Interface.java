@@ -8,14 +8,18 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 
 
 public class Interface {
-
+	static Logger logger = LoggerFactory.getLogger(Interface.class);
 
 	/**
 	 * Method to choose and execute an action
@@ -23,7 +27,7 @@ public class Interface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
-	public static void listFeatures() throws ClassNotFoundException, SQLException, ValidatorException {
+	public static void listFeatures() throws ServiceException, ValidatorException {
 
 		while(true) {
 			System.out.println("Select an action :\n");
@@ -84,7 +88,7 @@ public class Interface {
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
 	 */
-	private static void listComputers() throws ClassNotFoundException, SQLException {
+	private static void listComputers() throws ServiceException {
 		System.out.println(" Computers : Press n to see the next page, p to see the previous page and q to quit : ");	
 		@SuppressWarnings("resource")
 		Scanner sc= new Scanner(System.in);
@@ -115,12 +119,16 @@ public class Interface {
 	 * @throws SQLException
 	 * @throws ClassNotFoundException
 	 */
-	private static void listCompanies() throws ClassNotFoundException, SQLException {
-
+	private static void listCompanies() throws ServiceException {
 		@SuppressWarnings("resource")
 		Scanner sc= new Scanner(System.in);
 		System.out.println("\n Companies : Press n to see the next page, p to see the previous page and q to quit :");
-		PaginationCompany pagination = new PaginationCompany(15);
+		PaginationCompany pagination = null;
+		try {
+			pagination = new PaginationCompany(15);
+		} catch (ClassNotFoundException | SQLException e) {
+			logger.debug("listCompanies problem", e);
+		}
 		ETQ:	while (true){	
 			pagination.printPage();
 			String scanner = sc.nextLine();
@@ -147,7 +155,7 @@ public class Interface {
 	 * @throws SQLException
 	 * @throws ValidatorException 
 	 */
-	private static void computerDetails() throws ClassNotFoundException, SQLException, ValidatorException {
+	private static void computerDetails() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
@@ -162,9 +170,8 @@ public class Interface {
 	 * @throws SQLException
 	 * @throws ValidatorException computer_mapper
 	 */
-	private static void createComputer() throws ClassNotFoundException, SQLException, ValidatorException {
+	private static void createComputer() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
-
 		System.out.println("Add a computer : ");
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
@@ -172,9 +179,9 @@ public class Interface {
 		String name = sc.nextLine();  
 		System.out.println("introduced date : ");
 		String time = sc.nextLine();
-
 		LocalDate introduced;
-		if (time.toLowerCase().equals("")) {
+		if (time.toLowerCase().equals("")) 
+		{
 			introduced = null;
 		}
 		else {
@@ -184,15 +191,18 @@ public class Interface {
 		String time2 = sc.nextLine();
 
 		LocalDate discontinued;
-		if (time2.toLowerCase().equals("")) {
+		if (time2.toLowerCase().equals("")) 
+		{
 			discontinued = null;
 		}
-		else {
+		else 
+		{
 			discontinued = Date.valueOf(time2).toLocalDate();
 		}
 		System.out.println("give the manufacturer : ");
 		String manufacturer = sc.nextLine(); 
-		if(manufacturer.toLowerCase().equals("")) {
+		if(manufacturer.toLowerCase().equals("")) 
+		{
 			manufacturer = null;
 		} 
 		computerService.createComputer(name, introduced, discontinued, manufacturer);
@@ -204,9 +214,8 @@ public class Interface {
 	 * @throws SQLException
 	 * @throws ValidatorException 
 	 */
-	private static void updateComputer() throws ClassNotFoundException, SQLException, ValidatorException {
+	private static void updateComputer() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
-
 		System.out.println("Update a computer : ");
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
@@ -218,16 +227,19 @@ public class Interface {
 		System.out.println("give the new introduced date : ");
 		String newTime = sc.nextLine();
 		LocalDate newDate;
-		if (newTime.toLowerCase().equals("")) {
+		if (newTime.toLowerCase().equals("")) 
+		{
 			newDate = null;
 		}
-		else {
+		else 
+		{
 			newDate = Date.valueOf(newTime).toLocalDate();
 		}
 		System.out.println("give the new discontinued date : ");
 		String newTime2 = sc.nextLine();
 		LocalDate newDate2;
-		if (newTime2.toLowerCase().equals("")) {
+		if (newTime2.toLowerCase().equals("")) 
+		{
 			newDate2 = null;
 		}
 		else {
@@ -242,14 +254,12 @@ public class Interface {
 	 * @throws SQLException
 	 * @throws ValidatorException 
 	 */
-	private static void deleteComputer() throws ClassNotFoundException, SQLException, ValidatorException {
+	private static void deleteComputer() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
-
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the computer to delete : ");	
 		long idDelete = scanner.nextLong();
-
 		computerService.deleteComputer(idDelete);
 	}
 

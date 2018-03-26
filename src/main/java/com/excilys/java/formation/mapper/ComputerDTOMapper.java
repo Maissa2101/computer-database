@@ -13,18 +13,21 @@ public enum ComputerDTOMapper {
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(ComputerDTOMapper.class);
 	private static final String NULL ="";
-	
+
 	public ComputerDTO getComputerDTOFromComputer(Computer computer) {
 		String introduced = null;
 		String discontinued = null;
-		if(computer.getIntroduced() != null && computer.getDiscontinued() != null) {
+		if(computer.getIntroduced() != null && computer.getDiscontinued() != null) 
+		{
 			introduced = computer.getIntroduced().toString();
 			discontinued = computer.getDiscontinued().toString();
 		}
-		else if(computer.getIntroduced() == null && computer.getDiscontinued() != null) {
+		else if(computer.getIntroduced() == null && computer.getDiscontinued() != null) 
+		{
 			discontinued = computer.getDiscontinued().toString();
 		}
-		else if(computer.getIntroduced() != null && computer.getDiscontinued() == null) {
+		else if(computer.getIntroduced() != null && computer.getDiscontinued() == null) 
+		{
 			introduced = computer.getIntroduced().toString();
 		}
 		long id = computer.getId();
@@ -42,15 +45,18 @@ public enum ComputerDTOMapper {
 	public Computer getComputerFromComputerDTO(ComputerDTO computerDTO) {
 		LocalDate introduced = null; 
 		LocalDate discontinued = null;
-		
+
 		try{
-			if(!computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
+			if(!computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) 
+			{
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
 				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
 			}
-			else if(computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
+			else if(computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) 
+			{
 				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
-			} else if(!computerDTO.getIntroduced().equals(NULL) && computerDTO.getDiscontinued().equals(NULL)) {
+			} else if(!computerDTO.getIntroduced().equals(NULL) && computerDTO.getDiscontinued().equals(NULL)) 
+			{
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
 			}
 		}
