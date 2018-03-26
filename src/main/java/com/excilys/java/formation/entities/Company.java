@@ -4,9 +4,9 @@ public class Company {
 	private long id;
 	private String name;
 
-	public Company(long id, String name) {
-		this.id = id;
-		this.name = name;
+	public Company(CompanyBuilder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
 	}
 
 	public Company() {
@@ -33,14 +33,24 @@ public class Company {
 	public int hashCode() {
 		return super.hashCode();
 	}
-
-	public boolean equals(Company company) {
-		return (company.getId() == this.getId());
+	
+	@Override
+	public boolean equals(Object company) {
+		return (((Company) company).getId() == this.getId());
 	}
 
-
-
-
-
+	public static class CompanyBuilder {
+		private long id;
+		private String name;
+		
+		public CompanyBuilder(long id, String name) {
+			this.id = id;
+			this.name = name;
+		}
+		
+		public Company build() {
+			return new Company(this);
+		}
+	}
 
 }

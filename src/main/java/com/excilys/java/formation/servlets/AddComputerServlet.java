@@ -27,6 +27,11 @@ import com.excilys.java.formation.service.ValidatorException;
 public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	ComputerService computerService = ComputerService.INSTANCE;
+	ComputerDTOMapper computerDTOMapper = ComputerDTOMapper.INSTANCE;
+	
+	
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -42,7 +47,7 @@ public class AddComputerServlet extends HttpServlet {
 		try {
 			request.setAttribute("companyList", CompanyService.INSTANCE.listCompanies(CompanyService.INSTANCE.count(), 0));
 		} catch (DAOException e) {
-			logger.info("Problem in get : AddComputerServlet");
+			logger.debug("Problem in get : AddComputerServlet");
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/addComputer.jsp");
 		dispatcher.forward(request, response);
@@ -52,9 +57,7 @@ public class AddComputerServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		ComputerService computer_service = ComputerService.INSTANCE;
-		ComputerDTOMapper computer_dto_mapper = ComputerDTOMapper.INSTANCE;
-
+		
 		String name = request.getParameter("computerName");
 		String introduced = request.getParameter("introduced");
 		String discontinued = request.getParameter("discontinued");
@@ -66,11 +69,11 @@ public class AddComputerServlet extends HttpServlet {
 		computerDTO.setDiscontinued(discontinued);
 		computerDTO.setManufacturer(manufacturer);
 
-		Computer computer = computer_dto_mapper.getComputerFromComputerDTO(computerDTO);
+		Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
 		try {
-			computer_service.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
+			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ValidatorException e) {
-			logger.error("Problem in AddCompanyServlet");
+			logger.debug("Problem in AddCompanyServlet");
 		}
 		request.setAttribute("computer", computer);
 		response.sendRedirect(request.getContextPath() + "/addComputer");

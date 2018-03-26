@@ -12,8 +12,8 @@ import java.util.Optional;
 import org.junit.Test;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 public class ComputerDAOTest {
 /*

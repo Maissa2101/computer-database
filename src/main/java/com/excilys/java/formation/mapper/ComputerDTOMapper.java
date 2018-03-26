@@ -55,7 +55,7 @@ public enum ComputerDTOMapper {
 			}
 		}
 		catch(DateTimeParseException e) {
-			logger.error("Parser");
+			logger.debug("Problem in Parser", e);
 		}
 		long id = computerDTO.getId();
 		String name = computerDTO.getName();

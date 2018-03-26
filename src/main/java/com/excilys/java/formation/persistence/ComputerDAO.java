@@ -14,8 +14,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.mapper.ComputerMapper;
+import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.service.CompanyService;
 
 public enum ComputerDAO implements ComputerDAOInterface {
@@ -31,179 +31,164 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	private final String COUNT = "SELECT count(*) as total FROM computer;";
 
 	@Override
-	public List<Computer> getListComputer(int limit, int offset) throws DAOException{
-		List<Computer> l = null;
+	public List<Computer> getListComputer(int limit, int offset) throws DAOException {
+		List<Computer> listComputers = null;
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-			String query = SELECT_REQUEST_LIST;
-			PreparedStatement stmt =  conn.prepareStatement(query);
+			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST);
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();	
-			l = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
+			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 			stmt.close();
 			SQLConnection.closeConnection(conn);
-			return l;
+			return listComputers;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.error("Problem in ComputerDAO");
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in getListComputer");
 		}
-		return l;
 	}
 
 	@Override
-	public Optional<Computer> getComputer(Long id) throws DAOException{
-		Computer c = null;
+	public Optional<Computer> getComputer(long id) throws DAOException{
+		Computer computer = null;
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-			String query = SELECT_REQUEST_DETAILS;
-			PreparedStatement stmt =  conn.prepareStatement(query);
+			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
-
-			c = ComputerMapper.INSTANCE.getComputerDetailsFromResultSet(res);
-			if (stmt != null) {
-				stmt.close();}
+			computer = ComputerMapper.INSTANCE.getComputerDetailsFromResultSet(res);
+			stmt.close();
 			SQLConnection.closeConnection(conn);
-			return Optional.ofNullable(c);
+			return Optional.ofNullable(computer);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.error("Problem in ComputerDAO");
+			logger.debug("Problem in ComputerDAO" , e);
+			throw new DAOException("DAOException in getComputer");
 		}
-		return Optional.ofNullable(c);
 	}
 
 	@Override
-	public Long createComputer( String name, LocalDate intro, LocalDate discontinued, String manufacturer ) throws DAOException{
+	public long createComputer( String name, LocalDate intro, LocalDate discontinued, String manufacturer ) throws DAOException{
 		int res = 0;
-		Long result = 0L;
-		Computer c = new Computer(name, intro, discontinued, manufacturer);
+		long result = 0L;
+		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
 
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-			String query = INSERT_REQUEST;
-			PreparedStatement stmt =  conn.prepareStatement(query, Statement.RETURN_GENERATED_KEYS);
-
+			PreparedStatement stmt =  conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, name);
-
-
-			if (c.getIntroduced() == null) {
+			if (computer.getIntroduced() == null) 
+			{
 				stmt.setNull(2, java.sql.Types.DATE);
 			}
-			else {
+			else 
+			{
 				Date introduced = Date.valueOf(intro);
 				stmt.setDate(2, introduced);
 			}
-
-			if (c.getDiscontinued() == null) {
+			if (computer.getDiscontinued() == null) 
+			{
 				stmt.setNull(3, java.sql.Types.DATE);
 			}
-			else {
+			else 
+			{
 				Date disc = Date.valueOf(discontinued);
 				stmt.setDate(3, disc);
 			}
 
-			if(c.getManufacturer() == null || c.getManufacturer().equals("null")) {
+			if(computer.getManufacturer() == null || computer.getManufacturer().equals("null")) 
+			{
 				stmt.setNull(4, java.sql.Types.VARCHAR);
 			}
-			else {
+			else 
+			{
 				stmt.setString(4, manufacturer);
 			}
-
 			res = stmt.executeUpdate();
 			ResultSet res2 = stmt.getGeneratedKeys();
-
 			result = -1L;
-			if(res == 1 ) {
+			if(res == 1 ) 
+			{
 				res2.next();
-				logger.info("computer added with id : "+ res2.getLong(1));
+				logger.info("computer added with id : {}", res2.getLong(1));
 				result = res2.getLong(1);
 			}
-			else {
+			else 
+			{
 				logger.info("computer not added");
 			}
-
-			if (stmt != null) {
-				stmt.close();
-			}
+			stmt.close();
 			SQLConnection.closeConnection(conn);
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.error("Problem in ComputerDAO");
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in createComputer");
 		}
-		return result;
-
 	}
 
 	@Override
-	public void updateComputer(Long id, String name, LocalDate intro, LocalDate discontinued) throws DAOException{
+	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued) throws DAOException{
 		int res = 0;
-		Computer c = new Computer(id, name, intro, discontinued);
-
+		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).build();
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-			String query = UPDATE_REQUEST;
-			PreparedStatement stmt =  conn.prepareStatement(query);
+			PreparedStatement stmt =  conn.prepareStatement(UPDATE_REQUEST);
 			stmt.setString(1, name);
-
-
-			if (c.getIntroduced() == null) {
+			if (computer.getIntroduced() == null) {
 				stmt.setNull(2, java.sql.Types.DATE);
 			}
 			else {
 				Date introduced = Date.valueOf(intro);
 				stmt.setDate(2, introduced);
 			}
-
-			if (c.getDiscontinued() == null) {
+			if (computer.getDiscontinued() == null) {
 				stmt.setNull(3, java.sql.Types.DATE);
 			}
 			else {
 				Date disc = Date.valueOf(discontinued);
 				stmt.setDate(3, disc);
 			}
-
 			stmt.setLong(4, id);
-
 			res = stmt.executeUpdate();
-
 			if(res == 1)
 				logger.info("computer updated");
 			else
 				logger.info("computer not updated");
-
-			if (stmt != null) {
-				stmt.close();}	
+			stmt.close();
 			SQLConnection.closeConnection(conn);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.error("Problem in ComputerDAO");
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in updateComputer");
 		}
 
 	}
 
 	@Override
-	public void deleteComputer(Long id) throws DAOException{
+	public void deleteComputer(long id) throws DAOException{
 
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-			String query = DELETE_REQUEST;
-			PreparedStatement stmt =  conn.prepareStatement(query);
+			PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST);
 			stmt.setLong(1, id);
 			int res = stmt.executeUpdate();
-
 			if(res == 1 )
-				{logger.info("computer deleted");}
+			{
+				logger.info("computer deleted");
+			}
 			else
-				{logger.info("computer not deleted");}
-
-			if (stmt != null) {
-				stmt.close();}		
+			{
+				logger.info("computer not deleted");
+			}
+			stmt.close();
 			SQLConnection.closeConnection(conn);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.error("Problem in ComputerDAO");
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in deleteComputer");
 		}
 
 	}
@@ -214,23 +199,22 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-			String query = COUNT;
-			PreparedStatement stmt =  conn.prepareStatement(query);
+			PreparedStatement stmt =  conn.prepareStatement(COUNT);
 			ResultSet res = stmt.executeQuery();
-			if (res.next()) {
+			if (res.next()) 
+			{
 				result =  res.getInt("total");
 			}
-			else {
+			else 
+			{
 				throw new DAOException("Problem in your count");
 			}
-			if (stmt != null) {
-				stmt.close();}	
+			stmt.close();
 			SQLConnection.closeConnection(conn);
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.error("Problem in ComputerDAO");
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in count number of computers");
 		}
-		return result;
-
 	}
 }

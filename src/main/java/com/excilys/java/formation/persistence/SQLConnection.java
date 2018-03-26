@@ -64,7 +64,7 @@ public class SQLConnection {
 			try {
 				conn.close();
 			} catch ( SQLException e) {
-				logger.error("Problem in closing the connection");
+				logger.error("Problem in closing the connection", e);
 			}
 		}
 	}

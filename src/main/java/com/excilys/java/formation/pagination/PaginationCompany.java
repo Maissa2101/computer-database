@@ -4,34 +4,35 @@ import java.sql.SQLException;
 import java.util.List;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.service.CompanyService;
+import com.excilys.java.formation.service.ServiceException;
 
 public class PaginationCompany extends Page{
 	private List<Company> companies;
-	private CompanyService cs;
+	private CompanyService companyService;
 
 	public PaginationCompany(int limit) throws SQLException, ClassNotFoundException {
 		this.offset = 0;
 		this.limit = limit;
-		this.cs = CompanyService.INSTANCE;
-		this.dbSize = cs.count();
-		this.companies = cs.listCompanies(limit, offset);
+		this.companyService = CompanyService.INSTANCE;
+		this.dbSize = companyService.count();
+		this.companies = companyService.listCompanies(limit, offset);
 	}
 
-	private void updateCompany() throws ClassNotFoundException, SQLException {
-		this.companies = cs.listCompanies(limit, offset);
+	private void updateCompany() throws ServiceException {
+		this.companies = companyService.listCompanies(limit, offset);
 	}
 
 	@Override
-	public void getNext() throws ClassNotFoundException, SQLException {
-		dbSize = cs.count();
+	public void getNext() throws ServiceException {
+		dbSize = companyService.count();
 		super.getNextOffset();
 		updateCompany();
 
 	}
 
 	@Override
-	public void getPrevious() throws ClassNotFoundException, SQLException {
-		dbSize = cs.count();
+	public void getPrevious() throws ServiceException {
+		dbSize = companyService.count();
 		super.getPreviousOffset();
 		updateCompany();
 	}

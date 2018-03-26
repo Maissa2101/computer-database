@@ -1,4 +1,4 @@
-package com.excilys.java.formation.interfaceDAO;
+package com.excilys.java.formation.persistence.interfaceDAO;
 
 import java.sql.SQLException;
 import java.time.LocalDate;
@@ -7,6 +7,7 @@ import java.util.Optional;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
+import com.excilys.java.formation.persistence.DAOException;
 
 public interface ComputerDAOInterface {
 
@@ -16,7 +17,7 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	List<Computer> getListComputer(int limit,int offset) throws SQLException, ClassNotFoundException;
+	List<Computer> getListComputer(int limit,int offset) throws DAOException;
 
 	/**
 	 * Method to get a specific computer given its id
@@ -25,7 +26,7 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	Optional<Computer> getComputer(Long id) throws SQLException, ClassNotFoundException;
+	Optional<Computer> getComputer(long id) throws DAOException;
 
 	/**
 	 * Method to create a new computer
@@ -37,8 +38,8 @@ public interface ComputerDAOInterface {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 
-	Long createComputer(String name, LocalDate intro, LocalDate discontinued, String manufacturer)
-			throws SQLException, ClassNotFoundException;
+	long createComputer(String name, LocalDate intro, LocalDate discontinued, String manufacturer)
+			throws DAOException;
 
 	/**
 	 * Method to update a computer
@@ -49,8 +50,8 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	void updateComputer(Long id, String name, LocalDate intro, LocalDate discontinued)
-			throws SQLException, ClassNotFoundException;
+	void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued)
+			throws DAOException;
 
 	/**
 	 * Method to delete an existing computer
@@ -58,7 +59,7 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	void deleteComputer(Long id) throws SQLException, ClassNotFoundException;
+	void deleteComputer(long id) throws DAOException;
 
-	int count() throws SQLException, DAOConfigurationException, ClassNotFoundException;
+	int count() throws DAOConfigurationException, DAOException;
 }

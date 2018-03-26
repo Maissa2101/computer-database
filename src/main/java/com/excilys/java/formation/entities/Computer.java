@@ -11,27 +11,14 @@ public class Computer {
 	private LocalDate discontinued;
 	private String manufacturer;
 
-	public Computer(long id, String name, LocalDate introduced, LocalDate discontinued, String manufacturer) {
-		this.id = id;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.manufacturer = manufacturer;
+	public Computer(ComputerBuilder builder) {
+		this.id = builder.id;
+		this.name = builder.name;
+		this.introduced = builder.introduced;
+		this.discontinued = builder.discontinued;
+		this.manufacturer = builder.manufacturer;
 	}
 
-	public Computer(Long id, String name, LocalDate introduced, LocalDate discontinued) {
-		this.id = id;
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-	}
-
-	public Computer(String name, LocalDate introduced, LocalDate discontinued, String manufacturer) {
-		this.name = name;
-		this.introduced = introduced;
-		this.discontinued = discontinued;
-		this.manufacturer = manufacturer;
-	}
 
 	public Computer() {
 	}
@@ -86,14 +73,50 @@ public class Computer {
 	public int hashCode() {
 		return super.hashCode();
 	}
-
-	public boolean equals(Computer computer) {
-		if(computer.getId() == this.getId())
+	
+	@Override
+	public boolean equals(Object computer) {
+		if(((Computer) computer).getId() == this.getId())
 			return true;
 		return false;
 	}
-
-
+	
+	public static class ComputerBuilder {
+		private long id;	
+		private String name;
+		private LocalDate introduced;
+		private LocalDate discontinued;
+		private String manufacturer;
+		
+		public ComputerBuilder(long id, String name) {
+			this.id = id;
+			this.name = name;
+		}
+		
+		public ComputerBuilder(String name) {
+			this.name = name;
+		}
+		
+		public ComputerBuilder introduced(LocalDate introduced) {
+			this.introduced = introduced;
+			return this;
+		}
+		
+		public ComputerBuilder discontinued(LocalDate discontinued) {
+			this.discontinued = discontinued;
+			return this;
+		}
+		
+		public ComputerBuilder manufacturer(String manufacturer) {
+			this.manufacturer = manufacturer;
+			return this;
+		}
+		
+		
+		public Computer build() {
+			return new Computer(this);
+		}
+	}
 
 }
 

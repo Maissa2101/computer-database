@@ -20,7 +20,7 @@ public enum CompanyValidator {
 	 * @throws ValidatorException 
 	 */
 
-	public boolean idCompanyValidator(String manufacturer) throws ClassNotFoundException, SQLException, ValidatorException {
+	public boolean idCompanyValidator(String manufacturer) throws ValidatorException {
 		try {
 			if (manufacturer != null && !manufacturer.equals("null")) {
 				Long companyId = Long.valueOf(manufacturer);

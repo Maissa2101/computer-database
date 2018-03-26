@@ -22,7 +22,7 @@ public enum CompanyMapper {
 		List<Company> companies = new ArrayList<Company>();
 
 		while(res.next()) {
-			companies.add(new Company(res.getLong(1), res.getString(2)));
+			companies.add(new Company.CompanyBuilder(res.getLong(1), res.getString(2)).build());
 		}
 		return companies;
 
@@ -30,12 +30,12 @@ public enum CompanyMapper {
 
 
 	public Company getCompanyDetailsFromResultSet(ResultSet res) throws SQLException {
-		Company c = null;
+		Company company = null;
 
 		if(res.next()) {
 
-			c = new Company(res.getLong(1), res.getString(2));
+			company = new Company.CompanyBuilder(res.getLong(1), res.getString(2)).build();
 		}
-		return c;
+		return company;
 	}
 }

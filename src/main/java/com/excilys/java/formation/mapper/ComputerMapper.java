@@ -23,10 +23,10 @@ public enum ComputerMapper {
 		List<Computer> computers = new ArrayList<Computer>();
 		while(res.next()) {
 			if((res.getDate(3) != null) && (res.getDate(4) != null)) {
-				computers.add(new Computer(res.getLong(1), res.getString(2), res.getDate(3).toLocalDate(), res.getDate(4).toLocalDate(), res.getString(5)));
+				computers.add(new Computer.ComputerBuilder(res.getLong(1), res.getString(2)).introduced(res.getDate(3).toLocalDate()).discontinued(res.getDate(4).toLocalDate()).manufacturer(res.getString(5)).build());
 			}
 			else {
-				computers.add(new Computer(res.getLong(1), res.getString(2), null, null, res.getString(5)));
+				computers.add(new Computer.ComputerBuilder(res.getLong(1), res.getString(2)).introduced(null).discontinued(null).manufacturer(res.getString(5)).build());
 			}
 		}
 		return computers;
@@ -40,23 +40,23 @@ public enum ComputerMapper {
 	 * @throws SQLException in case of a database access error
 	 */
 	public Computer getComputerDetailsFromResultSet(ResultSet res) throws SQLException {
-		Computer c = null;
+		Computer computer = null;
 
 		if(res.next()) {
 			if((res.getDate(3) != null) && (res.getDate(4) != null)) {
-				c = new Computer(res.getLong(1), res.getString(2),res.getDate(3).toLocalDate(), res.getDate(4).toLocalDate(), res.getString(5));
+				computer = new Computer.ComputerBuilder(res.getLong(1), res.getString(2)).introduced(res.getDate(3).toLocalDate()).discontinued(res.getDate(4).toLocalDate()).manufacturer(res.getString(5)).build();
 			}
 			else if ((res.getDate(3) == null) && (res.getDate(4) != null)){
-				c = new Computer(res.getLong(1), res.getString(2),null, res.getDate(4).toLocalDate(), res.getString(5));
+				computer = new Computer.ComputerBuilder(res.getLong(1), res.getString(2)).introduced(null).discontinued(res.getDate(4).toLocalDate()).manufacturer(res.getString(5)).build();
 			}
 			else if((res.getDate(3) != null) && (res.getDate(4) == null)) {
-				c = new Computer(res.getLong(1), res.getString(2),res.getDate(3).toLocalDate(), null, res.getString(5));
+				computer = new Computer.ComputerBuilder(res.getLong(1), res.getString(2)).introduced(res.getDate(3).toLocalDate()).discontinued(null).manufacturer(res.getString(5)).build();
 			}
 			else {
-				c = new Computer(res.getLong(1), res.getString(2),null, null, res.getString(5));
+				computer = new Computer.ComputerBuilder(res.getLong(1), res.getString(2)).introduced(null).discontinued(null).manufacturer(res.getString(5)).build();
 			}
 		}
-		return c;
+		return computer;
 	}
 
 }

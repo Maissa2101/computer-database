@@ -1,6 +1,7 @@
 package com.excilys.java.formation.pagination;
 
-import java.sql.SQLException;
+
+import com.excilys.java.formation.service.ServiceException;
 
 public abstract class Page {
 	int offset;
@@ -8,8 +9,8 @@ public abstract class Page {
 	int dbSize;
 	int pageNumber;
 	
-	public abstract void getNext() throws ClassNotFoundException, SQLException;
-	public abstract void getPrevious() throws ClassNotFoundException, SQLException;
+	public abstract void getNext() throws ServiceException;
+	public abstract void getPrevious() throws ServiceException;
 	public abstract void printPage();
 
 	public void getNextOffset() {

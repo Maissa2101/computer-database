@@ -20,13 +20,12 @@ public class ComputerValidatorTest {
 	}
 
 	@Test(expected = ValidatorException.class)
-	public void testIdValidator() throws ValidatorException {
+	public void testIdValidator() {
 		ComputerValidator cv = ComputerValidator.INSTANCE;
-
 		try {
 			assertTrue(cv.idValidator(1L));
 			assertFalse(cv.idValidator(8000L));
-		} catch (ClassNotFoundException | SQLException e) {
+		} catch (ValidatorException e) {
 			e.printStackTrace();
 		}
 	}

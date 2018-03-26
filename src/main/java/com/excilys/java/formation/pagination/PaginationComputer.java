@@ -1,44 +1,43 @@
 package com.excilys.java.formation.pagination;
 
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.ServiceException;
 
 public class PaginationComputer extends Page {
 
 	private List<Computer> computers;
-	private ComputerService cs;
+	private ComputerService computerService;
 
 
-	public PaginationComputer(int limit) throws SQLException, ClassNotFoundException {
+	public PaginationComputer(int limit) throws ServiceException {
 		this.offset = 0;
 		this.limit = limit;
-		this.cs = ComputerService.INSTANCE;
-		this.dbSize = cs.count();
-		this.computers = cs.listComputers(limit, offset);
+		this.computerService = ComputerService.INSTANCE;
+		this.dbSize = computerService.count();
+		this.computers = computerService.listComputers(limit, offset);
 	}
 
-	private void updateComputer() throws ClassNotFoundException, SQLException {
-		this.computers = cs.listComputers(limit, offset);
+	private void updateComputer() throws ServiceException  {
+		this.computers = computerService.listComputers(limit, offset);
 	}
 
 	@Override
-	public void getNext() throws ClassNotFoundException, SQLException {
-		dbSize = cs.count();
+	public void getNext() throws ServiceException {
+		dbSize = computerService.count();
 		super.getNextOffset();
-		updateComputer();
+			updateComputer();
 
 	}
 
 	@Override
-	public void getPrevious() throws ClassNotFoundException, SQLException {
-		dbSize = cs.count();
+	public void getPrevious() throws ServiceException {
+		dbSize = computerService.count();
 		super.getPreviousOffset();
-		updateComputer();
-
+			updateComputer();
 	}
 
 	public List<Integer> getPageToGo(){

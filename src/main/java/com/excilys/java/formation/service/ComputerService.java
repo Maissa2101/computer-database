@@ -8,10 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.persistence.ComputerDAO;
-import com.excilys.java.formation.persistence.DAOConfigurationException;
-import com.excilys.java.formation.persistence.DAOException;
+import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 public enum ComputerService {
 
@@ -23,7 +21,7 @@ public enum ComputerService {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 * @throws SQLException in case of a database access error
 	 */
-	public List<Computer> listComputers(int limit, int offset) throws DAOException{
+	public List<Computer> listComputers(int limit, int offset) throws ServiceException{
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		return computers.getListComputer(limit, offset);
 	}
@@ -34,17 +32,18 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
-	public String computerDetails(Long id) throws DAOException, ValidatorException {
+	public String computerDetails(long id) throws ServiceException, ValidatorException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		ComputerValidator computerV = ComputerValidator.INSTANCE;
+		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 		String rsult = null;
 
 		try {
-			if(computerV.idValidator(id)) {
+			if(computerValidator.idValidator(id)) {
 				rsult = "\n"+ computers.getComputer(id) + "\n";
 			}
-		} catch (ValidatorException | ClassNotFoundException | SQLException e) {
+		} catch (ValidatorException e) {
 			rsult = "Problem in Computer Details";
+			throw new ServiceException("ServiceException in computerDetails");
 		}
 		return rsult;
 
@@ -56,18 +55,19 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
-	public void createComputer(String name, LocalDate tm1, LocalDate tm2, String manufacturer) throws DAOException, ValidatorException {
+	public void createComputer(String name, LocalDate time1, LocalDate time2, String manufacturer) throws ServiceException, ValidatorException {
 
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		ComputerValidator computerV = ComputerValidator.INSTANCE;
-		CompanyValidator companyV = CompanyValidator.INSTANCE;
+		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
+		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
 
 		try {
-			if((computerV.nameValidator(name)) && (computerV.DateValidator(tm1, tm2)) && (companyV.idCompanyValidator(manufacturer))) {
-				computers.createComputer(name, tm1, tm2, manufacturer);
+			if((computerValidator.nameValidator(name)) && (computerValidator.DateValidator(time1, time2)) && (companyValidator.idCompanyValidator(manufacturer))) {
+				computers.createComputer(name, time1, time2, manufacturer);
 			}	
-		} catch (ValidatorException | ClassNotFoundException | SQLException e) {
+		} catch (ValidatorException e) {
 			logger.error("Problem in Create Computer");
+			throw new ServiceException("ServiceException in createComputer");
 		}	
 
 	}
@@ -78,16 +78,17 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
-	public void updateComputer(Long id_update, String new_name, LocalDate new_date, LocalDate new_date2 ) throws DAOException, ValidatorException {
+	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2 ) throws ServiceException, ValidatorException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		ComputerValidator computerV = ComputerValidator.INSTANCE;
+		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
 		try {
-			if((computerV.idValidator(id_update)) && (computerV.nameValidator(new_name)) && computerV.DateValidator(new_date, new_date2) ) {
-				computers.updateComputer(id_update, new_name,new_date, new_date2);
+			if((computerValidator.idValidator(idUpdate)) && (computerValidator.nameValidator(newName)) && computerValidator.DateValidator(newDate, newDate2) ) {
+				computers.updateComputer(idUpdate, newName,newDate, newDate2);
 			}
-		} catch (ValidatorException | ClassNotFoundException | SQLException e) {
+		} catch (ValidatorException e) {
 			logger.info("Problem in Update Computer");
+			throw new ServiceException("ServiceException in updateComputer");
 		}	
 
 	}
@@ -98,16 +99,17 @@ public enum ComputerService {
 	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
-	public void deleteComputer(Long id_delete) throws DAOException, ValidatorException {
+	public void deleteComputer(long idDelete) throws ServiceException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
-		ComputerValidator computerV = ComputerValidator.INSTANCE;
+		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
 		try {
-			if(computerV.idValidator(id_delete)) {
-				computers.deleteComputer(id_delete);
+			if(computerValidator.idValidator(idDelete)) {
+				computers.deleteComputer(idDelete);
 			}	
-		} catch (ValidatorException | ClassNotFoundException | SQLException e) {
+		} catch (ValidatorException e) {
 			logger.info("Problem in Delete Computer");
+			throw new ServiceException("ServiceException in deleteComputer");
 		}	
 
 	}
@@ -119,7 +121,7 @@ public enum ComputerService {
 	 * @throws ClassNotFoundException 
 	 * @throws DAOConfigurationException 
 	 */
-	public int count() throws DAOConfigurationException {
+	public int count() throws ServiceException {
 		return ComputerDAO.INSTANCE.count();
 	}
 }

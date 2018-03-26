@@ -148,60 +148,54 @@ public class Interface {
 	 * @throws ValidatorException 
 	 */
 	private static void computerDetails() throws ClassNotFoundException, SQLException, ValidatorException {
-		ComputerService computerS = ComputerService.INSTANCE;
-
+		ComputerService computerService = ComputerService.INSTANCE;
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
-		Long id = sc.nextLong();	
-
-		System.out.println(computerS.computerDetails(id));
+		long id = sc.nextLong();	
+		System.out.println(computerService.computerDetails(id));
 	}
 
 	/**
 	 * Method to create a computer
 	 * @throws ClassNotFoundException
 	 * @throws SQLException
-	 * @throws ValidatorException 
+	 * @throws ValidatorException computer_mapper
 	 */
 	private static void createComputer() throws ClassNotFoundException, SQLException, ValidatorException {
-		ComputerService computerS = ComputerService.INSTANCE;
+		ComputerService computerService = ComputerService.INSTANCE;
 
 		System.out.println("Add a computer : ");
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the name : ");
 		String name = sc.nextLine();  
-
 		System.out.println("introduced date : ");
 		String time = sc.nextLine();
 
-		LocalDate tm1;
+		LocalDate introduced;
 		if (time.toLowerCase().equals("")) {
-			tm1 = null;
+			introduced = null;
 		}
 		else {
-			tm1 = Date.valueOf(time).toLocalDate();
+			introduced = Date.valueOf(time).toLocalDate();
 		}
 		System.out.println("discontinued date : ");
 		String time2 = sc.nextLine();
 
-		LocalDate tm2;
+		LocalDate discontinued;
 		if (time2.toLowerCase().equals("")) {
-			tm2 = null;
+			discontinued = null;
 		}
 		else {
-			tm2 = Date.valueOf(time2).toLocalDate();
+			discontinued = Date.valueOf(time2).toLocalDate();
 		}
-
 		System.out.println("give the manufacturer : ");
 		String manufacturer = sc.nextLine(); 
-
 		if(manufacturer.toLowerCase().equals("")) {
 			manufacturer = null;
 		} 
-
-		computerS.createComputer(name, tm1, tm2, manufacturer);
+		computerService.createComputer(name, introduced, discontinued, manufacturer);
 	}
 
 	/**
@@ -211,42 +205,35 @@ public class Interface {
 	 * @throws ValidatorException 
 	 */
 	private static void updateComputer() throws ClassNotFoundException, SQLException, ValidatorException {
-		ComputerService computerS = ComputerService.INSTANCE;
+		ComputerService computerService = ComputerService.INSTANCE;
 
 		System.out.println("Update a computer : ");
 		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id of the computer to Update : ");
-		Long id_update = sc.nextLong();
-
+		long idUpdate = sc.nextLong();
 		System.out.println("give the new name : ");
 		sc.nextLine();
-		String new_name = sc.nextLine();  
-
-
+		String newName = sc.nextLine();  
 		System.out.println("give the new introduced date : ");
-		String new_time = sc.nextLine();
-
-		LocalDate new_date;
-		if (new_time.toLowerCase().equals("")) {
-			new_date = null;
+		String newTime = sc.nextLine();
+		LocalDate newDate;
+		if (newTime.toLowerCase().equals("")) {
+			newDate = null;
 		}
 		else {
-			new_date = Date.valueOf(new_time).toLocalDate();
+			newDate = Date.valueOf(newTime).toLocalDate();
 		}
-
 		System.out.println("give the new discontinued date : ");
-		String new_time2 = sc.nextLine();
-
-		LocalDate new_date2;
-		if (new_time2.toLowerCase().equals("")) {
-			new_date2 = null;
+		String newTime2 = sc.nextLine();
+		LocalDate newDate2;
+		if (newTime2.toLowerCase().equals("")) {
+			newDate2 = null;
 		}
 		else {
-			new_date2 = Date.valueOf(new_time2).toLocalDate();
+			newDate2 = Date.valueOf(newTime2).toLocalDate();
 		}
-
-		computerS.updateComputer(id_update, new_name, new_date, new_date2);
+		computerService.updateComputer(idUpdate, newName, newDate, newDate2);
 	}
 
 	/**
@@ -256,14 +243,14 @@ public class Interface {
 	 * @throws ValidatorException 
 	 */
 	private static void deleteComputer() throws ClassNotFoundException, SQLException, ValidatorException {
-		ComputerService computerS = ComputerService.INSTANCE;
+		ComputerService computerService = ComputerService.INSTANCE;
 
 		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the computer to delete : ");	
-		Long id_delete = scanner.nextLong();
+		long idDelete = scanner.nextLong();
 
-		computerS.deleteComputer(id_delete);
+		computerService.deleteComputer(idDelete);
 	}
 
 	public static void main(String[] args) throws ClassNotFoundException, SQLException, ValidatorException  {

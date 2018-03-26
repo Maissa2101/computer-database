@@ -11,8 +11,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.mapper.CompanyMapper;
+import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.servlets.AddComputerServlet;
 
 public enum CompanyDAO implements CompanyDAOInterface {
@@ -24,49 +24,43 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	private final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
 
 	@Override
-	public List<Company> getListCompany(int limit, int offset) throws DAOException{
-		List<Company> l = null;
+	public List<Company> getListCompany(int limit, int offset) throws DAOException {
+		List<Company> listCompanies = null;
 		try {
 			SQLConnection.getInstance();
 			Connection conn;
 			conn = SQLConnection.getConnection();
-			String query = SELECT_REQUEST_LIST;
-			PreparedStatement stmt =  conn.prepareStatement(query);
+			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST);
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();
-			l = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
+			listCompanies = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
 			stmt.close();
 			SQLConnection.closeConnection(conn);
-			return l;
+			return listCompanies;
 		} catch (SQLException | DAOConfigurationException | ClassNotFoundException e) {
-			logger.info("Problem in CompanyDAO");
+			logger.debug("Problem in CompanyDAO", e);
+			throw new DAOException("DAOException in getListComputer");
 		} 
-		return l;
 	}
 
 	@Override
-	public Optional<Company> getCompany(Long id) throws DAOException{
-		Company c = null;
+	public Optional<Company> getCompany(long id) throws DAOException{
+		Company company = null;
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-			String query = SELECT_REQUEST_DETAILS;
-			PreparedStatement stmt =  conn.prepareStatement(query);
+			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
-			c = CompanyMapper.INSTANCE.getCompanyDetailsFromResultSet(res);
-
-			if (stmt != null) {
-				stmt.close();
-			}
-
+			company = CompanyMapper.INSTANCE.getCompanyDetailsFromResultSet(res);
+			stmt.close();
 			SQLConnection.closeConnection(conn);
-			return Optional.ofNullable(c);
+			return Optional.ofNullable(company);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in CompanyDAO");
+			logger.debug("Problem in CompanyDAO", e);
+			throw new DAOException("DAOException in getCompany");
 		} 
-		return Optional.ofNullable(c);
 	}
 
 	@Override
@@ -75,24 +69,18 @@ public enum CompanyDAO implements CompanyDAOInterface {
 		try {
 			SQLConnection.getInstance();
 			Connection conn = SQLConnection.getConnection();
-
 			PreparedStatement stmt =  conn.prepareStatement(COUNT);
 			ResultSet res = stmt.executeQuery();
-
 			if (res.next()) {
 				rslt = res.getInt("total");
 			} else {
-				throw new DAOException("Problem in your count");
+				throw new DAOException("Problem in count number of companies");
 			}
-
-			if (stmt != null) 
-			{
-				stmt.close();
-			}
+			stmt.close();
 			SQLConnection.closeConnection(conn);
 			return rslt;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.info("Problem in CompanyDAO");
+			logger.debug("Problem in CompanyDAO", e);
 		} 
 		return rslt;
 		
