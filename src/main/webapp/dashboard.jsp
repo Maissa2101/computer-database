@@ -94,7 +94,7 @@
 			</thead>
 			<!-- Browse attribute computers -->
 			<tbody id="results">
-				<c:forEach items="${pagination.computers}" var="computer">
+				<c:forEach items="${computerList}" var="computer">
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
@@ -115,11 +115,11 @@
 	<footer class="navbar-fixed-bottom">
 	<div class="container text-center">
 		<ul class="pagination">
-			<li><a href=<c:url value=""/> aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>		
-			<c:forEach var="i" begin="1" end="4">
-				<li><a href=<c:url value="DashboardServlet?offset=${offset+limit*i}&limit=${limit}"/>>${i}</a></li>
-			</c:forEach>
-			<li><a href=<c:url value=""/> aria-label="Next"> <span aria-hidden="true">&raquo;</span>
+			<li><a href=<c:url value="?offset=${offset-limit}&limit=${limit}"/> aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>		
+			<c:forEach var="i" begin="1" end="5">
+                  <li><a href="?offset=${offset+limit*i}&limit=${limit}">${i}</a></li>
+             </c:forEach>
+			<li><a href=<c:url value="?offset=${offset+limit}&limit=${limit}"/> aria-label="Next"> <span aria-hidden="true">&raquo;</span>
 			</a></li>
 		</ul>
 		
@@ -131,6 +131,7 @@
 	
 	
 	</footer>
+	
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/dashboard.js"></script>

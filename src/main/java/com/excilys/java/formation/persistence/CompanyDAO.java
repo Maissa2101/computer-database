@@ -26,17 +26,13 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
 		List<Company> listCompanies = null;
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST)) {
 			SQLConnection.getInstance();
-			Connection conn;
-			conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST);
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();
 			listCompanies = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 			return listCompanies;
 		} catch (SQLException | DAOConfigurationException | ClassNotFoundException e) {
 			logger.debug("Problem in CompanyDAO", e);
@@ -47,15 +43,12 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public Optional<Company> getCompany(long id) throws DAOException{
 		Company company = null;
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
 			company = CompanyMapper.INSTANCE.getCompanyDetailsFromResultSet(res);
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 			return Optional.ofNullable(company);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in CompanyDAO", e);
@@ -66,18 +59,15 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int rslt = 0;
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(COUNT);
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
 				rslt = res.getInt("total");
 			} else {
 				throw new DAOException("Problem in count number of companies");
 			}
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 			return rslt;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in CompanyDAO", e);

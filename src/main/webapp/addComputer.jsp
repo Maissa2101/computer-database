@@ -28,17 +28,20 @@
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
-								type="text" class="form-control" id="computerName"
+								type="text" data-validation="custom" data-validation-regexp="^[\wÀ-ÿ]+[\wÀ-ÿ_\-'\+\* ]+$"
+								class="form-control" id="computerName"
 								placeholder="Computer name" name="computerName">
 						</div>
 						<div class="form-group">
 							<label for="introduced">Introduced date</label> <input
-								type="date" class="form-control" id="introduced"
+								type="date" data-validation="date" data-validation-format="yyyy-mm-dd"
+								class="form-control" id="introduced"
 								placeholder="Introduced date" name="introduced">
 						</div>
 						<div class="form-group">
 							<label for="discontinued">Discontinued date</label> <input
-								type="date" class="form-control" id="discontinued"
+								type="date" data-validation="date" data-validation-format="yyyy-mm-dd"
+								class="form-control" id="discontinued"
 								placeholder="Discontinued date" name="discontinued">
 						</div>
 						<div class="form-group">
@@ -61,5 +64,13 @@
 		</div>
 	</div>
 	</section>
+	
+	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+	<script>
+	  $.validate({
+	    lang: 'en'
+	  });
+	</script>
 </body>
 </html>

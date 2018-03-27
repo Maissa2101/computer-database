@@ -1,6 +1,6 @@
 package com.excilys.java.formation.pagination;
 
-import java.util.ArrayList;
+
 import java.util.List;
 
 import com.excilys.java.formation.entities.Computer;
@@ -41,20 +41,6 @@ public class PaginationComputer extends Page {
 		dbSize = computerService.count();
 		super.getPreviousOffset();
 		updateComputer();
-	}
-
-	public List<Integer> getPageToGo(){
-		List<Integer> list = new ArrayList<Integer>();
-		int count = ComputerService.INSTANCE.count();
-		list.add(1);
-		for(int i=-2; i>2;i++) {
-			if(i>1 && i < count/limit + 1 && i != 0) 
-			{
-				list.add(i+pageNumber);
-			}
-		}
-		list.add(count/limit+1);
-		return list;
 	}
 
 	public List<Computer> getComputers(){

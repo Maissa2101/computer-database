@@ -33,16 +33,13 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public List<Computer> getListComputer(int limit, int offset) throws DAOException {
 		List<Computer> listComputers = null;
-		try {
+		try(Connection conn = SQLConnection.getConnection(); 
+				PreparedStatement stmt = conn.prepareStatement(SELECT_REQUEST_LIST)) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST);
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();	
 			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 			return listComputers;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
@@ -53,15 +50,12 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public Optional<Computer> getComputer(long id) throws DAOException{
 		Computer computer = null;
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS)) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
 			computer = ComputerMapper.INSTANCE.getComputerDetailsFromResultSet(res);
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 			return Optional.ofNullable(computer);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO" , e);
@@ -75,10 +69,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		long result = 0L;
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
 
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS);
 			stmt.setString(1, name);
 			if (computer.getIntroduced() == null) 
 			{
@@ -120,8 +113,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			{
 				logger.info("computer not added");
 			}
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
@@ -133,10 +124,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued) throws DAOException{
 		int res = 0;
 		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).build();
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(UPDATE_REQUEST)) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(UPDATE_REQUEST);
 			stmt.setString(1, name);
 			if (computer.getIntroduced() == null) {
 				stmt.setNull(2, java.sql.Types.DATE);
@@ -158,8 +148,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				logger.info("computer updated");
 			else
 				logger.info("computer not updated");
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
 			throw new DAOException("DAOException in updateComputer");
@@ -170,10 +158,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public void deleteComputer(long id) throws DAOException{
 
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST);
 			stmt.setLong(1, id);
 			int res = stmt.executeUpdate();
 			if(res == 1 )
@@ -184,8 +171,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			{
 				logger.info("computer not deleted");
 			}
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
 			throw new DAOException("DAOException in deleteComputer");
@@ -196,10 +181,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int result = 0;
-		try {
+		try(Connection conn = SQLConnection.getConnection();
+				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
 			SQLConnection.getInstance();
-			Connection conn = SQLConnection.getConnection();
-			PreparedStatement stmt =  conn.prepareStatement(COUNT);
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) 
 			{
@@ -209,8 +193,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			{
 				throw new DAOException("Problem in your count");
 			}
-			stmt.close();
-			SQLConnection.closeConnection(conn);
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
