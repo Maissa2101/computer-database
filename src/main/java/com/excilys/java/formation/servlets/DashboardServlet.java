@@ -47,15 +47,15 @@ public class DashboardServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PaginationComputer page = (PaginationComputer) request.getAttribute("ComputerPage");
 		List<Computer> list = null;
-		String offsetStr = request.getParameter("offset");
+		String PageNumberStr = request.getParameter("pageNumber");
 		String limitStr = request.getParameter("limit");
-		int offset = 0;
+		int pageNumber = 1;
 		int limit = 0;
 		try {
-			offset = Integer.parseInt(offsetStr);
+			pageNumber = Integer.parseInt(PageNumberStr);
 			limit = Integer.parseInt(limitStr);
 		} catch(NumberFormatException e) {
-			logger.debug("offset and limit problem "+offset+"  "+limit);
+			logger.debug("PageNumber and limit problem {} {} ", pageNumber, limit);
 		}
 		try {
 			if (page == null) {
@@ -66,7 +66,7 @@ public class DashboardServlet extends HttpServlet {
 		}
 		try {
 			int i = computerService.count();
-			list = computerService.listComputers(limit,offset);
+			list = computerService.listComputers(limit,limit*pageNumber);
 			List<ComputerDTO> listDTO = new ArrayList<ComputerDTO>();
 			for(Computer computer : list) {
 				listDTO.add(computerMapper.getComputerDTOFromComputer(computer));
@@ -74,6 +74,9 @@ public class DashboardServlet extends HttpServlet {
 			request.setAttribute("computerList", listDTO);
 			request.setAttribute("count", i);
 			request.setAttribute("pagination", page);
+			request.setAttribute("pageNumber", pageNumber);
+			request.setAttribute("limit", limit);
+			
 			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServiceException e) {

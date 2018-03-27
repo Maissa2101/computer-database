@@ -16,16 +16,17 @@
 
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard.html"> Application - Computer Database </a>
+		<a class="navbar-brand" href="dashboard.html"> Application -
+			Computer Database </a>
 	</div>
 	</header>
 
 	<c:choose>
-		<c:when test="${offset == null}">
-			<c:set var="offset" value="0" />
+		<c:when test="${pageNumber == null}">
+			<c:set var="pageNumber" value="1" />
 		</c:when>
 		<c:otherwise>
-			<c:set var="offset" value="${offset}" />
+			<c:set var="pageNumber" value="${pageNumber}" />
 		</c:otherwise>
 	</c:choose>
 
@@ -40,7 +41,7 @@
 
 	<c:choose>
 		<c:when test="${computerList == null}">
-			<c:redirect url="DashboardServlet?offset=0&limit=20" />
+			<c:redirect url="DashboardServlet?pageNumber=1&limit=20" />
 		</c:when>
 	</c:choose>
 
@@ -115,23 +116,32 @@
 	<footer class="navbar-fixed-bottom">
 	<div class="container text-center">
 		<ul class="pagination">
-			<li><a href=<c:url value="?offset=${offset-limit}&limit=${limit}"/> aria-label="Previous"> <span aria-hidden="true">&laquo;</span></a></li>		
-			<c:forEach var="i" begin="1" end="5">
-                  <li><a href="?offset=${offset+limit*i}&limit=${limit}">${i}</a></li>
-             </c:forEach>
-			<li><a href=<c:url value="?offset=${offset+limit}&limit=${limit}"/> aria-label="Next"> <span aria-hidden="true">&raquo;</span>
-			</a></li>
+
+			<c:if test="${pageNumber > 1}">
+				<li><a href="?pageNumber=${pageNumber-1}&limit=${limit}" aria-label="Previous"><span
+						aria-hidden="true">&laquo;</span></a></li>
+			</c:if>
+			<c:forEach var="i" begin="1" end="${pageNumber}">
+				<li><a href="?pageNumber=${i}&limit=${limit}">${i}</a></li>
+			</c:forEach>
+			<c:if test="${pageNumber < count}">
+				<li><a href="?pageNumber=${pageNumber+1}&limit=${limit}" aria-label="Next"><span
+						aria-hidden="true">&raquo;</span></a></li>
+			</c:if>
+
 		</ul>
-		
-	<div class="btn-group btn-group-sm pull-right" role="group">
-		<button type="button" class="btn btn-default" onclick="location.href='?offset=${offset}&limit=10'">10</button>
-		<button type="button" class="btn btn-default" onclick="location.href='?offset=${offset}&limit=50'">50</button>
-		<button type="button" class="btn btn-default" onclick="location.href='?offset=${offset}&limit=100'">100</button>
+
+		<div class="btn-group btn-group-sm pull-right" role="group">
+			<button type="button" class="btn btn-default"
+				onclick="location.href='?pageNumber=${pageNumber}&limit=10'">10</button>
+			<button type="button" class="btn btn-default"
+				onclick="location.href='?pageNumber=${pageNumber}&limit=50'">50</button>
+			<button type="button" class="btn btn-default"
+				onclick="location.href='?pageNumber=${pageNumber}&limit=100'">100</button>
+		</div>
 	</div>
-	
-	
 	</footer>
-	
+
 	<script src="../js/jquery.min.js"></script>
 	<script src="../js/bootstrap.min.js"></script>
 	<script src="../js/dashboard.js"></script>

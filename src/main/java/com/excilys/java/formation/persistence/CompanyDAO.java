@@ -26,9 +26,9 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
 		List<Company> listCompanies = null;
-		try(Connection conn = SQLConnection.getConnection();
+		try(@SuppressWarnings("static-access")
+				Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST)) {
-			SQLConnection.getInstance();
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();
@@ -43,9 +43,9 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public Optional<Company> getCompany(long id) throws DAOException{
 		Company company = null;
-		try(Connection conn = SQLConnection.getConnection();
+		try(@SuppressWarnings("static-access")
+				Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);) {
-			SQLConnection.getInstance();
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
 			company = CompanyMapper.INSTANCE.getCompanyDetailsFromResultSet(res);
@@ -59,9 +59,9 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int rslt = 0;
-		try(Connection conn = SQLConnection.getConnection();
+		try(@SuppressWarnings("static-access")
+				Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
-			SQLConnection.getInstance();
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
 				rslt = res.getInt("total");
