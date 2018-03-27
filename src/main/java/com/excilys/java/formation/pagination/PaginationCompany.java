@@ -17,7 +17,11 @@ public class PaginationCompany extends Page{
 		this.dbSize = companyService.count();
 		this.companies = companyService.listCompanies(limit, offset);
 	}
-
+	
+	/**
+	 * Update the list of companies to show with the limit and offset
+	 * @throws ServiceException
+	 */
 	private void updateCompany() throws ServiceException {
 		this.companies = companyService.listCompanies(limit, offset);
 	}

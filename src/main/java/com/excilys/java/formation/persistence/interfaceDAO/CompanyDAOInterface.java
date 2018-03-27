@@ -17,9 +17,21 @@ public interface CompanyDAOInterface {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	List<Company> getListCompany(int limit, int offset) throws DAOException;
-
+	
+	/**
+	 * Counts the number of companies in the DB 
+	 * @return the number of companies
+	 * @throws DAOConfigurationException
+	 * @throws DAOException
+	 */
 	int count() throws DAOConfigurationException, DAOException ;
-
+	
+	/**
+	 * Method to get the company by id
+	 * @param id
+	 * @return the company with id = id
+	 * @throws DAOException
+	 */
 	Optional<Company> getCompany(long id) throws DAOException ;
 
 

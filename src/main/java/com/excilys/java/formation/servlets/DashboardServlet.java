@@ -73,7 +73,7 @@ public class DashboardServlet extends HttpServlet {
 			}
 			request.setAttribute("computerList", listDTO);
 			request.setAttribute("count", i);
-			request.setAttribute("pagination", page.getComputers());
+			request.setAttribute("pagination", page);
 			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServiceException e) {

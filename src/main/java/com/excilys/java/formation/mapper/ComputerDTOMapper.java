@@ -13,7 +13,12 @@ public enum ComputerDTOMapper {
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(ComputerDTOMapper.class);
 	private static final String NULL ="";
-
+	
+	/**
+	 * Method to convert computer to a computerDTO
+	 * @param computer the computer to convert
+	 * @return computerDTO 
+	 */
 	public ComputerDTO getComputerDTOFromComputer(Computer computer) {
 		String introduced = null;
 		String discontinued = null;
@@ -41,7 +46,12 @@ public enum ComputerDTOMapper {
 		computerDTO.setManufacturer(manufacturer);
 		return computerDTO;    
 	}
-
+	
+	/**
+	 * Method to convert computerDTO to a computer
+	 * @param computerDTO the computerDTO to convert
+	 * @return computer
+	 */
 	public Computer getComputerFromComputerDTO(ComputerDTO computerDTO) {
 		LocalDate introduced = null; 
 		LocalDate discontinued = null;

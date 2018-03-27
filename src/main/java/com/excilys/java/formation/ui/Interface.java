@@ -23,8 +23,7 @@ public class Interface {
 
 	/**
 	 * Method to choose and execute an action
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
+	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
 	public static void listFeatures() throws ServiceException, ValidatorException {
@@ -85,8 +84,7 @@ public class Interface {
 
 	/**
 	 * Method to show the list of computers
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ServiceException
 	 */
 	private static void listComputers() throws ServiceException {
 		System.out.println(" Computers : Press n to see the next page, p to see the previous page and q to quit : ");	
@@ -116,8 +114,7 @@ public class Interface {
 
 	/**
 	 * Method to show the list of companies
-	 * @throws SQLException
-	 * @throws ClassNotFoundException
+	 * @throws ServiceException
 	 */
 	private static void listCompanies() throws ServiceException {
 		@SuppressWarnings("resource")
@@ -151,8 +148,7 @@ public class Interface {
 
 	/**
 	 * Method to show a computer details giving its ID
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
 	private static void computerDetails() throws ServiceException, ValidatorException {
@@ -166,9 +162,8 @@ public class Interface {
 
 	/**
 	 * Method to create a computer
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
-	 * @throws ValidatorException computer_mapper
+	 * @throws ServiceException
+	 * @throws ValidatorException 
 	 */
 	private static void createComputer() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
@@ -210,8 +205,7 @@ public class Interface {
 
 	/**
 	 * Method to update a computer
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
 	private static void updateComputer() throws ServiceException, ValidatorException {
@@ -250,8 +244,7 @@ public class Interface {
 
 	/**
 	 * Method to delete a computer
-	 * @throws ClassNotFoundException
-	 * @throws SQLException
+	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
 	private static void deleteComputer() throws ServiceException, ValidatorException {

@@ -1,6 +1,5 @@
 package com.excilys.java.formation.service;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 
 import com.excilys.java.formation.persistence.ComputerDAO;
@@ -29,8 +28,6 @@ public enum ComputerValidator {
 	 * Method to verify if the id of the computer to delete, to update or to show its details is valid or not
 	 * @param id the id to validate
 	 * @return true if the id is valid, false otherwise
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
 	 * @throws ValidatorException 
 	 */
 	public boolean idValidator(long id) throws ValidatorException {
@@ -47,8 +44,8 @@ public enum ComputerValidator {
 
 	/**
 	 * Method to verify if the dates are valid or not
-	 * @param tm1 the introduced date of the computer
-	 * @param tm2 the discontinued date of the computer
+	 * @param time1 the introduced date of the computer
+	 * @param time2 the discontinued date of the computer
 	 * @return true if the date the computer was discontinued is greater than the one it was introduced
 	 * @throws ValidatorException 
 	 */

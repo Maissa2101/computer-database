@@ -1,6 +1,6 @@
 package com.excilys.java.formation.service;
 
-import java.sql.SQLException;
+
 import java.time.LocalDate;
 import java.util.List;
 
@@ -18,8 +18,10 @@ public enum ComputerService {
 
 	/**
 	 * Method to show the list of computers
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
+	 * @param limit maximum number of computers in a page
+	 * @param offset starting index
+	 * @return list of computers starting from offset with length equals to limit
+	 * @throws ServiceException
 	 */
 	public List<Computer> listComputers(int limit, int offset) throws ServiceException{
 		ComputerDAO computers = ComputerDAO.INSTANCE;
@@ -28,9 +30,10 @@ public enum ComputerService {
 
 	/**
 	 * Method to show the details of a computer given its ID
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
-	 * @throws ValidatorException 
+	 * @param id id of the computer
+	 * @return computer details
+	 * @throws ServiceException
+	 * @throws ValidatorException
 	 */
 	public String computerDetails(long id) throws ServiceException, ValidatorException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
@@ -51,9 +54,12 @@ public enum ComputerService {
 
 	/**
 	 * Method to create a computer
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
-	 * @throws ValidatorException 
+	 * @param name name of the computer to create
+	 * @param time1 introduced date of the computer to create
+	 * @param time2 discontinued date of the computer to create
+	 * @param manufacturer the company of the computer to create
+	 * @throws ServiceException
+	 * @throws ValidatorException
 	 */
 	public void createComputer(String name, LocalDate time1, LocalDate time2, String manufacturer) throws ServiceException, ValidatorException {
 
@@ -74,9 +80,12 @@ public enum ComputerService {
 
 	/**
 	 * Method to update a computer details given its ID
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
-	 * @throws ValidatorException 
+	 * @param idUpdate
+	 * @param newName new name of the computer to update
+	 * @param newDate new introduced date of the computer to update
+	 * @param newDate2 new discontinued date of the computer to update
+	 * @throws ServiceException
+	 * @throws ValidatorException
 	 */
 	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2 ) throws ServiceException, ValidatorException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
@@ -95,9 +104,9 @@ public enum ComputerService {
 
 	/**
 	 * Method to delete a computer given its ID
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
-	 * @throws ValidatorException 
+	 * @param idDelete id of the computer to delete
+	 * @throws ServiceException
+	 * @throws ValidatorException
 	 */
 	public void deleteComputer(long idDelete) throws ServiceException, ValidatorException {
 		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
@@ -117,9 +126,7 @@ public enum ComputerService {
 	/**
 	 * Counts the number of computers in the DB
 	 * @return total number of computers
-	 * @throws SQLException
-	 * @throws ClassNotFoundException 
-	 * @throws DAOConfigurationException 
+	 * @throws ServiceException
 	 */
 	public int count() throws ServiceException {
 		return ComputerDAO.INSTANCE.count();

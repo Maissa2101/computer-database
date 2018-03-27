@@ -60,6 +60,12 @@ public interface ComputerDAOInterface {
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
 	void deleteComputer(long id) throws DAOException;
-
+	
+	/**
+	 * Counts the number of computers in the DB
+	 * @return the number of computers
+	 * @throws DAOConfigurationException
+	 * @throws DAOException
+	 */
 	int count() throws DAOConfigurationException, DAOException;
 }

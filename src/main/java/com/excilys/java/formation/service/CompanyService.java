@@ -1,12 +1,10 @@
 package com.excilys.java.formation.service;
 
-import java.sql.SQLException;
-import java.util.List;
 
+import java.util.List;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
-import com.excilys.java.formation.persistence.DAOConfigurationException;
 
 public enum CompanyService {
 
@@ -14,8 +12,10 @@ public enum CompanyService {
 
 	/**
 	 * Method to show the list of companies
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @param limit maximum number of companies in a page
+	 * @param offset offset of the first element in the page
+	 * @return list of companies starting from offset with length equals to limit
+	 * @throws ServiceException
 	 */
 	public List<Company> listCompanies(int limit, int offset) throws ServiceException {
 		CompanyDAO companies = CompanyDAO.INSTANCE;
@@ -24,10 +24,8 @@ public enum CompanyService {
 
 	/**
 	 * counts the number of companies in the DB
-	 * @return total number of companies
-	 * @throws SQLException
-	 * @throws ClassNotFoundException 
-	 * @throws DAOConfigurationException 
+	 * @return the number of companies in the DB
+	 * @throws ServiceException
 	 */
 	public int count() throws ServiceException {
 		return CompanyDAO.INSTANCE.count();

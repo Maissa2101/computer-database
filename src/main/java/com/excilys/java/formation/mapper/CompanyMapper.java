@@ -25,7 +25,13 @@ public enum CompanyMapper {
 		}
 		return companies;
 	}
-
+	
+	/**
+	 * Method to get the details of a company from a ResultSet
+	 * @param res is the result set
+	 * @return the company to show its details
+	 * @throws SQLException in case of a database access error
+	 */
 	public Company getCompanyDetailsFromResultSet(ResultSet res) throws SQLException {
 		Company company = null;
 		if(res.next()) 

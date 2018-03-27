@@ -1,6 +1,5 @@
 package com.excilys.java.formation.service;
 
-import java.sql.SQLException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,15 +10,13 @@ public enum CompanyValidator {
 
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
+	
 	/**
 	 * Method to verify if the id of the company is valid or not
 	 * @param manufacturer the id of the company to validate
 	 * @return true if the id exists in the DB, false otherwise
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
-	 * @throws SQLException in case of a database access error
-	 * @throws ValidatorException 
+	 * @throws ValidatorException
 	 */
-
 	public boolean idCompanyValidator(String manufacturer) throws ValidatorException {
 		try {
 			if (manufacturer != null && !manufacturer.equals("null")) {

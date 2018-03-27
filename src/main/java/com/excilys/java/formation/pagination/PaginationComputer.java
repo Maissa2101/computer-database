@@ -20,7 +20,11 @@ public class PaginationComputer extends Page {
 		this.dbSize = computerService.count();
 		this.computers = computerService.listComputers(limit, offset);
 	}
-
+	
+	/**
+	 * Update the list of computers with limit and offset
+	 * @throws ServiceException
+	 */
 	private void updateComputer() throws ServiceException  {
 		this.computers = computerService.listComputers(limit, offset);
 	}
