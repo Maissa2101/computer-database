@@ -3,6 +3,7 @@ package com.excilys.java.formation.service;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -51,7 +52,17 @@ public enum ComputerService {
 		return rsult;
 
 	}
-
+	
+	/**
+	 * Method to get a computer given its Id
+	 * @param id the id of the computer to get
+	 * @return the computer
+	 * @throws ServiceException
+	 */
+	public Optional<Computer> getComputer(long id) throws ServiceException {
+		ComputerDAO computers = ComputerDAO.INSTANCE;
+		return computers.getComputer(id);
+	}
 	/**
 	 * Method to create a computer
 	 * @param name name of the computer to create
@@ -84,19 +95,20 @@ public enum ComputerService {
 	 * @param newName new name of the computer to update
 	 * @param newDate new introduced date of the computer to update
 	 * @param newDate2 new discontinued date of the computer to update
+	 * @param manufacturer new company of the computer to update
 	 * @throws ServiceException
 	 * @throws ValidatorException
 	 */
-	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2 ) throws ServiceException, ValidatorException {
+	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2, String manufacturer ) throws ServiceException, ValidatorException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
 		try {
-			if((computerValidator.idValidator(idUpdate)) && (computerValidator.nameValidator(newName)) && computerValidator.DateValidator(newDate, newDate2) ) {
-				computers.updateComputer(idUpdate, newName,newDate, newDate2);
+			if((computerValidator.idValidator(idUpdate)) && (computerValidator.nameValidator(newName)) && computerValidator.DateValidator(newDate, newDate2) && (CompanyValidator.INSTANCE.idCompanyValidator(manufacturer)) ) {
+				computers.updateComputer(idUpdate, newName,newDate, newDate2, manufacturer);
 			}
 		} catch (ValidatorException e) {
-			logger.info("Problem in Update Computer");
+			logger.debug("Problem in Update Computer", e);
 			throw new ServiceException("ServiceException in updateComputer");
 		}	
 
@@ -117,7 +129,7 @@ public enum ComputerService {
 				computers.deleteComputer(idDelete);
 			}	
 		} catch (ValidatorException e) {
-			logger.info("Problem in Delete Computer");
+			logger.debug("Problem in Delete Computer", e);
 			throw new ServiceException("ServiceException in deleteComputer");
 		}	
 

@@ -47,10 +47,11 @@ public interface ComputerDAOInterface {
 	 * @param name new name of the computer
 	 * @param intro new introduced date 
 	 * @param discontinued new discontinued date
+	 * @param manufacturer new company of the computer
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued)
+	void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer)
 			throws DAOException;
 
 	/**

@@ -16,32 +16,15 @@
 
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard.html"> Application -
+		<a class="navbar-brand" href="DashboardServlet"> Application -
 			Computer Database </a>
 	</div>
 	</header>
 
-	<c:choose>
-		<c:when test="${pageNumber == null}">
-			<c:set var="pageNumber" value="1" />
-		</c:when>
-		<c:otherwise>
-			<c:set var="pageNumber" value="${pageNumber}" />
-		</c:otherwise>
-	</c:choose>
-
-	<c:choose>
-		<c:when test="${limit == null}">
-			<c:set var="limit" value="20" />
-		</c:when>
-		<c:otherwise>
-			<c:set var="limit" value="${limit}" />
-		</c:otherwise>
-	</c:choose>
 
 	<c:choose>
 		<c:when test="${computerList == null}">
-			<c:redirect url="DashboardServlet?pageNumber=1&limit=20" />
+			<c:redirect url="DashboardServlet" />
 		</c:when>
 	</c:choose>
 
@@ -59,9 +42,8 @@
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="addComputer">Add
-					Computer</a> <a class="btn btn-default" id="editComputer" href="#"
-					onclick="$.fn.toggleEditMode();">Edit</a>
+				<a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
+				<a class="btn btn-default" id="deleteComputer" href="" onclick="$.fn.toggleEditMode();">Delete</a>
 			</div>
 		</div>
 	</div>
@@ -99,7 +81,7 @@
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
 							class="cb" value="0"></td>
-						<td><a href="editComputer.html" onclick="">${computer.name}</a>
+						<td><a id="editComputer" href="editComputer?id=${computer.id}">${computer.name}</a>
 						</td>
 						<td>${computer.introduced}</td>
 						<td>${computer.discontinued}</td>

@@ -50,7 +50,7 @@ public class DashboardServlet extends HttpServlet {
 		String PageNumberStr = request.getParameter("pageNumber");
 		String limitStr = request.getParameter("limit");
 		int pageNumber = 1;
-		int limit = 0;
+		int limit = 20;
 		try {
 			pageNumber = Integer.parseInt(PageNumberStr);
 			limit = Integer.parseInt(limitStr);
@@ -66,7 +66,7 @@ public class DashboardServlet extends HttpServlet {
 		}
 		try {
 			int i = computerService.count();
-			list = computerService.listComputers(limit,limit*pageNumber);
+			list = computerService.listComputers(limit,limit*(pageNumber-1));
 			List<ComputerDTO> listDTO = new ArrayList<ComputerDTO>();
 			for(Computer computer : list) {
 				listDTO.add(computerMapper.getComputerDTOFromComputer(computer));

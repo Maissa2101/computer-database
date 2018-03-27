@@ -239,7 +239,14 @@ public class Interface {
 		else {
 			newDate2 = Date.valueOf(newTime2).toLocalDate();
 		}
-		computerService.updateComputer(idUpdate, newName, newDate, newDate2);
+		System.out.println("give the new company : ");
+		String manufacturer = sc.nextLine();
+		if (manufacturer.toLowerCase().equals("")) 
+		{
+			manufacturer = null;
+		}
+		
+		computerService.updateComputer(idUpdate, newName, newDate, newDate2, manufacturer);
 	}
 
 	/**

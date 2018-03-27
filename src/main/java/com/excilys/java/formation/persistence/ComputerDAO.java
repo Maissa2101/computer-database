@@ -26,9 +26,10 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	private final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ? OFFSET ?;";
 	private final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
 	private final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
-	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ? WHERE id = ?;";
+	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
 	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
 	private final String COUNT = "SELECT count(*) as total FROM computer;";
+	
 
 	@Override
 	public List<Computer> getListComputer(int limit, int offset) throws DAOException {
@@ -121,28 +122,35 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	}
 
 	@Override
-	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued) throws DAOException{
+	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) throws DAOException{
 		int res = 0;
-		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).build();
+		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
 		try(@SuppressWarnings("static-access")
 				Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(UPDATE_REQUEST)) {
-			stmt.setString(1, name);
+			stmt.setString(1, computer.getName());
 			if (computer.getIntroduced() == null) {
 				stmt.setNull(2, java.sql.Types.DATE);
 			}
 			else {
-				Date introduced = Date.valueOf(intro);
+				Date introduced = Date.valueOf(computer.getIntroduced());
 				stmt.setDate(2, introduced);
 			}
 			if (computer.getDiscontinued() == null) {
 				stmt.setNull(3, java.sql.Types.DATE);
 			}
 			else {
-				Date disc = Date.valueOf(discontinued);
+				Date disc = Date.valueOf(computer.getDiscontinued());
 				stmt.setDate(3, disc);
 			}
-			stmt.setLong(4, id);
+			
+			if(computer.getManufacturer() == null) {
+				stmt.setNull(4, java.sql.Types.VARCHAR);
+			}
+			else {
+				stmt.setString(4, computer.getManufacturer());
+			}	
+			stmt.setLong(5, id);
 			res = stmt.executeUpdate();
 			if(res == 1)
 				logger.info("computer updated");
