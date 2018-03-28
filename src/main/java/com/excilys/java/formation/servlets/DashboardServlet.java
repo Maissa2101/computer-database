@@ -88,7 +88,23 @@ public class DashboardServlet extends HttpServlet {
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		doGet(request, response);
+		String idStr = (String) request.getParameter("selection");
+		String[] split = idStr.split(",");
+		List<Long> listIDS = new ArrayList<Long>();
+		try {
+			for (int i = 0; i < split.length; i++) {
+				listIDS.add(Long.parseLong(split[i]));
+			}
+		} catch (NumberFormatException e) {
+			logger.debug("Problem in parse String to Long", e);
+		}
+		try {
+			computerService.deleteTransaction(listIDS);
+		} catch (ServiceException e) {
+			logger.debug("Problem with the delete function in the Servlet", e);
+		}
+		response.sendRedirect(request.getContextPath() + "/DashboardServlet");
+		
 	}
 
 }

@@ -29,21 +29,12 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
 	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
 	private final String COUNT = "SELECT count(*) as total FROM computer;";
-	private final String DELETE_TRANSACTION = "BEGIN TRANSACTION\n" + 
-			"    DELETE FROM computer WHERE Id = @Id \n" + 
-			"    IF @@ROWCOUNT = 0\n" + 
-			"    BEGIN\n" + 
-			"        ROLLBACK TRANSACTION\n" + 
-			"        RETURN ERROR_NOT_FOUND\n" + 
-			"    END\n" + 
-			"COMMIT TRANSACTION;";
-
+	private final String SEARCH = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE name LIKE '%?%' ORDER BY";
 
 	@Override
 	public List<Computer> getListComputer(int limit, int offset) throws DAOException {
 		List<Computer> listComputers = null;
-		try(@SuppressWarnings("static-access")
-		Connection conn = SQLConnection.getInstance().getConnection(); 
+		try(Connection conn = SQLConnection.getInstance().getConnection(); 
 				PreparedStatement stmt = conn.prepareStatement(SELECT_REQUEST_LIST)) {
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
@@ -52,15 +43,14 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			return listComputers;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
-			throw new DAOException("DAOException in getListComputer");
+			throw new DAOException("DAOException in getListComputer", e);
 		}
 	}
 
 	@Override
 	public Optional<Computer> getComputer(long id) throws DAOException{
 		Computer computer = null;
-		try(@SuppressWarnings("static-access")
-				Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS)) {
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
@@ -77,9 +67,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		int res = 0;
 		long result = 0L;
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-
-		try(@SuppressWarnings("static-access")
-		Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setString(1, name);
 			if (computer.getIntroduced() == null) {
@@ -117,7 +105,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
-			throw new DAOException("DAOException in createComputer");
+			throw new DAOException("DAOException in createComputer", e);
 		}
 	}
 
@@ -125,8 +113,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) throws DAOException{
 		int res = 0;
 		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		try(@SuppressWarnings("static-access")
-		Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(UPDATE_REQUEST)) {
 			stmt.setString(1, computer.getName());
 			if (computer.getIntroduced() == null) {
@@ -158,7 +145,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				logger.info("computer not updated");
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
-			throw new DAOException("DAOException in updateComputer");
+			throw new DAOException("DAOException in updateComputer", e);
 		}
 
 	}
@@ -166,8 +153,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public void deleteComputer(long id) throws DAOException{
 
-		try(@SuppressWarnings("static-access")
-		Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
 			stmt.setLong(1, id);
 			int res = stmt.executeUpdate();
@@ -179,7 +165,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			}
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
-			throw new DAOException("DAOException in deleteComputer");
+			throw new DAOException("DAOException in deleteComputer", e);
 		}
 
 	}
@@ -187,8 +173,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int result = 0;
-		try(@SuppressWarnings("static-access")
-		Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
@@ -200,27 +185,50 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			return result;
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
-			throw new DAOException("DAOException in count number of computers");
+			throw new DAOException("DAOException in count number of computers", e);
 		}
 	}
 
 	@Override
-	public void deleteTransaction(List<Computer> listIdComputers) throws DAOException {
-		try(@SuppressWarnings("static-access")
-				Connection conn = SQLConnection.getInstance().getConnection();
-				PreparedStatement stmt =  conn.prepareStatement(DELETE_TRANSACTION)) {
-			
-			int res = stmt.executeUpdate();
-			if(res >= 1 ) {
+	public void deleteTransaction(List<Long> ids) throws DAOException{
+		try(Connection conn = SQLConnection.getInstance().getConnection();
+				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
+				AutoRollback autoRollback = new AutoRollback(conn);	
+				PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
+			int res = 0;
+			for(Long id : ids) {
+				stmt.setLong(1, id);
+				res = stmt.executeUpdate();
+			}
+			if(res == ids.size()) {
 				logger.info("computers deleted");
 			}
 			else {
 				logger.info("computers not deleted");
 			}
+			autoRollback.commit();
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
-			throw new DAOException("DAOException in deleteTransaction");
+			throw new DAOException("DAOException in deleteTransaction", e);
 		}
-
 	}
+
+	@Override
+	public List<Computer> Search(String search, String columnName, String order) throws DAOException {
+		List<Computer> listComputers = null;
+		if(columnName == "name" || columnName == "introduced" || columnName == "discontinued" || columnName == "company_id") {
+			try(Connection conn = SQLConnection.getInstance().getConnection();
+					PreparedStatement stmt = conn.prepareStatement(SEARCH + "columName")) {
+				stmt.setString(1, search);
+				ResultSet res = stmt.executeQuery();	
+				listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
+				return listComputers;
+			} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
+				logger.debug("Problem in ComputerDAO", e);
+				throw new DAOException("DAOException in Search", e);
+			}
+		}
+		return listComputers;
+	}
+
 }

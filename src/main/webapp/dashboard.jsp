@@ -43,7 +43,7 @@
 			</div>
 			<div class="pull-right">
 				<a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-				<a class="btn btn-default" id="deleteComputer" href="" onclick="$.fn.toggleEditMode();">Delete</a>
+				<a class="btn btn-default" id="deleteComputer" href="#" onclick="$.fn.toggleEditMode();">Delete</a>
 			</div>
 		</div>
 	</div>
@@ -80,8 +80,8 @@
 				<c:forEach items="${computerList}" var="computer">
 					<tr>
 						<td class="editMode"><input type="checkbox" name="cb"
-							class="cb" value="0"></td>
-						<td><a id="editComputer" href="editComputer?id=${computer.id}">${computer.name}</a>
+							class="cb" value="${computer.id}"></td>
+						<td><a id="edit" href="editComputer?id=${computer.id}">${computer.name}</a>
 						</td>
 						<td>${computer.introduced}</td>
 						<td>${computer.discontinued}</td>
@@ -124,8 +124,8 @@
 	</div>
 	</footer>
 
-	<script src="../js/jquery.min.js"></script>
-	<script src="../js/bootstrap.min.js"></script>
-	<script src="../js/dashboard.js"></script>
+	<script src="static/js/jquery.min.js"></script>
+	<script src="static/js/bootstrap.min.js"></script>
+	<script src="static/js/dashboard.js"></script>
 </body>
 </html>

@@ -58,7 +58,7 @@ public enum ComputerService {
 		return rsult;
 
 	}
-	
+
 	/**
 	 * Method to get a computer given its Id
 	 * @param id the id of the computer to get
@@ -67,12 +67,12 @@ public enum ComputerService {
 	 */
 	public Optional<Computer> getComputer(long id) throws ServiceException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-			try {
-				return computers.getComputer(id);
-			} catch (DAOException e) {
-				logger.debug("Problem in getComputer", e);
-				throw new ServiceException("ServiceException in getComputer", e);
-			}
+		try {
+			return computers.getComputer(id);
+		} catch (DAOException e) {
+			logger.debug("Problem in getComputer", e);
+			throw new ServiceException("ServiceException in getComputer", e);
+		}
 	}
 	/**
 	 * Method to create a computer
@@ -158,5 +158,15 @@ public enum ComputerService {
 			logger.debug("Problem in count computer", e);
 			throw new ServiceException("ServiceException in count", e);
 		}
+	}
+
+	public void deleteTransaction(List<Long> ids) throws ServiceException {
+		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
+		try {
+			computers.deleteTransaction(ids);
+		} catch (DAOException e) {
+			logger.debug("Problem in Delete Computer with transactions", e);
+			throw new ServiceException("ServiceException in deleteTransaction", e);
+		}	
 	}
 }

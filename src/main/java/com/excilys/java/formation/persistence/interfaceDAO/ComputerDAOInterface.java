@@ -71,9 +71,12 @@ public interface ComputerDAOInterface {
 	int count() throws DAOConfigurationException, DAOException;
 	
 	/**
-	 * Method to delete a large number of computers from the DB
-	 * @param listIdComputers list containing the IDs of the computers to delete
+	 * Method to delete many computers 
+	 * @param ids list of ids of the computers to delete
 	 * @throws DAOException
 	 */
-	void deleteTransaction(List<Computer> listIdComputers) throws DAOException;
+	void deleteTransaction(List<Long> ids) throws DAOException;
+
+	List<Computer> Search(String search, String columnName, String order) throws DAOException;
+	
 }
