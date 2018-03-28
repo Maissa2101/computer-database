@@ -16,7 +16,6 @@ import org.slf4j.LoggerFactory;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
-import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
 import com.excilys.java.formation.service.ServiceException;
@@ -52,18 +51,26 @@ public class UpdateComputerServlet extends HttpServlet {
 		} catch(NumberFormatException e) {
 			logger.debug("id problem {}", id);
 		}
-		computer = computerService.getComputer(id);
-		if(!computer.isPresent()) {
-			response.sendRedirect(request.getServletPath() + "/DashboardServlet");
+		try {
+			computer = computerService.getComputer(id);
+			if(!computer.isPresent()) {
+				response.sendRedirect(request.getContextPath() + "/DashboardServlet");
+				return;
+			}
+		} catch(ServiceException e) {
+			logger.debug("ServiceException problem", e);
+			response.sendRedirect(request.getContextPath() + "/DashboardServlet");
 			return;
 		}
+		
+		ComputerDTO computerDTO = computerDTOMapper.getComputerDTOFromComputer(computer.get());
+		
 		try {
 			request.setAttribute("companyList", CompanyService.INSTANCE.listCompanies(CompanyService.INSTANCE.count(), 0));
-		} catch (DAOException e) {
-			logger.debug("Problem in get : AddComputerServlet");
+		} catch (ServiceException e) {
+			logger.debug("Problem in UpdateComputerServlet", e);
 		}
-	
-		request.setAttribute("computer", computer.get());
+		request.setAttribute("computer", computerDTO);
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/editComputer.jsp");
 		dispatcher.forward(request, response);
 
@@ -79,14 +86,13 @@ public class UpdateComputerServlet extends HttpServlet {
 		String introduced = (String) request.getParameter("introduced");
 		String discontinued = (String) request.getParameter("discontinued");
 		String manufacturer = (String) request.getParameter("manufacturer");
-		
+
 		long id = 0;
 		try {
 			id = Long.parseLong(idStr);
 		} catch(NumberFormatException e) {
 			logger.debug("id problem {}", id);
 		}
-		
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setId(id);
 		computerDTO.setName(name);
@@ -94,7 +100,6 @@ public class UpdateComputerServlet extends HttpServlet {
 		computerDTO.setDiscontinued(discontinued);
 		computerDTO.setManufacturer(manufacturer);
 		Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
-
 		try {
 			computerService.updateComputer(computer.getId(), computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ServiceException | ValidatorException e) {
@@ -103,7 +108,7 @@ public class UpdateComputerServlet extends HttpServlet {
 
 		request.setAttribute("computer", computer);
 		response.sendRedirect(request.getContextPath() + "/DashboardServlet");
- 
+
 	}
 
 }

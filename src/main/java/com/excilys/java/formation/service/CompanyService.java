@@ -3,13 +3,18 @@ package com.excilys.java.formation.service;
 
 import java.util.List;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.DAOException;
 
 public enum CompanyService {
 
 	INSTANCE;
-
+	Logger logger = LoggerFactory.getLogger(CompanyService.class);
+	
 	/**
 	 * Method to show the list of companies
 	 * @param limit maximum number of companies in a page
@@ -19,7 +24,12 @@ public enum CompanyService {
 	 */
 	public List<Company> listCompanies(int limit, int offset) throws ServiceException {
 		CompanyDAO companies = CompanyDAO.INSTANCE;
-		return companies.getListCompany(limit, offset);
+		try {
+			return companies.getListCompany(limit, offset);
+		} catch (DAOException e) {
+			logger.debug("DAOException problem in listCompanies",e);
+			throw new ServiceException("ServiceException in listCompanies", e);
+		}
 	}
 
 	/**
@@ -28,6 +38,11 @@ public enum CompanyService {
 	 * @throws ServiceException
 	 */
 	public int count() throws ServiceException {
-		return CompanyDAO.INSTANCE.count();
+		try {
+			return CompanyDAO.INSTANCE.count();
+		} catch (DAOException e) {
+			logger.debug("DAOException problem in count companies",e);
+			throw new ServiceException("ServiceException in count companies", e);
+		}
 	}
 }

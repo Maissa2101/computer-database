@@ -22,17 +22,10 @@ public enum ComputerDTOMapper {
 	public ComputerDTO getComputerDTOFromComputer(Computer computer) {
 		String introduced = null;
 		String discontinued = null;
-		if(computer.getIntroduced() != null && computer.getDiscontinued() != null) 
-		{
-			introduced = computer.getIntroduced().toString();
+		if(computer.getDiscontinued() != null) {
 			discontinued = computer.getDiscontinued().toString();
 		}
-		else if(computer.getIntroduced() == null && computer.getDiscontinued() != null) 
-		{
-			discontinued = computer.getDiscontinued().toString();
-		}
-		else if(computer.getIntroduced() != null && computer.getDiscontinued() == null) 
-		{
+		if(computer.getIntroduced() != null) {
 			introduced = computer.getIntroduced().toString();
 		}
 		long id = computer.getId();
@@ -57,16 +50,13 @@ public enum ComputerDTOMapper {
 		LocalDate discontinued = null;
 
 		try{
-			if(!computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) 
-			{
+			if(!computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
 				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
 			}
-			else if(computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) 
-			{
+			else if(computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
 				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
-			} else if(!computerDTO.getIntroduced().equals(NULL) && computerDTO.getDiscontinued().equals(NULL)) 
-			{
+			} else if(!computerDTO.getIntroduced().equals(NULL) && computerDTO.getDiscontinued().equals(NULL)) {
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
 			}
 		}

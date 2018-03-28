@@ -27,6 +27,7 @@
 		<jstl.version>1.2</jstl.version>
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
 		<seleniumhq.selenium.version>2.27.0</seleniumhq.selenium.version>
+		<com.zaxxer.version>2.7.8</com.zaxxer.version>
 	</properties>
 
 	<build>
@@ -150,6 +151,14 @@
 		    <version>${seleniumhq.selenium.version}</version>
 		    <scope>test</scope>
 		</dependency>
+		
+		<dependency>
+		    <groupId>com.zaxxer</groupId>
+		    <artifactId>HikariCP</artifactId>
+		    <version>${com.zaxxer.version}</version>
+		    <scope>compile</scope>
+		</dependency>
+
 	</dependencies>
 
 

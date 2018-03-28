@@ -1,9 +1,6 @@
 package com.excilys.java.formation.ui;
 
-
-
 import java.sql.Date;
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
@@ -26,7 +23,7 @@ public class Interface {
 	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
-	public static void listFeatures() throws ServiceException, ValidatorException {
+	public static void listFeatures() {
 
 		while(true) {
 			System.out.println("Select an action :\n");
@@ -39,7 +36,6 @@ public class Interface {
 			System.out.println("7. Quit");
 			System.out.println("\n");
 
-			@SuppressWarnings("resource")
 			Scanner sc = new Scanner(System.in);
 			System.out.println("Choose an action :");
 			int action = 8;
@@ -49,35 +45,39 @@ public class Interface {
 			} catch (InputMismatchException e) {
 			}
 
-			switch(Feature.values()[action-1]) {
-			case LIST_COMPUTERS :	
-				listComputers(); 
-				break;
+			try {
+				switch(Feature.values()[action-1]) {
+				case LIST_COMPUTERS :	
+					listComputers(); 
+					break;
 
-			case LIST_COMPANIES :
-				listCompanies();
-				break;
+				case LIST_COMPANIES :
+					listCompanies();
+					break;
 
-			case SHOW_COMPUTER_DETAILS :
-				computerDetails();
-				break;
+				case SHOW_COMPUTER_DETAILS :
+					computerDetails();
+					break;
 
-			case CREATE_COMPUTER :
-				createComputer();
-				break;
+				case CREATE_COMPUTER :
+					createComputer();
+					break;
 
-			case UPDATE_COMPUTER : 
-				updateComputer();
-				break;
+				case UPDATE_COMPUTER : 
+					updateComputer();
+					break;
 
-			case DELETE_COMPUTER :
-				deleteComputer();
-				break;
-			case QUIT :
-				return;
-			case DEFAULT : 
-				System.out.println("Choississez une action valide! \n");
-				break;
+				case DELETE_COMPUTER :
+					deleteComputer();
+					break;
+				case QUIT :
+					return;
+				case DEFAULT : 
+					System.out.println("Choississez une action valide! \n");
+					break;
+				}
+			} catch(ValidatorException | ServiceException e) {
+				logger.debug("Problem in list features", e);
 			}
 		}
 	}
@@ -88,7 +88,6 @@ public class Interface {
 	 */
 	private static void listComputers() throws ServiceException {
 		System.out.println(" Computers : Press n to see the next page, p to see the previous page and q to quit : ");	
-		@SuppressWarnings("resource")
 		Scanner sc= new Scanner(System.in);
 		PaginationComputer pagination = new PaginationComputer(50);
 		ETQ:	while (true)
@@ -117,16 +116,12 @@ public class Interface {
 	 * @throws ServiceException
 	 */
 	private static void listCompanies() throws ServiceException {
-		@SuppressWarnings("resource")
 		Scanner sc= new Scanner(System.in);
 		System.out.println("\n Companies : Press n to see the next page, p to see the previous page and q to quit :");
 		PaginationCompany pagination = null;
-		try {
-			pagination = new PaginationCompany(15);
-		} catch (ClassNotFoundException | SQLException e) {
-			logger.debug("listCompanies problem", e);
-		}
-		ETQ:	while (true){	
+		pagination = new PaginationCompany(15);
+
+		ETQ: while (true){	
 			pagination.printPage();
 			String scanner = sc.nextLine();
 			switch (scanner) {
@@ -153,7 +148,6 @@ public class Interface {
 	 */
 	private static void computerDetails() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
-		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
 		long id = sc.nextLong();	
@@ -168,7 +162,6 @@ public class Interface {
 	private static void createComputer() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
 		System.out.println("Add a computer : ");
-		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the name : ");
 		String name = sc.nextLine();  
@@ -211,7 +204,6 @@ public class Interface {
 	private static void updateComputer() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
 		System.out.println("Update a computer : ");
-		@SuppressWarnings("resource")
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id of the computer to Update : ");
 		long idUpdate = sc.nextLong();
@@ -245,7 +237,7 @@ public class Interface {
 		{
 			manufacturer = null;
 		}
-		
+
 		computerService.updateComputer(idUpdate, newName, newDate, newDate2, manufacturer);
 	}
 
@@ -256,14 +248,14 @@ public class Interface {
 	 */
 	private static void deleteComputer() throws ServiceException, ValidatorException {
 		ComputerService computerService = ComputerService.INSTANCE;
-		@SuppressWarnings("resource")
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the computer to delete : ");	
 		long idDelete = scanner.nextLong();
 		computerService.deleteComputer(idDelete);
 	}
 
-	public static void main(String[] args) throws ClassNotFoundException, SQLException, ValidatorException  {
+	public static void main(String[] args) {
 		Interface.listFeatures();
+
 	}
 }

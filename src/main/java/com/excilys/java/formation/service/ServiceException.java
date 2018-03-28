@@ -1,6 +1,6 @@
 package com.excilys.java.formation.service;
 
-public class ServiceException extends RuntimeException {
+public class ServiceException extends Exception {
 
 
 	/**

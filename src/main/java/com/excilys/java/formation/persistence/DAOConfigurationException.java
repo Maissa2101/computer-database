@@ -1,6 +1,6 @@
 package com.excilys.java.formation.persistence;
 
-public class DAOConfigurationException extends RuntimeException {
+public class DAOConfigurationException extends Exception {
 
 	/**
 	 * 

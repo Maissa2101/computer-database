@@ -15,7 +15,8 @@
 
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="DashboardServlet"> Application -Computer Database </a>
+		<a class="navbar-brand" href="DashboardServlet"> Application
+			-Computer Database </a>
 	</div>
 	</header>
 
@@ -28,25 +29,29 @@
 					<fieldset>
 						<div class="form-group">
 							<label for="computerName">Computer name</label> <input
-								type="text" data-validation="custom" data-validation-regexp="^[\wÀ-ÿ]+[\wÀ-ÿ_\-'\+\* ]+$"
+								type="text" data-validation="custom"
+								data-validation-regexp="^[\wÀ-ÿ]+[\wÀ-ÿ_\-'\+\* ]+$"
 								class="form-control" id="computerName"
 								placeholder="Computer name" name="computerName">
 						</div>
 						<div class="form-group">
 							<label for="introduced">Introduced date</label> <input
-								type="date" data-validation="date" data-validation-format="yyyy-mm-dd"
-								class="form-control" id="introduced"
-								placeholder="Introduced date" name="introduced">
+								type="date" data-validation="date"
+								data-validation-format="yyyy-mm-dd"
+								data-validation-optional="true" class="form-control"
+								id="introduced" placeholder="Introduced date" name="introduced">
 						</div>
 						<div class="form-group">
 							<label for="discontinued">Discontinued date</label> <input
-								type="date" data-validation="date" data-validation-format="yyyy-mm-dd"
-								class="form-control" id="discontinued"
-								placeholder="Discontinued date" name="discontinued">
+								type="date" data-validation="date"
+								data-validation-format="yyyy-mm-dd"
+								data-validation-optional="true" class="form-control"
+								id="discontinued" placeholder="Discontinued date"
+								name="discontinued">
 						</div>
 						<div class="form-group">
-							<label for="companyId">Company</label> 
-							<select class="form-control" id="companyId" name="manufacturer">
+							<label for="companyId">Company</label> <select
+								class="form-control" id="companyId" name="manufacturer">
 								<option value="null"></option>
 								<c:forEach items="${companyList}" var="company">
 									<option value="${company.id}">${company.name}</option>
@@ -64,13 +69,15 @@
 		</div>
 	</div>
 	</section>
-	
-	<script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
-	<script src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
+
+	<script
+		src="//ajax.googleapis.com/ajax/libs/jquery/1.10.2/jquery.min.js"></script>
+	<script
+		src="//cdnjs.cloudflare.com/ajax/libs/jquery-form-validator/2.3.26/jquery.form-validator.min.js"></script>
 	<script>
-	  $.validate({
-	    lang: 'en'
-	  });
+		$.validate({
+			lang : 'en'
+		});
 	</script>
 </body>
 </html>

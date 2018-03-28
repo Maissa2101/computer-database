@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 public enum ComputerService {
@@ -26,7 +27,12 @@ public enum ComputerService {
 	 */
 	public List<Computer> listComputers(int limit, int offset) throws ServiceException{
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		return computers.getListComputer(limit, offset);
+		try {
+			return computers.getListComputer(limit, offset);
+		} catch (DAOException e) {
+			logger.debug("Problem in list Computer", e);
+			throw new ServiceException("ServiceException in listComputer", e);
+		}
 	}
 
 	/**
@@ -45,9 +51,9 @@ public enum ComputerService {
 			if(computerValidator.idValidator(id)) {
 				rsult = "\n"+ computers.getComputer(id) + "\n";
 			}
-		} catch (ValidatorException e) {
+		} catch (ValidatorException | DAOException e) {
 			rsult = "Problem in Computer Details";
-			throw new ServiceException("ServiceException in computerDetails");
+			throw new ServiceException("ServiceException in computerDetails", e);
 		}
 		return rsult;
 
@@ -61,7 +67,12 @@ public enum ComputerService {
 	 */
 	public Optional<Computer> getComputer(long id) throws ServiceException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		return computers.getComputer(id);
+			try {
+				return computers.getComputer(id);
+			} catch (DAOException e) {
+				logger.debug("Problem in getComputer", e);
+				throw new ServiceException("ServiceException in getComputer", e);
+			}
 	}
 	/**
 	 * Method to create a computer
@@ -82,9 +93,9 @@ public enum ComputerService {
 			if((computerValidator.nameValidator(name)) && (computerValidator.DateValidator(time1, time2)) && (companyValidator.idCompanyValidator(manufacturer))) {
 				computers.createComputer(name, time1, time2, manufacturer);
 			}	
-		} catch (ValidatorException e) {
-			logger.error("Problem in Create Computer");
-			throw new ServiceException("ServiceException in createComputer");
+		} catch (ValidatorException | DAOException e) {
+			logger.debug("Problem in Create Computer", e);
+			throw new ServiceException("ServiceException in createComputer", e);
 		}	
 
 	}
@@ -104,12 +115,12 @@ public enum ComputerService {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
 		try {
-			if((computerValidator.idValidator(idUpdate)) && (computerValidator.nameValidator(newName)) && computerValidator.DateValidator(newDate, newDate2) && (CompanyValidator.INSTANCE.idCompanyValidator(manufacturer)) ) {
+			if((computerValidator.idValidator(idUpdate)) && (computerValidator.nameValidator(newName)) && (computerValidator.DateValidator(newDate, newDate2)) && (CompanyValidator.INSTANCE.idCompanyValidator(manufacturer)) ) {
 				computers.updateComputer(idUpdate, newName,newDate, newDate2, manufacturer);
 			}
-		} catch (ValidatorException e) {
+		} catch (ValidatorException | DAOException e) {
 			logger.debug("Problem in Update Computer", e);
-			throw new ServiceException("ServiceException in updateComputer");
+			throw new ServiceException("ServiceException in updateComputer", e);
 		}	
 
 	}
@@ -128,9 +139,9 @@ public enum ComputerService {
 			if(computerValidator.idValidator(idDelete)) {
 				computers.deleteComputer(idDelete);
 			}	
-		} catch (ValidatorException e) {
+		} catch (ValidatorException | DAOException e) {
 			logger.debug("Problem in Delete Computer", e);
-			throw new ServiceException("ServiceException in deleteComputer");
+			throw new ServiceException("ServiceException in deleteComputer", e);
 		}	
 
 	}
@@ -141,6 +152,11 @@ public enum ComputerService {
 	 * @throws ServiceException
 	 */
 	public int count() throws ServiceException {
-		return ComputerDAO.INSTANCE.count();
+		try {
+			return ComputerDAO.INSTANCE.count();
+		} catch (DAOException e) {
+			logger.debug("Problem in count computer", e);
+			throw new ServiceException("ServiceException in count", e);
+		}
 	}
 }

@@ -15,9 +15,9 @@ import org.slf4j.LoggerFactory;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
-import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 
 /**
@@ -29,8 +29,6 @@ public class AddComputerServlet extends HttpServlet {
 	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
 	ComputerService computerService = ComputerService.INSTANCE;
 	ComputerDTOMapper computerDTOMapper = ComputerDTOMapper.INSTANCE;
-
-
 
 	/**
 	 * @see HttpServlet#HttpServlet()
@@ -45,8 +43,8 @@ public class AddComputerServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		try {
 			request.setAttribute("companyList", CompanyService.INSTANCE.listCompanies(CompanyService.INSTANCE.count(), 0));
-		} catch (DAOException e) {
-			logger.debug("Problem in get : AddComputerServlet");
+		} catch (ServiceException e) {
+			logger.debug("ServiceException in AddComputerServlet");
 		}
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/addComputer.jsp");
 		dispatcher.forward(request, response);
@@ -68,8 +66,8 @@ public class AddComputerServlet extends HttpServlet {
 		Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
 		try {
 			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
-		} catch (ValidatorException e) {
-			logger.debug("Problem in AddCompanyServlet");
+		} catch (ValidatorException | ServiceException e) {
+			logger.debug("Problem in AddComputerServlet", e);
 		}
 		request.setAttribute("computer", computer);
 		response.sendRedirect(request.getContextPath() + "/addComputer");

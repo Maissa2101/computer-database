@@ -2,7 +2,6 @@ package com.excilys.java.formation.persistence;
 
 
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.Locale;
 import java.util.ResourceBundle;
@@ -11,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.service.CompanyService;
+import com.zaxxer.hikari.HikariDataSource;
 
 public class SQLConnection {
 
@@ -20,38 +20,41 @@ public class SQLConnection {
 	private static final String PROPERTY_URL = "url";
 	private static final String PROPERTY_USER = "user";
 	private static final String PROPERTY_PASSWORD = "passwd";
+	
+	private static SQLConnection instance= null;
 
 	private static String url;
 	private static String user;
 	private static String passwd;
-
-
-	SQLConnection( String url, String username, String password ) {
-		SQLConnection.url = url;
-		SQLConnection.user = username;
-		SQLConnection.passwd = password;
+	
+    private static HikariDataSource ds = new HikariDataSource();
+ 
+	SQLConnection( ) {
+		ds.setJdbcUrl(url);
+		ds.setUsername(user);
+		ds.setPassword(passwd);
+		ds.setDriverClassName("com.mysql.cj.jdbc.Driver");
 	}
 
 	public static SQLConnection getInstance() throws DAOConfigurationException, ClassNotFoundException {
-		Class.forName("com.mysql.cj.jdbc.Driver");
-		
+		Class.forName("com.mysql.cj.jdbc.Driver");	
 		ResourceBundle fichierProperties = ResourceBundle.getBundle( FICHIER_PROPERTIES, Locale.getDefault());
-
 		if ( fichierProperties == null ) {
 			throw new DAOConfigurationException( "The file properties " + FICHIER_PROPERTIES + " was not found." );
 		}
-
+		
 		url = fichierProperties.getString( PROPERTY_URL );
 		user = fichierProperties.getString( PROPERTY_USER );
 		passwd = fichierProperties.getString( PROPERTY_PASSWORD );
 
-
-		SQLConnection instance = new SQLConnection( url, user, passwd );
+		if(instance == null) {
+			instance = new SQLConnection();
+		}
 		return instance;
 	}
 
 	synchronized public static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection(url, user, passwd);
+		return ds.getConnection();
 	}
 
 	/**

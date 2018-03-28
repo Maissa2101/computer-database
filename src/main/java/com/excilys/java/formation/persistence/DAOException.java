@@ -1,7 +1,7 @@
 package com.excilys.java.formation.persistence;
 
 
-public class DAOException extends RuntimeException {
+public class DAOException extends Exception {
 
 	private static final long serialVersionUID = 1L;
 

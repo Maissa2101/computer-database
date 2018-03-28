@@ -5,6 +5,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.DAOException;
 
 public enum CompanyValidator {
 
@@ -29,8 +30,8 @@ public enum CompanyValidator {
 					throw new ValidatorException("ID not valid");
 				}
 			}
-		} catch(NumberFormatException e) {
-			logger.error("NumberFormatException");
+		} catch(NumberFormatException | DAOException e) {
+			logger.debug("NumberFormatException");
 		}
 		return true;
 	}

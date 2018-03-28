@@ -3,6 +3,7 @@ package com.excilys.java.formation.service;
 import java.time.LocalDate;
 
 import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.DAOException;
 
 
 
@@ -31,14 +32,16 @@ public enum ComputerValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean idValidator(long id) throws ValidatorException {
-
 		ComputerDAO computers = ComputerDAO.INSTANCE;
-		if(computers.getComputer(id).isPresent()) 
-		{
-			return true;
-		}
-		else {
-			throw new ValidatorException("This computer doesn't exist \n");
+		try {
+			if(computers.getComputer(id).isPresent()) {
+				return true;
+			}
+			else {
+				throw new ValidatorException("This computer doesn't exist");
+			}
+		} catch (DAOException e) {
+			throw new ValidatorException("This computer doesn't exist");
 		}
 	}
 
@@ -52,17 +55,14 @@ public enum ComputerValidator {
 	public boolean DateValidator(LocalDate time1, LocalDate time2) throws ValidatorException {
 		if((time2 != null) && (time1 != null)) 
 		{
-			if (time2.isAfter(time1)) 
-			{
+			if (time2.isAfter(time1)) {
 				return true;
 			}
-			else 
-			{
+			else {
 				throw new ValidatorException("Date problem : the discontinued date must be greater than the introduced date");
 			}
 		}
-		else if (((time2 == null) && (time1 != null)) || ((time2 != null) && (time1 == null)))
-		{
+		else if (((time2 == null) && (time1 != null)) || ((time2 != null) && (time1 == null))) {
 			return true;
 		}
 		return true;

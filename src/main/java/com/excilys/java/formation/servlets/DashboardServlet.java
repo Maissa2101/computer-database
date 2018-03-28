@@ -32,7 +32,7 @@ public class DashboardServlet extends HttpServlet {
 	ComputerService computerService = ComputerService.INSTANCE;
 	ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
 
-	
+
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
@@ -76,7 +76,7 @@ public class DashboardServlet extends HttpServlet {
 			request.setAttribute("pagination", page);
 			request.setAttribute("pageNumber", pageNumber);
 			request.setAttribute("limit", limit);
-			
+
 			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServiceException e) {
