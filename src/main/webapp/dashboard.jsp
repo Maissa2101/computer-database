@@ -67,26 +67,46 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th>Computer name <input type="button"
-						class="btn btn-primary btn-xs" value="&uarr;"
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=computer.name&order=ASC'" />
-						<input type="button" class="btn btn-primary btn-xs" value="&darr;"
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=computer.name&order=DESC'" /></th>
-					<th>Introduced date <input type="button"
-						class="btn btn-primary btn-xs" value="&uarr;"
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=introduced&order=ASC'" /> <input
-						type="button" class="btn btn-primary btn-xs" value="&darr;"
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=introduced&order=DESC'" /></th>
-					<th>Discontinued date <input type="button"
-						class="btn btn-primary btn-xs" value="&uarr;" 
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=discontinued&order=ASC'"/> <input
-						type="button" class="btn btn-primary btn-xs" value="&darr;"
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=discontinued&order=DESC'" /></th>
-					<th>Company <input type="button"
-						class="btn btn-primary btn-xs" value="&uarr;" 
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=company.name&order=ASC'"/> <input
-						type="button" class="btn btn-primary btn-xs" value="&darr;" 
-						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=company.name&order=DESC'"/></th>
+					<th>Computer name
+						<div class="btn-group">
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&uarr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=computer.name&order=ASC'" />
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&darr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=computer.name&order=DESC'" />
+						</div>
+					</th>
+					<th>Introduced date
+						<div class="btn-group">
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&uarr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=introduced&order=ASC'" />
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&darr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=introduced&order=DESC'" />
+						</div>
+					</th>
+					<th>Discontinued date
+						<div class="btn-group">
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&uarr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=discontinued&order=ASC'" />
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&darr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=discontinued&order=DESC'" />
+						</div>
+					</th>
+					<th>Company
+						<div class="btn-group">
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&uarr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=company.name&order=ASC'" />
+							<input type="button" class="btn btn-primary btn-xs"
+								value="&darr;"
+								onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=company.name&order=DESC'" />
+						</div>
+					</th>
 
 				</tr>
 			</thead>
@@ -115,14 +135,18 @@
 		<ul class="pagination">
 
 			<c:if test="${pageNumber > 1}">
-				<li><a href="?pageNumber=${pageNumber-1}&limit=${limit}&columnName=${columnName}&order=${order}'"
+				<li><a
+					href="?pageNumber=${pageNumber-1}&limit=${limit}&columnName=${columnName}&order=${order}'"
 					aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 			</c:if>
-			<c:forEach var="i" begin="1" end="${pageNumber}">
-				<li><a href="?pageNumber=${i}&limit=${limit}&columnName=${columnName}&order=${order}">${i}</a></li>
+			<c:forEach var="i" begin="${((pageNumber - 3) > 0) ? (pageNumber - 3) : 1}" 
+			end="${((pageNumber + 3) < (count/limit)) ? (pageNumber + 3) : (count/limit)}">
+				<li><a
+					href="?pageNumber=${i}&limit=${limit}&columnName=${columnName}&order=${order}">${i}</a></li>
 			</c:forEach>
 			<c:if test="${pageNumber < count}">
-				<li><a href="?pageNumber=${pageNumber+1}&limit=${limit}&columnName=${columnName}&order=${order}"
+				<li><a
+					href="?pageNumber=${pageNumber+1}&limit=${limit}&columnName=${columnName}&order=${order}"
 					aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 			</c:if>
 
