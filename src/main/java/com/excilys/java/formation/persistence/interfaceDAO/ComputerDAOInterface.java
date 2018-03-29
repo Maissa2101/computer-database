@@ -77,6 +77,6 @@ public interface ComputerDAOInterface {
 	 */
 	void deleteTransaction(List<Long> ids) throws DAOException;
 
-	List<Computer> Search(String search, String columnName, String order) throws DAOException;
+	List<Computer> search(String search, String columnName, String order, int limit, int offset) throws DAOException;
 	
 }

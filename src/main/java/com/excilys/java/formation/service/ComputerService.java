@@ -132,7 +132,7 @@ public enum ComputerService {
 	 * @throws ValidatorException
 	 */
 	public void deleteComputer(long idDelete) throws ServiceException, ValidatorException {
-		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
+		ComputerDAO computers = ComputerDAO.INSTANCE;
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
 		try {
@@ -159,14 +159,37 @@ public enum ComputerService {
 			throw new ServiceException("ServiceException in count", e);
 		}
 	}
-
+	
+	/**
+	 * Method to delete one or many computers with transactions
+	 * @param ids list of computers to delete
+	 * @throws ServiceException
+	 */
 	public void deleteTransaction(List<Long> ids) throws ServiceException {
-		ComputerDAOInterface computers = ComputerDAO.INSTANCE;
+		ComputerDAO computers = ComputerDAO.INSTANCE;
 		try {
 			computers.deleteTransaction(ids);
 		} catch (DAOException e) {
 			logger.debug("Problem in Delete Computer with transactions", e);
 			throw new ServiceException("ServiceException in deleteTransaction", e);
 		}	
+	}
+	
+	public List<Computer> search(String search, String columnName, String order, int limit, int offset) throws ServiceException {
+		ComputerDAO computers = ComputerDAO.INSTANCE;
+		try {
+			if(columnName == null || !columnName.equals("computer.name") || !columnName.equals("introduced") || !columnName.equals("discontinued") || !columnName.equals("company.name")) {
+				columnName = "computer.name";
+			}
+			if(order == null || !order.equals("ASC") || !order.equals("DESC")) {
+				order = "ASC";
+			}
+			return computers.search(search, columnName, order, limit, offset);
+		} catch (DAOException e) {
+			logger.debug("Problem in Search Computer", e);
+			throw new ServiceException("ServiceException in search", e);
+		}
+		
+		
 	}
 }

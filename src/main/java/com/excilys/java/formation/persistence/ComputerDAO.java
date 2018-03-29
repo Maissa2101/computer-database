@@ -29,7 +29,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
 	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
 	private final String COUNT = "SELECT count(*) as total FROM computer;";
-	private final String SEARCH = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE name LIKE '%?%' ORDER BY";
+	private final String SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON" +
+			 						" computer.company_id=company.id WHERE computer.name LIKE ? ORDER BY";
 
 	@Override
 	public List<Computer> getListComputer(int limit, int offset) throws DAOException {
@@ -214,21 +215,20 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	}
 
 	@Override
-	public List<Computer> Search(String search, String columnName, String order) throws DAOException {
+	public List<Computer> search(String search, String columnName, String order, int limit, int offset) throws DAOException {
 		List<Computer> listComputers = null;
-		if(columnName == "name" || columnName == "introduced" || columnName == "discontinued" || columnName == "company_id") {
-			try(Connection conn = SQLConnection.getInstance().getConnection();
-					PreparedStatement stmt = conn.prepareStatement(SEARCH + "columName")) {
-				stmt.setString(1, search);
-				ResultSet res = stmt.executeQuery();	
-				listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
-				return listComputers;
-			} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-				logger.debug("Problem in ComputerDAO", e);
-				throw new DAOException("DAOException in Search", e);
-			}
+		try(Connection conn = SQLConnection.getInstance().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(SEARCH + " " + columnName + " " + order + " LIMIT ? OFFSET ?;")) {
+			stmt.setString(1, '%' + search + '%');
+			stmt.setInt(2, limit);
+			stmt.setInt(3, offset);
+			ResultSet res = stmt.executeQuery();	
+			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
+			return listComputers;
+		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in Search", e);
 		}
-		return listComputers;
 	}
 
 }

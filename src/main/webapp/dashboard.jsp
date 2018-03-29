@@ -30,7 +30,7 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${count} Computers found</h1>
+		<h1 id="homeTitle">${count}Computersfound</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
@@ -42,8 +42,9 @@
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="addComputer">Add Computer</a> 
-				<a class="btn btn-default" id="deleteComputer" href="#" onclick="$.fn.toggleEditMode();">Delete</a>
+				<a class="btn btn-success" id="addComputer" href="addComputer">Add
+					Computer</a> <a class="btn btn-default" id="deleteComputer" href="#"
+					onclick="$.fn.toggleEditMode();">Delete</a>
 			</div>
 		</div>
 	</div>
@@ -66,7 +67,10 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th>Computer name</th>
+					<th>Computer name <input type="button"
+						class="btn btn-primary btn-xs" value="&uarr;" /> <input
+						type="button" class="btn btn-primary btn-xs"
+						value="&darr;" /></th>
 					<th>Introduced date</th>
 					<!-- Table header for Discontinued Date -->
 					<th>Discontinued date</th>
@@ -100,15 +104,15 @@
 		<ul class="pagination">
 
 			<c:if test="${pageNumber > 1}">
-				<li><a href="?pageNumber=${pageNumber-1}&limit=${limit}" aria-label="Previous"><span
-						aria-hidden="true">&laquo;</span></a></li>
+				<li><a href="?pageNumber=${pageNumber-1}&limit=${limit}"
+					aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 			</c:if>
 			<c:forEach var="i" begin="1" end="${pageNumber}">
 				<li><a href="?pageNumber=${i}&limit=${limit}">${i}</a></li>
 			</c:forEach>
 			<c:if test="${pageNumber < count}">
-				<li><a href="?pageNumber=${pageNumber+1}&limit=${limit}" aria-label="Next"><span
-						aria-hidden="true">&raquo;</span></a></li>
+				<li><a href="?pageNumber=${pageNumber+1}&limit=${limit}"
+					aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 			</c:if>
 
 		</ul>

@@ -23,7 +23,6 @@ public class AutoRollback implements AutoCloseable {
 
     @Override
     public void close() throws SQLException {
-    	logger.info("Close dans le AutoRollback");
         if(!committed) {
             conn.rollback();
         }

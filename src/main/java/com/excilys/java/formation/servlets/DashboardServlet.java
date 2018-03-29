@@ -46,9 +46,12 @@ public class DashboardServlet extends HttpServlet {
 
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PaginationComputer page = (PaginationComputer) request.getAttribute("ComputerPage");
-		List<Computer> list = null;
+		List<Computer> listSearch = null;
 		String PageNumberStr = request.getParameter("pageNumber");
 		String limitStr = request.getParameter("limit");
+		String search = request.getParameter("search");
+		String columnName = request.getParameter("columnName");
+		String order = request.getParameter("order");
 		int pageNumber = 1;
 		int limit = 20;
 		try {
@@ -64,19 +67,27 @@ public class DashboardServlet extends HttpServlet {
 		} catch (ServiceException e1) {
 			logger.debug("Pagination error", e1);
 		}
+
 		try {
 			int i = computerService.count();
-			list = computerService.listComputers(limit,limit*(pageNumber-1));
-			List<ComputerDTO> listDTO = new ArrayList<ComputerDTO>();
-			for(Computer computer : list) {
-				listDTO.add(computerMapper.getComputerDTOFromComputer(computer));
+			if(search == null && columnName == null && order == null){
+				listSearch = computerService.listComputers(limit,limit*(pageNumber-1)); 
 			}
-			request.setAttribute("computerList", listDTO);
+			else {
+				listSearch = computerService.search(search, columnName, order, limit, limit*(pageNumber-1));
+			}		
+			List<ComputerDTO> listDTOSearch = new ArrayList<ComputerDTO>();
+			for(Computer computerSearch : listSearch) {
+				listDTOSearch.add(computerMapper.getComputerDTOFromComputer(computerSearch));
+			}
+			request.setAttribute("computerList", listDTOSearch);
 			request.setAttribute("count", i);
 			request.setAttribute("pagination", page);
 			request.setAttribute("pageNumber", pageNumber);
 			request.setAttribute("limit", limit);
-
+			request.setAttribute("search", search);
+			request.setAttribute("columnName", columnName);
+			request.setAttribute("order", order);
 			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
 			dispatcher.forward(request, response);
 		} catch (ServiceException e) {
@@ -104,7 +115,7 @@ public class DashboardServlet extends HttpServlet {
 			logger.debug("Problem with the delete function in the Servlet", e);
 		}
 		response.sendRedirect(request.getContextPath() + "/DashboardServlet");
-		
+
 	}
 
 }
