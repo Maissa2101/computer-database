@@ -23,20 +23,20 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
-	private final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id LIMIT ? OFFSET ?;";
+	private final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY";
 	private final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
 	private final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
 	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
 	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
 	private final String COUNT = "SELECT count(*) as total FROM computer;";
 	private final String SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON" +
-			 						" computer.company_id=company.id WHERE computer.name LIKE ? ORDER BY";
+			" computer.company_id=company.id WHERE computer.name LIKE ? ORDER BY";
 
 	@Override
-	public List<Computer> getListComputer(int limit, int offset) throws DAOException {
+	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
 		List<Computer> listComputers = null;
 		try(Connection conn = SQLConnection.getInstance().getConnection(); 
-				PreparedStatement stmt = conn.prepareStatement(SELECT_REQUEST_LIST)) {
+				PreparedStatement stmt = conn.prepareStatement(SELECT_REQUEST_LIST + " " + columnName + " " + order + " LIMIT ? OFFSET ?;")) {
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();	

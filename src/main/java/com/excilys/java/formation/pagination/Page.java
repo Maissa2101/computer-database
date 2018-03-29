@@ -8,6 +8,7 @@ public abstract class Page {
 	int limit;
 	int dbSize;
 	int pageNumber;
+	
 
 	public abstract void getNext() throws ServiceException;
 	public abstract void getPrevious() throws ServiceException;

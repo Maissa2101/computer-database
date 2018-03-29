@@ -17,7 +17,7 @@ public interface ComputerDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
 	 */
-	List<Computer> getListComputer(int limit,int offset) throws DAOException;
+	List<Computer> getListComputer(int limit,int offset, String columnName, String order) throws DAOException;
 
 	/**
 	 * Method to get a specific computer given its id

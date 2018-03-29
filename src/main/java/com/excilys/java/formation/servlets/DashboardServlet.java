@@ -67,11 +67,10 @@ public class DashboardServlet extends HttpServlet {
 		} catch (ServiceException e1) {
 			logger.debug("Pagination error", e1);
 		}
-
 		try {
 			int i = computerService.count();
-			if(search == null && columnName == null && order == null){
-				listSearch = computerService.listComputers(limit,limit*(pageNumber-1)); 
+			if(search == null){
+				listSearch = computerService.listComputers(limit,limit*(pageNumber-1), columnName, order); 
 			}
 			else {
 				listSearch = computerService.search(search, columnName, order, limit, limit*(pageNumber-1));

@@ -11,6 +11,8 @@ public class PaginationComputer extends Page {
 
 	private List<Computer> computers;
 	private ComputerService computerService;
+	String order;
+	String columnName;
 
 
 	public PaginationComputer(int limit) throws ServiceException {
@@ -18,7 +20,7 @@ public class PaginationComputer extends Page {
 		this.limit = limit;
 		this.computerService = ComputerService.INSTANCE;
 		this.dbSize = computerService.count();
-		this.computers = computerService.listComputers(limit, offset);
+		this.computers = computerService.listComputers(limit, offset, columnName, order);
 	}
 	
 	/**
@@ -26,7 +28,7 @@ public class PaginationComputer extends Page {
 	 * @throws ServiceException
 	 */
 	private void updateComputer() throws ServiceException  {
-		this.computers = computerService.listComputers(limit, offset);
+		this.computers = computerService.listComputers(limit, offset, columnName, order);
 	}
 
 	@Override

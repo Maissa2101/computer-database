@@ -68,14 +68,25 @@
 						</a>
 					</span></th>
 					<th>Computer name <input type="button"
-						class="btn btn-primary btn-xs" value="&uarr;" /> <input
-						type="button" class="btn btn-primary btn-xs"
-						value="&darr;" /></th>
-					<th>Introduced date</th>
-					<!-- Table header for Discontinued Date -->
-					<th>Discontinued date</th>
-					<!-- Table header for Company -->
-					<th>Company</th>
+						class="btn btn-primary btn-xs" value="&uarr;"
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=computer.name&order=ASC'" />
+						<input type="button" class="btn btn-primary btn-xs" value="&darr;"
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=computer.name&order=DESC'" /></th>
+					<th>Introduced date <input type="button"
+						class="btn btn-primary btn-xs" value="&uarr;"
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=introduced&order=ASC'" /> <input
+						type="button" class="btn btn-primary btn-xs" value="&darr;"
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=introduced&order=DESC'" /></th>
+					<th>Discontinued date <input type="button"
+						class="btn btn-primary btn-xs" value="&uarr;" 
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=discontinued&order=ASC'"/> <input
+						type="button" class="btn btn-primary btn-xs" value="&darr;"
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=discontinued&order=DESC'" /></th>
+					<th>Company <input type="button"
+						class="btn btn-primary btn-xs" value="&uarr;" 
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=company.name&order=ASC'"/> <input
+						type="button" class="btn btn-primary btn-xs" value="&darr;" 
+						onclick="location.href='?pageNumber=${pageNumber}&limit=${limit}&columnName=company.name&order=DESC'"/></th>
 
 				</tr>
 			</thead>
@@ -104,14 +115,14 @@
 		<ul class="pagination">
 
 			<c:if test="${pageNumber > 1}">
-				<li><a href="?pageNumber=${pageNumber-1}&limit=${limit}"
+				<li><a href="?pageNumber=${pageNumber-1}&limit=${limit}&columnName=${columnName}&order=${order}'"
 					aria-label="Previous"><span aria-hidden="true">&laquo;</span></a></li>
 			</c:if>
 			<c:forEach var="i" begin="1" end="${pageNumber}">
-				<li><a href="?pageNumber=${i}&limit=${limit}">${i}</a></li>
+				<li><a href="?pageNumber=${i}&limit=${limit}&columnName=${columnName}&order=${order}">${i}</a></li>
 			</c:forEach>
 			<c:if test="${pageNumber < count}">
-				<li><a href="?pageNumber=${pageNumber+1}&limit=${limit}"
+				<li><a href="?pageNumber=${pageNumber+1}&limit=${limit}&columnName=${columnName}&order=${order}"
 					aria-label="Next"><span aria-hidden="true">&raquo;</span></a></li>
 			</c:if>
 
@@ -119,11 +130,11 @@
 
 		<div class="btn-group btn-group-sm pull-right" role="group">
 			<button type="button" class="btn btn-default"
-				onclick="location.href='?pageNumber=${pageNumber}&limit=10'">10</button>
+				onclick="location.href='?pageNumber=${pageNumber}&limit=10&columnName=${columnName}&order=${order}'">10</button>
 			<button type="button" class="btn btn-default"
-				onclick="location.href='?pageNumber=${pageNumber}&limit=50'">50</button>
+				onclick="location.href='?pageNumber=${pageNumber}&limit=50&columnName=${columnName}&order=${order}'">50</button>
 			<button type="button" class="btn btn-default"
-				onclick="location.href='?pageNumber=${pageNumber}&limit=100'">100</button>
+				onclick="location.href='?pageNumber=${pageNumber}&limit=100&columnName=${columnName}&order=${order}'">100</button>
 		</div>
 	</div>
 	</footer>

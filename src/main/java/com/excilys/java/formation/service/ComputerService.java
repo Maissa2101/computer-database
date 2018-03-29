@@ -25,10 +25,16 @@ public enum ComputerService {
 	 * @return list of computers starting from offset with length equals to limit
 	 * @throws ServiceException
 	 */
-	public List<Computer> listComputers(int limit, int offset) throws ServiceException{
+	public List<Computer> listComputers(int limit, int offset, String columnName, String order) throws ServiceException{
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		try {
-			return computers.getListComputer(limit, offset);
+			if(columnName == null || (!columnName.equals("computer.name") && !columnName.equals("introduced") && !columnName.equals("discontinued") && !columnName.equals("company.name"))) {
+				columnName = "computer.id";
+			}
+			if(order == null || (!order.equals("ASC") && !order.equals("DESC"))) {
+				order = "ASC";
+			}
+			return computers.getListComputer(limit, offset, columnName, order);
 		} catch (DAOException e) {
 			logger.debug("Problem in list Computer", e);
 			throw new ServiceException("ServiceException in listComputer", e);
@@ -178,10 +184,10 @@ public enum ComputerService {
 	public List<Computer> search(String search, String columnName, String order, int limit, int offset) throws ServiceException {
 		ComputerDAO computers = ComputerDAO.INSTANCE;
 		try {
-			if(columnName == null || !columnName.equals("computer.name") || !columnName.equals("introduced") || !columnName.equals("discontinued") || !columnName.equals("company.name")) {
-				columnName = "computer.name";
+			if(columnName == null || (!columnName.equals("computer.name") && !columnName.equals("introduced") && !columnName.equals("discontinued") && !columnName.equals("company.name"))) {
+				columnName = "computer.id";
 			}
-			if(order == null || !order.equals("ASC") || !order.equals("DESC")) {
+			if(order == null || (!order.equals("ASC") && !order.equals("DESC"))) {
 				order = "ASC";
 			}
 			return computers.search(search, columnName, order, limit, offset);
