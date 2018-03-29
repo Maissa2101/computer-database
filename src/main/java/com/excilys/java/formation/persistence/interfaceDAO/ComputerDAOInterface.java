@@ -1,6 +1,5 @@
 package com.excilys.java.formation.persistence.interfaceDAO;
 
-import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -12,63 +11,69 @@ import com.excilys.java.formation.persistence.DAOException;
 public interface ComputerDAOInterface {
 
 	/**
-	 * Method to get the list of computers
+	 * Method to get the list of computers orders by id 
+	 * @param limit maximum number of computers per page
+	 * @param offset starting offset of the pagination
+	 * @param columnName name of the column to sort by
+	 * @param order order to apply 
 	 * @return list of computers
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws DAOException
 	 */
 	List<Computer> getListComputer(int limit,int offset, String columnName, String order) throws DAOException;
 
 	/**
-	 * Method to get a specific computer given its id
-	 * @param id the id of the computer
-	 * @return the computer where its id = parameter id
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * Method to get a computer by its id
+	 * @param id id of the computer to get
+	 * @return the computer with id = id
+	 * @throws DAOException
 	 */
 	Optional<Computer> getComputer(long id) throws DAOException;
 
 	/**
 	 * Method to create a new computer
-	 * @param name name of the computer to create 
-	 * @param intro introduced time of the computer
-	 * @param discontinued discontinued time of the computer
-	 * @param manufacturer manufacturer of the new computer
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @param name name of the computer to create
+	 * @param intro introduced date of the computer to create
+	 * @param discontinued discontinued date of the computer to create
+	 * @param manufacturer new company of the computer to create
+	 * @return the id of the created computer
+	 * @throws DAOException
 	 */
-
 	long createComputer(String name, LocalDate intro, LocalDate discontinued, String manufacturer)
 			throws DAOException;
 
 	/**
-	 * Method to update a computer
+	 * Method to update a computer in the db
 	 * @param id id of the computer to update
 	 * @param name new name of the computer
-	 * @param intro new introduced date 
-	 * @param discontinued new discontinued date
+	 * @param intro new introduced date of the computer
+	 * @param discontinued new discontinued date of the computer
 	 * @param manufacturer new company of the computer
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws DAOException
 	 */
 	void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer)
 			throws DAOException;
 
 	/**
-	 * Method to delete an existing computer
+	 * Method to delete a computer from the db
 	 * @param id id of the computer to delete
-	 * @throws SQLException in case of a database access error
-	 * @throws ClassNotFoundException when no definition for the class with the specified name could be found
+	 * @throws DAOException
 	 */
 	void deleteComputer(long id) throws DAOException;
 	
 	/**
-	 * Counts the number of computers in the DB
-	 * @return the number of computers
+	 * Counts the total number of computers in the DB
+	 * @return the total number of computers
 	 * @throws DAOConfigurationException
 	 * @throws DAOException
 	 */
 	int count() throws DAOConfigurationException, DAOException;
+	
+	/**
+	 * Counts the number of elements after the search execution
+	 * @return the number of elements after the search
+	 * @throws DAOException
+	 */
+	int countAfterSearch() throws DAOException;
 	
 	/**
 	 * Method to delete many computers 
@@ -76,7 +81,17 @@ public interface ComputerDAOInterface {
 	 * @throws DAOException
 	 */
 	void deleteTransaction(List<Long> ids) throws DAOException;
-
+	
+	/**
+	 * Method to search elements in my db
+	 * @param search the word to search in the db 
+	 * @param columnName order by the column name  
+	 * @param order order in which to order
+	 * @param limit number of computers per page
+	 * @param offset starting offset of the pagination
+	 * @return list of computers after the search execution
+	 * @throws DAOException
+	 */
 	List<Computer> search(String search, String columnName, String order, int limit, int offset) throws DAOException;
 	
 }

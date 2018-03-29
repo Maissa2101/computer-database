@@ -30,7 +30,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
 	private final String COUNT = "SELECT count(*) as total FROM computer;";
 	private final String SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON" +
-			" computer.company_id=company.id WHERE computer.name LIKE ? ORDER BY";
+			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
 
 	@Override
 	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
@@ -189,6 +189,12 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			throw new DAOException("DAOException in count number of computers", e);
 		}
 	}
+	
+	@Override
+	public int countAfterSearch() throws DAOException {
+		return 0;
+		
+	}
 
 	@Override
 	public void deleteTransaction(List<Long> ids) throws DAOException{
@@ -220,8 +226,9 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SEARCH + " " + columnName + " " + order + " LIMIT ? OFFSET ?;")) {
 			stmt.setString(1, '%' + search + '%');
-			stmt.setInt(2, limit);
-			stmt.setInt(3, offset);
+			stmt.setString(2, '%' + search + '%');
+			stmt.setInt(3, limit);
+			stmt.setInt(4, offset);
 			ResultSet res = stmt.executeQuery();	
 			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 			return listComputers;
