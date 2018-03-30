@@ -74,6 +74,7 @@ public class DashboardServlet extends HttpServlet {
 			}
 			else {
 				listSearch = computerService.search(search, columnName, order, limit, limit*(pageNumber-1));
+				i = computerService.countAfterSearch(search);
 			}		
 			List<ComputerDTO> listDTOSearch = new ArrayList<ComputerDTO>();
 			for(Computer computerSearch : listSearch) {

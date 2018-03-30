@@ -70,10 +70,11 @@ public interface ComputerDAOInterface {
 	
 	/**
 	 * Counts the number of elements after the search execution
+	 * @param search the word to search in the db 
 	 * @return the number of elements after the search
 	 * @throws DAOException
 	 */
-	int countAfterSearch() throws DAOException;
+	int countAfterSearch(String search) throws DAOException;
 	
 	/**
 	 * Method to delete many computers 

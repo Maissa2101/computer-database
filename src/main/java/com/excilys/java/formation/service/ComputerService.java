@@ -166,6 +166,15 @@ public enum ComputerService {
 		}
 	}
 	
+	public int countAfterSearch(String search) throws ServiceException {
+		try {
+			return ComputerDAO.INSTANCE.countAfterSearch(search);
+		} catch (DAOException e) {
+			logger.debug("Problem in count computer after search", e);
+			throw new ServiceException("ServiceException in countAfterSearch", e);
+		}
+	}
+	
 	/**
 	 * Method to delete one or many computers with transactions
 	 * @param ids list of computers to delete

@@ -31,6 +31,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	private final String COUNT = "SELECT count(*) as total FROM computer;";
 	private final String SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON" +
 			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
+	private final String COUNT_SEARCH = "SELECT count(*) as total FROM computer LEFT JOIN company ON" + 
+			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ?;";
 
 	@Override
 	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
@@ -191,9 +193,25 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	}
 	
 	@Override
-	public int countAfterSearch() throws DAOException {
-		return 0;
-		
+	public int countAfterSearch(String search) throws DAOException {
+		List<Computer> listComputers = null;
+		int result = 0;
+		try(Connection conn = SQLConnection.getInstance().getConnection();
+				PreparedStatement stmt = conn.prepareStatement(COUNT_SEARCH)) {
+			stmt.setString(1, '%' + search + '%');
+			stmt.setString(2, '%' + search + '%');
+			ResultSet res = stmt.executeQuery();
+			if (res.next()) {
+				result =  res.getInt("total");
+			}
+			else {
+				throw new DAOException("Problem in your count after search");
+			}
+			return result;
+		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in countAfterSearch", e);
+		}
 	}
 
 	@Override
