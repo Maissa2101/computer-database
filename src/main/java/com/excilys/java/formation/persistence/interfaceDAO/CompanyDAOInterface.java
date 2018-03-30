@@ -33,6 +33,14 @@ public interface CompanyDAOInterface {
 	 * @throws DAOException
 	 */
 	Optional<Company> getCompany(long id) throws DAOException ;
+	
+	/**
+	 * Method to delete a company and all its related computers
+	 * @param id id of the company to delete
+	 * @param ids ids of the computers to delete with company id = id
+	 * @throws DAOException
+	 */
+	void deleteCompany(long id) throws DAOException;
 
 
 }

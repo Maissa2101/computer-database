@@ -2,7 +2,9 @@ package com.excilys.java.formation.ui;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.ArrayList;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
 import org.slf4j.Logger;
@@ -10,6 +12,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
+import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
@@ -33,7 +36,8 @@ public class Interface {
 			System.out.println("4. Create a computer");
 			System.out.println("5. Update a computer");
 			System.out.println("6. Delete a computer");
-			System.out.println("7. Quit");
+			System.out.println("7. Delete a company");
+			System.out.println("8. Quit");
 			System.out.println("\n");
 
 			Scanner sc = new Scanner(System.in);
@@ -69,6 +73,9 @@ public class Interface {
 
 				case DELETE_COMPUTER :
 					deleteComputer();
+					break;
+				case DELETE_COMPANY :
+					deleteCompany();
 					break;
 				case QUIT :
 					return;
@@ -252,6 +259,15 @@ public class Interface {
 		System.out.println("give the id of the computer to delete : ");	
 		long idDelete = scanner.nextLong();
 		computerService.deleteComputer(idDelete);
+	}
+	
+	private static void deleteCompany() throws ServiceException, ValidatorException {
+		CompanyService companyService = CompanyService.INSTANCE;
+		ComputerService computerService = ComputerService.INSTANCE;
+		Scanner scanner = new Scanner(System.in);
+		System.out.println("give the id of the company to delete : ");	
+		long idDelete = scanner.nextLong();
+		companyService.deleteTransactionCompany(idDelete);
 	}
 
 	public static void main(String[] args) {

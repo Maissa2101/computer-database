@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOException;
 
 public enum CompanyService {
@@ -30,6 +31,16 @@ public enum CompanyService {
 			logger.debug("DAOException problem in listCompanies",e);
 			throw new ServiceException("ServiceException in listCompanies", e);
 		}
+	}
+	
+	public void deleteTransactionCompany(long id) throws ServiceException {
+		CompanyDAO companies = CompanyDAO.INSTANCE;
+		try {
+			companies.deleteCompany(id);
+		} catch (DAOException e) {
+			logger.debug("Problem in Delete Company with transactions", e);
+			throw new ServiceException("ServiceException in deleteTransactionCompany", e);
+		}	
 	}
 
 	/**

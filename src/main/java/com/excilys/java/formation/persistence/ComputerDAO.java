@@ -33,6 +33,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
 	private final String COUNT_SEARCH = "SELECT count(*) as total FROM computer LEFT JOIN company ON" + 
 			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ?;";
+	private final String DELETE_COMPUTERS_COMPANY = "DELETE FROM computer WHERE company_id=?;";
 
 	@Override
 	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
@@ -155,7 +156,6 @@ public enum ComputerDAO implements ComputerDAOInterface {
 
 	@Override
 	public void deleteComputer(long id) throws DAOException{
-
 		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
 			stmt.setLong(1, id);
@@ -191,7 +191,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			throw new DAOException("DAOException in count number of computers", e);
 		}
 	}
-	
+
 	@Override
 	public int countAfterSearch(String search) throws DAOException {
 		List<Computer> listComputers = null;
@@ -219,7 +219,17 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		try(Connection conn = SQLConnection.getInstance().getConnection();
 				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
 				AutoRollback autoRollback = new AutoRollback(conn);	
-				PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
+				) {
+			deleteTransaction(ids, conn);
+			autoRollback.commit();
+		} catch (DAOConfigurationException | ClassNotFoundException | SQLException | DAOException e) {
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in deleteTransaction", e);
+		}
+	}
+
+	public void deleteTransaction(List<Long> ids, Connection conn) throws DAOException{
+		try(PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
 			int res = 0;
 			for(Long id : ids) {
 				stmt.setLong(1, id);
@@ -231,8 +241,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			else {
 				logger.info("computers not deleted");
 			}
-			autoRollback.commit();
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
 			throw new DAOException("DAOException in deleteTransaction", e);
 		}
@@ -253,6 +262,22 @@ public enum ComputerDAO implements ComputerDAOInterface {
 		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
 			logger.debug("Problem in ComputerDAO", e);
 			throw new DAOException("DAOException in Search", e);
+		}
+	}
+
+	public void deleteTransactionCompany(long id, Connection conn) throws DAOException{
+		try(PreparedStatement stmt =  conn.prepareStatement(DELETE_COMPUTERS_COMPANY)) {
+			stmt.setLong(1, id);
+			int res = stmt.executeUpdate();
+			if(res >= 1) {
+				logger.info("computers deleted after company deletion");
+			}
+			else {
+				logger.info("computers not deleted after company deletion");
+			}
+		} catch (SQLException e) {
+			logger.debug("Problem in ComputerDAO", e);
+			throw new DAOException("DAOException in deleteTransactionCompany", e);
 		}
 	}
 

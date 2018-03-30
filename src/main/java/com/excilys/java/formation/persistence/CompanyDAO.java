@@ -22,6 +22,8 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	private final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
 	private final String COUNT = "SELECT count(*) as total FROM company;";
 	private final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
+	private final String DELETE_COMPANY = "DELETE FROM company WHERE company.id = ?;";
+	
 
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
@@ -72,6 +74,29 @@ public enum CompanyDAO implements CompanyDAOInterface {
 		return rslt;
 
 	}
+
+	@Override
+	public void deleteCompany(long id) throws DAOException {
+		try(Connection conn = SQLConnection.getInstance().getConnection();
+				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
+				AutoRollback autoRollback = new AutoRollback(conn);	
+				PreparedStatement stmt =  conn.prepareStatement(DELETE_COMPANY)) {
+			ComputerDAO.INSTANCE.deleteTransactionCompany(id, conn);
+			stmt.setLong(1, id);
+			int res = stmt.executeUpdate();
+			if(res == 1 ) {
+				logger.info("company deleted");
+			}
+			else {
+				logger.info("company not deleted");
+			}
+			autoRollback.commit();
+		} catch (DAOConfigurationException | ClassNotFoundException | SQLException | DAOException e) {
+			logger.debug("Problem in CompanyDAO", e);
+			throw new DAOException("DAOException in deleteCompany", e);
+		}
+	}
+
 }
 
 
