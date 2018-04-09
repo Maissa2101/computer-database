@@ -8,7 +8,6 @@ import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
-import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOException;
 
 public enum CompanyService {

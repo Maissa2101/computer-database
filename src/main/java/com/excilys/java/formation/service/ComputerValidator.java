@@ -52,7 +52,7 @@ public enum ComputerValidator {
 	 * @return true if the date the computer was discontinued is greater than the one it was introduced
 	 * @throws ValidatorException 
 	 */
-	public boolean DateValidator(LocalDate time1, LocalDate time2) throws ValidatorException {
+	public boolean dateValidator(LocalDate time1, LocalDate time2) throws ValidatorException {
 		if((time2 != null) && (time1 != null)) 
 		{
 			if (time2.isAfter(time1)) {
@@ -62,7 +62,7 @@ public enum ComputerValidator {
 				throw new ValidatorException("Date problem : the discontinued date must be greater than the introduced date");
 			}
 		}
-		else if (((time2 == null) && (time1 != null)) || ((time2 != null) && (time1 == null))) {
+		else if (((time2 == null) && (time1 != null)) || (time2 != null)) {
 			return true;
 		}
 		return true;

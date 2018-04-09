@@ -18,11 +18,11 @@ public class CompanyDAOTest {
 		CompanyDAO cd = CompanyDAO.INSTANCE;
 
 		try {
-			List<Company> list = cd.getListCompany(42, 1);
+			List<Company> list = cd.getListCompany(3, 1);
 
 			for(Company company: list) {
-				if(company.getId() == 42) {
-					assertEquals("Research In Motion", company.getName());
+				if(company.getId() == 1) {
+					assertEquals("Apple Inc.", company.getName());
 				}
 			}
 

@@ -19,7 +19,7 @@ public enum ComputerMapper {
 	 * @throws SQLException in case of a database access error
 	 */
 	public List<Computer> getListComputerFromResultSet(ResultSet res) throws SQLException {
-		List<Computer> computers = new ArrayList<Computer>();
+		List<Computer> computers = new ArrayList<>();
 		while(res.next()) {
 			Computer.ComputerBuilder computerBuilder = new Computer.ComputerBuilder(res.getLong(1), res.getString(2))
 					.manufacturer(res.getString(5));

@@ -10,6 +10,6 @@ public enum Feature {
 	DELETE_COMPANY,
 	QUIT,	
 	DEFAULT
-};
+}
 
 

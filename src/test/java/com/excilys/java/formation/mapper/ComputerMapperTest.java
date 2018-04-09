@@ -39,7 +39,7 @@ public class ComputerMapperTest {
 		java.sql.Statement statement = connection.createStatement();
 		ResultSet result = statement.executeQuery("SELECT name FROM computer WHERE id = 1");
 		Computer computer= cm.getComputerDetailsFromResultSet(result);
-		assertEquals(computer.getName(), "MacBook Pro 15.4 inch ");
+		assertEquals("MacBook Pro 15.4 inch", computer.getName());
 
 	}
 

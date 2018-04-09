@@ -1,6 +1,5 @@
 package com.excilys.java.formation.persistence.interfaceDAO;
 
-import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 

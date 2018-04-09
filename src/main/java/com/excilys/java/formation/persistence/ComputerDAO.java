@@ -23,17 +23,17 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
-	private final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY";
-	private final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
-	private final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
-	private final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
-	private final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
-	private final String COUNT = "SELECT count(*) as total FROM computer;";
-	private final String SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON" +
+	private static final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY";
+	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
+	private static final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
+	private static final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
+	private static final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
+	private static final String COUNT = "SELECT count(*) as total FROM computer;";
+	private static final String SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON" +
 			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
-	private final String COUNT_SEARCH = "SELECT count(*) as total FROM computer LEFT JOIN company ON" + 
+	private static final String COUNT_SEARCH = "SELECT count(*) as total FROM computer LEFT JOIN company ON" + 
 			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ?;";
-	private final String DELETE_COMPUTERS_COMPANY = "DELETE FROM computer WHERE company_id=?;";
+	private static final String DELETE_COMPUTERS_COMPANY = "DELETE FROM computer WHERE company_id=?;";
 
 	@Override
 	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
@@ -45,8 +45,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			ResultSet res = stmt.executeQuery();	
 			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 			return listComputers;
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in getListComputer", e);
 			throw new DAOException("DAOException in getListComputer", e);
 		}
 	}
@@ -60,8 +60,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			ResultSet res = stmt.executeQuery();
 			computer = ComputerMapper.INSTANCE.getComputerDetailsFromResultSet(res);
 			return Optional.ofNullable(computer);
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO" , e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in getComputer" , e);
 			throw new DAOException("DAOException in getComputer", e);
 		}
 	}
@@ -107,8 +107,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				logger.info("computer not added");
 			}
 			return result;
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in createComputer", e);
 			throw new DAOException("DAOException in createComputer", e);
 		}
 	}
@@ -147,8 +147,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				logger.info("computer updated");
 			else
 				logger.info("computer not updated");
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in updateComputer", e);
 			throw new DAOException("DAOException in updateComputer", e);
 		}
 
@@ -166,8 +166,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			else {
 				logger.info("computer not deleted");
 			}
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in deleteComputer", e);
 			throw new DAOException("DAOException in deleteComputer", e);
 		}
 
@@ -186,15 +186,14 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				throw new DAOException("Problem in your count");
 			}
 			return result;
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in count", e);
 			throw new DAOException("DAOException in count number of computers", e);
 		}
 	}
 
 	@Override
 	public int countAfterSearch(String search) throws DAOException {
-		List<Computer> listComputers = null;
 		int result = 0;
 		try(Connection conn = SQLConnection.getInstance().getConnection();
 				PreparedStatement stmt = conn.prepareStatement(COUNT_SEARCH)) {
@@ -208,8 +207,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				throw new DAOException("Problem in your count after search");
 			}
 			return result;
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in countAfterSearch", e);
 			throw new DAOException("DAOException in countAfterSearch", e);
 		}
 	}
@@ -222,8 +221,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				) {
 			deleteTransaction(ids, conn);
 			autoRollback.commit();
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException | DAOException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException | DAOException e) {
+			logger.debug("Problem in deleteTransaction", e);
 			throw new DAOException("DAOException in deleteTransaction", e);
 		}
 	}
@@ -242,7 +241,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				logger.info("computers not deleted");
 			}
 		} catch (SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+			logger.debug("Problem in deleteTransaction", e);
 			throw new DAOException("DAOException in deleteTransaction", e);
 		}
 	}
@@ -259,8 +258,8 @@ public enum ComputerDAO implements ComputerDAOInterface {
 			ResultSet res = stmt.executeQuery();	
 			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 			return listComputers;
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in search", e);
 			throw new DAOException("DAOException in Search", e);
 		}
 	}
@@ -276,7 +275,7 @@ public enum ComputerDAO implements ComputerDAOInterface {
 				logger.info("computers not deleted after company deletion");
 			}
 		} catch (SQLException e) {
-			logger.debug("Problem in ComputerDAO", e);
+			logger.debug("Problem in deleteTransactionCompany", e);
 			throw new DAOException("DAOException in deleteTransactionCompany", e);
 		}
 	}

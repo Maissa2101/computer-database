@@ -2,9 +2,7 @@ package com.excilys.java.formation.ui;
 
 import java.sql.Date;
 import java.time.LocalDate;
-import java.util.ArrayList;
 import java.util.InputMismatchException;
-import java.util.List;
 import java.util.Scanner;
 
 import org.slf4j.Logger;
@@ -47,6 +45,7 @@ public class Interface {
 			try {
 				action = sc.nextInt();
 			} catch (InputMismatchException e) {
+				logger.debug("listFeatures problem");
 			}
 
 			try {
@@ -175,7 +174,7 @@ public class Interface {
 		System.out.println("introduced date : ");
 		String time = sc.nextLine();
 		LocalDate introduced;
-		if (time.toLowerCase().equals("")) 
+		if (time.equalsIgnoreCase("")) 
 		{
 			introduced = null;
 		}
@@ -186,7 +185,7 @@ public class Interface {
 		String time2 = sc.nextLine();
 
 		LocalDate discontinued;
-		if (time2.toLowerCase().equals("")) 
+		if (time2.equalsIgnoreCase("")) 
 		{
 			discontinued = null;
 		}
@@ -196,7 +195,7 @@ public class Interface {
 		}
 		System.out.println("give the manufacturer : ");
 		String manufacturer = sc.nextLine(); 
-		if(manufacturer.toLowerCase().equals("")) 
+		if(manufacturer.equalsIgnoreCase("")) 
 		{
 			manufacturer = null;
 		} 
@@ -231,7 +230,7 @@ public class Interface {
 		System.out.println("give the new discontinued date : ");
 		String newTime2 = sc.nextLine();
 		LocalDate newDate2;
-		if (newTime2.toLowerCase().equals("")) 
+		if (newTime2.equalsIgnoreCase("")) 
 		{
 			newDate2 = null;
 		}
@@ -240,7 +239,7 @@ public class Interface {
 		}
 		System.out.println("give the new company : ");
 		String manufacturer = sc.nextLine();
-		if (manufacturer.toLowerCase().equals("")) 
+		if (manufacturer.equalsIgnoreCase("")) 
 		{
 			manufacturer = null;
 		}
@@ -261,9 +260,8 @@ public class Interface {
 		computerService.deleteComputer(idDelete);
 	}
 	
-	private static void deleteCompany() throws ServiceException, ValidatorException {
+	private static void deleteCompany() throws ServiceException {
 		CompanyService companyService = CompanyService.INSTANCE;
-		ComputerService computerService = ComputerService.INSTANCE;
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the company to delete : ");	
 		long idDelete = scanner.nextLong();

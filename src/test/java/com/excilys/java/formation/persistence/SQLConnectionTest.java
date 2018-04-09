@@ -2,57 +2,51 @@ package com.excilys.java.formation.persistence;
 
 import static org.junit.Assert.assertEquals;
 
+import java.io.File;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.sql.Connection;
-import java.sql.DriverManager;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
+import org.omg.CORBA.portable.InputStream;
+
+import org.hsqldb.cmdline.SqlFile;
+import org.hsqldb.cmdline.SqlToolError;
 
 
 public class SQLConnectionTest {
-
-
+	
 	@BeforeClass
-	public static void init() throws SQLException, ClassNotFoundException, IOException {
-		Class.forName("org.hsqldb.jdbc.JDBCDriver");
-		initDatabase();
-	}
-
+	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
+        SQLConnection.getInstance();
+		try (Connection connection = SQLConnection.getConnection();
+                InputStream inputStream = (InputStream) SQLConnection.class.getResourceAsStream("/db/TEST.sql");) {
+            SqlFile sqlFile = new SqlFile(new InputStreamReader(inputStream),
+                    "init", System.out, "UTF-8", false, new File("."));
+            sqlFile.setConnection(connection);
+            sqlFile.execute();
+            
+        }
+    }
 
 	@AfterClass
-	public static void destroy() throws SQLException, ClassNotFoundException, IOException {
-		try (Connection connection = getConnection(); java.sql.Statement statement = connection.createStatement();) {
+	public static void destroy() throws SQLException, ClassNotFoundException, IOException, DAOConfigurationException {
+		SQLConnection.getInstance();
+		try (Connection connection = SQLConnection.getConnection(); java.sql.Statement statement = connection.createStatement();) {
 			statement.executeUpdate("DROP TABLE company");
 			connection.commit();
 		} 
 	}
 
-	private static void initDatabase() throws SQLException {
-		try (Connection connection = getConnection(); java.sql.Statement statement = connection.createStatement();) {
-			statement.execute("CREATE TABLE company (id BIGINT NOT NULL identity, name VARCHAR(255),"
-					+ "constraint pk_computer PRIMARY KEY (id));");
-			connection.commit();
-			statement.executeUpdate("INSERT INTO company (name) VALUES ('Apple Inc.');");
-			statement.executeUpdate("INSERT INTO company (name) VALUES ('Thinking Machines');");
-			statement.executeUpdate("INSERT INTO company (name) VALUES ('RCA');");
-			connection.commit();
-		}
-	}
 
 
-
-
-	private static Connection getConnection() throws SQLException {
-		return DriverManager.getConnection("jdbc:hsqldb:mem:testdb", "sa", "");
-	}
-
-
-	private int getTotalRecords() {
-		try (Connection connection = getConnection(); java.sql.Statement statement = connection.createStatement();) {
+	private int getTotalRecords() throws ClassNotFoundException, DAOConfigurationException {
+		SQLConnection.getInstance();
+		try (Connection connection = SQLConnection.getConnection(); java.sql.Statement statement = connection.createStatement();) {
 			ResultSet result = statement.executeQuery("SELECT count(*) as total FROM company");
 			if (result.next()) {
 				return result.getInt("total");
@@ -64,20 +58,21 @@ public class SQLConnectionTest {
 	}
 
 	@Test
-	public void getTotalRecordsTest() {
-		assertEquals(3, getTotalRecords());
+	public void getTotalRecordsTest() throws ClassNotFoundException, DAOConfigurationException {
+		assertEquals(10, getTotalRecords());
 	}
 
 	@Test
-	public void checkNameExistsTest() {
-		try (Connection connection = getConnection();
+	public void checkNameExistsTest() throws ClassNotFoundException, DAOConfigurationException {
+		SQLConnection.getInstance();
+		try (Connection connection = SQLConnection.getConnection();
 				java.sql.Statement statement = connection.createStatement(ResultSet.TYPE_SCROLL_INSENSITIVE, ResultSet.CONCUR_READ_ONLY);) {
 			ResultSet result = statement.executeQuery("SELECT name FROM company");
 			if (result.first()) {
 				assertEquals("Apple Inc.", result.getString("name"));
 			}
 			if (result.last()) {
-				assertEquals("RCA", result.getString("name"));
+				assertEquals("Digital Equipment Corporation", result.getString("name"));
 			}
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -85,4 +80,3 @@ public class SQLConnectionTest {
 	}
 
 }
-

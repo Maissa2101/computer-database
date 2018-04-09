@@ -12,7 +12,7 @@ public class AutoRollback implements AutoCloseable {
     private boolean committed;
     Logger logger = LoggerFactory.getLogger(AutoRollback.class);
     
-    public AutoRollback(Connection conn) throws SQLException {
+    public AutoRollback(Connection conn) {
         this.conn = conn;        
     }
 

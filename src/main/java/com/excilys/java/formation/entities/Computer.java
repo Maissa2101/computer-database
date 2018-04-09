@@ -75,9 +75,10 @@ public class Computer {
 
 	@Override
 	public boolean equals(Object computer) {
+		boolean result = false;
 		if(((Computer) computer).getId() == this.getId())
-			return true;
-		return false;
+			result = true;
+		return result;
 	}
 
 	public static class ComputerBuilder {

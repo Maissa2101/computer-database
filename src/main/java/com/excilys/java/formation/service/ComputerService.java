@@ -11,7 +11,6 @@ import org.slf4j.LoggerFactory;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOException;
-import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 public enum ComputerService {
 
@@ -58,7 +57,6 @@ public enum ComputerService {
 				rsult = "\n"+ computers.getComputer(id) + "\n";
 			}
 		} catch (ValidatorException | DAOException e) {
-			rsult = "Problem in Computer Details";
 			throw new ServiceException("ServiceException in computerDetails", e);
 		}
 		return rsult;
@@ -96,7 +94,7 @@ public enum ComputerService {
 		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
 
 		try {
-			if((computerValidator.nameValidator(name)) && (computerValidator.DateValidator(time1, time2)) && (companyValidator.idCompanyValidator(manufacturer))) {
+			if((computerValidator.nameValidator(name)) && (computerValidator.dateValidator(time1, time2)) && (companyValidator.idCompanyValidator(manufacturer))) {
 				computers.createComputer(name, time1, time2, manufacturer);
 			}	
 		} catch (ValidatorException | DAOException e) {
@@ -121,7 +119,7 @@ public enum ComputerService {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
 		try {
-			if((computerValidator.idValidator(idUpdate)) && (computerValidator.nameValidator(newName)) && (computerValidator.DateValidator(newDate, newDate2)) && (CompanyValidator.INSTANCE.idCompanyValidator(manufacturer)) ) {
+			if((computerValidator.idValidator(idUpdate)) && (computerValidator.nameValidator(newName)) && (computerValidator.dateValidator(newDate, newDate2)) && (CompanyValidator.INSTANCE.idCompanyValidator(manufacturer)) ) {
 				computers.updateComputer(idUpdate, newName,newDate, newDate2, manufacturer);
 			}
 		} catch (ValidatorException | DAOException e) {

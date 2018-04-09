@@ -15,7 +15,7 @@ import com.excilys.java.formation.persistence.SQLConnection;
 
 public class CompanyMapperTest {
 
-	@Test(expected = SQLException.class)
+	@Test
 	public void testGetListCompanyFromResultSet() throws SQLException, DAOConfigurationException, ClassNotFoundException {
 		CompanyMapper cm = CompanyMapper.INSTANCE;
 		SQLConnection.getInstance();

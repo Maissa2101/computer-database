@@ -41,8 +41,9 @@ public class UpdateComputerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idStr = (String) request.getParameter("id");
+		String idStr = request.getParameter("id");
 		Optional<Computer> computer = null;
 
 		long id=0;
@@ -80,12 +81,13 @@ public class UpdateComputerServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idStr = (String) request.getParameter("id");
-		String name = (String) request.getParameter("name");
-		String introduced = (String) request.getParameter("introduced");
-		String discontinued = (String) request.getParameter("discontinued");
-		String manufacturer = (String) request.getParameter("manufacturer");
+		String idStr = request.getParameter("id");
+		String name = request.getParameter("name");
+		String introduced = request.getParameter("introduced");
+		String discontinued = request.getParameter("discontinued");
+		String manufacturer = request.getParameter("manufacturer");
 
 		long id = 0;
 		try {

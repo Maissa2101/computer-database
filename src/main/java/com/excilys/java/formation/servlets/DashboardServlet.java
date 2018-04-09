@@ -43,11 +43,11 @@ public class DashboardServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
 	 */
-
+	@Override
 	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		PaginationComputer page = (PaginationComputer) request.getAttribute("ComputerPage");
 		List<Computer> listSearch = null;
-		String PageNumberStr = request.getParameter("pageNumber");
+		String pageNumberStr = request.getParameter("pageNumber");
 		String limitStr = request.getParameter("limit");
 		String search = request.getParameter("search");
 		String columnName = request.getParameter("columnName");
@@ -55,7 +55,7 @@ public class DashboardServlet extends HttpServlet {
 		int pageNumber = 1;
 		int limit = 20;
 		try {
-			pageNumber = Integer.parseInt(PageNumberStr);
+			pageNumber = Integer.parseInt(pageNumberStr);
 			limit = Integer.parseInt(limitStr);
 		} catch(NumberFormatException e) {
 			logger.debug("PageNumber and limit problem {} {} ", pageNumber, limit);
@@ -76,7 +76,7 @@ public class DashboardServlet extends HttpServlet {
 				listSearch = computerService.search(search, columnName, order, limit, limit*(pageNumber-1));
 				i = computerService.countAfterSearch(search);
 			}		
-			List<ComputerDTO> listDTOSearch = new ArrayList<ComputerDTO>();
+			List<ComputerDTO> listDTOSearch = new ArrayList<>();
 			for(Computer computerSearch : listSearch) {
 				listDTOSearch.add(computerMapper.getComputerDTOFromComputer(computerSearch));
 			}
@@ -98,10 +98,11 @@ public class DashboardServlet extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
 	 */
+	@Override
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idStr = (String) request.getParameter("selection");
+		String idStr = request.getParameter("selection");
 		String[] split = idStr.split(",");
-		List<Long> listIDS = new ArrayList<Long>();
+		List<Long> listIDS = new ArrayList<>();
 		try {
 			for (int i = 0; i < split.length; i++) {
 				listIDS.add(Long.parseLong(split[i]));

@@ -19,10 +19,10 @@ public enum CompanyDAO implements CompanyDAOInterface {
 
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
-	private final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
-	private final String COUNT = "SELECT count(*) as total FROM company;";
-	private final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
-	private final String DELETE_COMPANY = "DELETE FROM company WHERE company.id = ?;";
+	private static final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
+	private static final String COUNT = "SELECT count(*) as total FROM company;";
+	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
+	private static final String DELETE_COMPANY = "DELETE FROM company WHERE company.id = ?;";
 	
 
 	@Override
@@ -35,8 +35,8 @@ public enum CompanyDAO implements CompanyDAOInterface {
 			ResultSet res = stmt.executeQuery();
 			listCompanies = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
 			return listCompanies;
-		} catch (SQLException | DAOConfigurationException | ClassNotFoundException e) {
-			logger.debug("Problem in CompanyDAO", e);
+		} catch (SQLException | DAOConfigurationException e) {
+			logger.debug("Problem in getListCompany", e);
 			throw new DAOException("DAOException in getListComputer");
 		} 
 	}
@@ -50,8 +50,8 @@ public enum CompanyDAO implements CompanyDAOInterface {
 			ResultSet res = stmt.executeQuery();
 			company = CompanyMapper.INSTANCE.getCompanyDetailsFromResultSet(res);
 			return Optional.ofNullable(company);
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in CompanyDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in getCompany", e);
 			throw new DAOException("DAOException in getCompany");
 		} 
 	}
@@ -68,8 +68,8 @@ public enum CompanyDAO implements CompanyDAOInterface {
 				throw new DAOException("Problem in count number of companies");
 			}
 			return rslt;
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException e) {
-			logger.debug("Problem in CompanyDAO", e);
+		} catch (DAOConfigurationException | SQLException e) {
+			logger.debug("Problem in count", e);
 		} 
 		return rslt;
 
@@ -91,7 +91,7 @@ public enum CompanyDAO implements CompanyDAOInterface {
 				logger.info("company not deleted");
 			}
 			autoRollback.commit();
-		} catch (DAOConfigurationException | ClassNotFoundException | SQLException | DAOException e) {
+		} catch (DAOConfigurationException | SQLException | DAOException e) {
 			logger.debug("Problem in CompanyDAO", e);
 			throw new DAOException("DAOException in deleteCompany", e);
 		}
