@@ -21,7 +21,6 @@ public class SQLConnectionTest {
 
 	@BeforeClass
 	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
-
 		try (Connection connection = SQLConnection.getInstance().getConnection(); 
 				java.sql.Statement statement = connection.createStatement();) {
 			statement.execute("CREATE TABLE company (id BIGINT NOT NULL identity, name VARCHAR(255),"
@@ -48,7 +47,7 @@ public class SQLConnectionTest {
 			statement.executeUpdate("INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('Apple IIe',null,null,null);");
 			statement.executeUpdate("INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('Apple IIGS',null,null,null);");
 			statement.executeUpdate("INSERT INTO computer (name,introduced,discontinued,company_id) VALUES ('Apple IIc Plus',null,null,null);");
-
+			
 			connection.commit();
 		}
 	}
@@ -58,6 +57,7 @@ public class SQLConnectionTest {
 		SQLConnection.getInstance();
 		try (Connection connection = SQLConnection.getConnection(); java.sql.Statement statement = connection.createStatement();) {
 			statement.executeUpdate("DROP TABLE company");
+			statement.executeUpdate("DROP TABLE computer");
 			connection.commit();
 		} 
 	}
