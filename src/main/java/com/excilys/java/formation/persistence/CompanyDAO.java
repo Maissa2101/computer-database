@@ -22,7 +22,7 @@ public enum CompanyDAO implements CompanyDAOInterface {
 	private static final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
 	private static final String COUNT = "SELECT count(*) as total FROM company;";
 	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
-	private static final String DELETE_COMPANY = "DELETE FROM company WHERE company.id = ?;";
+	private static final String DELETE_COMPANY = "DELETE FROM company WHERE company.id=?;";
 	
 
 	@Override

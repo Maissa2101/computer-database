@@ -12,12 +12,6 @@ public enum CompanyValidator {
 	INSTANCE;
 	Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
 	
-	/**
-	 * Method to verify if the id of the company is valid or not
-	 * @param manufacturer the id of the company to validate
-	 * @return true if the id exists in the DB, false otherwise
-	 * @throws ValidatorException
-	 */
 	public boolean idCompanyValidator(String manufacturer) throws ValidatorException {
 		try {
 			if (manufacturer != null && !manufacturer.equals("null")) {
@@ -31,7 +25,7 @@ public enum CompanyValidator {
 				}
 			}
 		} catch(NumberFormatException | DAOException e) {
-			logger.debug("NumberFormatException");
+			logger.debug("NumberFormatException", e);
 		}
 		return true;
 	}

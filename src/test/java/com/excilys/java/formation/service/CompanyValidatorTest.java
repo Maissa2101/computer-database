@@ -18,7 +18,7 @@ public class CompanyValidatorTest {
 	public void testIdCompanyValidator() {
 		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
 		try {
-			for(int i = 1; (i < 44 && i != 21) ; i++) {
+			for(int i = 1; i < 7 ; i++) {
 				assertTrue(companyValidator.idCompanyValidator(String.valueOf(i)));
 			}
 		} catch (ValidatorException e) {

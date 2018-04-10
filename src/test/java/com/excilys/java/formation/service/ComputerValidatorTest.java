@@ -3,7 +3,6 @@ package com.excilys.java.formation.service;
 import static org.junit.Assert.*;
 
 import java.sql.Date;
-import java.sql.SQLException;
 
 import org.junit.Test;
 
@@ -14,17 +13,17 @@ public class ComputerValidatorTest {
 
 	@Test(expected = ValidatorException.class)
 	public void testNameValidator() throws ValidatorException {
-		ComputerValidator cv = ComputerValidator.INSTANCE;
-		assertTrue(cv.nameValidator("ASUS"));
-		assertFalse(cv.nameValidator(""));
+		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
+		assertTrue(computerValidator.nameValidator("ASUS"));
+		assertFalse(computerValidator.nameValidator(""));
 	}
 
-	@Test(expected = ValidatorException.class)
+	@Test()
 	public void testIdValidator() {
-		ComputerValidator cv = ComputerValidator.INSTANCE;
+		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 		try {
-			assertTrue(cv.idValidator(1L));
-			assertFalse(cv.idValidator(8000L));
+			assertTrue(computerValidator.idValidator(1L));
+			assertFalse(computerValidator.idValidator(8000L));
 		} catch (ValidatorException e) {
 			e.printStackTrace();
 		}
@@ -32,11 +31,11 @@ public class ComputerValidatorTest {
 
 	@Test(expected = ValidatorException.class)
 	public void testDateValidator() throws ValidatorException {
-		ComputerValidator cv = ComputerValidator.INSTANCE;
+		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
-		assertFalse(cv.dateValidator(Date.valueOf("2008-01-01").toLocalDate(), Date.valueOf("2007-01-01").toLocalDate()));
-		assertTrue(cv.dateValidator(Date.valueOf("2008-01-01").toLocalDate(), Date.valueOf("2010-01-01").toLocalDate()));
-		assertTrue(cv.dateValidator(null, null));
-		assertTrue(cv.dateValidator(null, Date.valueOf("2007-01-01").toLocalDate()));
+		assertFalse(computerValidator.dateValidator(Date.valueOf("2008-01-01").toLocalDate(), Date.valueOf("2007-01-01").toLocalDate()));
+		assertTrue(computerValidator.dateValidator(Date.valueOf("2008-01-01").toLocalDate(), Date.valueOf("2010-01-01").toLocalDate()));
+		assertTrue(computerValidator.dateValidator(null, null));
+		assertTrue(computerValidator.dateValidator(null, Date.valueOf("2007-01-01").toLocalDate()));
 	}
 }

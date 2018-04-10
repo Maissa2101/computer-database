@@ -9,20 +9,21 @@ import java.util.List;
 import java.util.Optional;
 
 import org.junit.Test;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
 public class ComputerDAOTest {
 
+	static Logger logger = LoggerFactory.getLogger(ComputerDAOTest.class);
+
 	@Test
 	public void testGetListComputer() {
 		ComputerDAO cd = ComputerDAO.INSTANCE;
-
-
 		try {
-			List<Computer> list = cd.getListComputer(500,0, "", "");
-
+			List<Computer> list = cd.getListComputer(9,0, "", "");
 			for(Computer computer : list) {
 				if(computer.getId() == 2) {
 					assertEquals("CM-2a", computer.getName());
@@ -32,22 +33,21 @@ public class ComputerDAOTest {
 				}
 			}
 		} catch (DAOException e) {
-			e.printStackTrace();
+			logger.debug("problem in testGetListComputer", e);
 		}
 	} 
 
 	@Test
 	public void testGetComputer() {
 		ComputerDAO cd = ComputerDAO.INSTANCE;
-
 		try {
-			Optional<Computer> details = cd.getComputer(12L);
-			assertEquals("Apple III", details.get().getName());
-			assertEquals(Date.valueOf("1980-05-01").toLocalDate(), details.get().getIntroduced());
-			assertEquals(Date.valueOf("1984-04-01").toLocalDate(), details.get().getDiscontinued());
+			Optional<Computer> details = cd.getComputer(6L);
+			assertEquals("MacBook Pro", details.get().getName());
+			assertEquals(Date.valueOf("2006-01-10").toLocalDate(), details.get().getIntroduced());
+			assertNull(details.get().getDiscontinued());
 			assertEquals("1", details.get().getManufacturer());
 		} catch (DAOException e) {
-			e.printStackTrace();
+			logger.debug("problem in testGetComputer", e);
 		}
 
 	}
@@ -58,9 +58,7 @@ public class ComputerDAOTest {
 
 		try {
 			Long id = cd.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), "1");
-
-			List<Computer> list = cd.getListComputer(500,0, "", "");
-
+			List<Computer> list = cd.getListComputer(9,0, "", "");
 			for(Computer computer : list) {
 				if(computer.getId() == id) {
 					assertEquals("ASUS", computer.getName());
@@ -71,7 +69,7 @@ public class ComputerDAOTest {
 			}
 		}	
 		catch (DAOException e) {
-			e.printStackTrace();
+			logger.debug("problem in testCreateComputer", e);
 		}
 
 	} 
@@ -82,15 +80,13 @@ public class ComputerDAOTest {
 
 		try {
 			cd.updateComputer(3L, "HP", Date.valueOf("2008-01-04").toLocalDate(), null, null);
-			Optional<Computer> c = cd.getComputer(572L);
+			Optional<Computer> c = cd.getComputer(3L);
 			assertEquals("HP", c.get().getName());	
 			assertEquals(Date.valueOf("2008-01-04").toLocalDate(), c.get().getIntroduced());	
 			assertEquals(null, c.get().getDiscontinued());
 			assertEquals(null, c.get().getManufacturer());
-
-
 		} catch (DAOException e) {
-			e.printStackTrace();
+			logger.debug("problem in testUpdateComputer", e);
 		}
 	}
 
@@ -99,14 +95,14 @@ public class ComputerDAOTest {
 		ComputerDAO cd = ComputerDAO.INSTANCE;
 		try {
 			cd.deleteComputer(3L);
-			List<Computer> list = cd.getListComputer(500,0, "", "");
+			List<Computer> list = cd.getListComputer(9,0, "", "");
 			for(Computer computer : list) {
 				if(computer.getId() == 3L) {
 					fail("Computer still exists");				
 				}
 			}
 		} catch (DAOException e) {
-			e.printStackTrace();
+			logger.debug("problem in testDeleteComputer", e);
 		}
 	} 
 

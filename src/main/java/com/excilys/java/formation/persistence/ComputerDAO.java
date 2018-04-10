@@ -24,10 +24,10 @@ public enum ComputerDAO implements ComputerDAOInterface {
 	Logger logger = LoggerFactory.getLogger(CompanyService.class);
 
 	private static final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY";
-	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id = ?;";
+	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=?;";
 	private static final String INSERT_REQUEST = "INSERT INTO computer(name, introduced, discontinued, company_id) VALUES (?,?,?,?);";
-	private static final String UPDATE_REQUEST = "UPDATE computer SET name = ?, introduced = ?, discontinued = ?, company_id = ? WHERE id = ?;";
-	private static final String DELETE_REQUEST = "DELETE FROM computer WHERE id = ?;";
+	private static final String UPDATE_REQUEST = "UPDATE computer SET name=?, introduced=?, discontinued=?, company_id=? WHERE id=?;";
+	private static final String DELETE_REQUEST = "DELETE FROM computer WHERE id=?;";
 	private static final String COUNT = "SELECT count(*) as total FROM computer;";
 	private static final String SEARCH = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON" +
 			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
