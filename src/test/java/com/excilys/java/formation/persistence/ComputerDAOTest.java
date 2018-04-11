@@ -20,6 +20,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
@@ -27,6 +28,8 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 public class ComputerDAOTest {
 
 	static Logger logger = LoggerFactory.getLogger(ComputerDAOTest.class);
+	@Autowired
+	private ComputerDAO computerDAO;
 	
 	@BeforeClass
 	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
@@ -44,7 +47,6 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testGetListComputer() {
-		ComputerDAO computerDAO = ComputerDAO.INSTANCE;
 		try {
 			List<Computer> list = computerDAO.getListComputer(9,0,"name","ASC");
 			for(Computer computer : list) {
@@ -62,7 +64,6 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testGetComputer() {
-		ComputerDAO computerDAO = ComputerDAO.INSTANCE;
 		try {
 			Optional<Computer> details = computerDAO.getComputer(5L);
 			assertEquals("CM-5", details.get().getName());
@@ -76,12 +77,10 @@ public class ComputerDAOTest {
 	}
 
 	@Test
-	public void testCreateComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;	
-
+	public void testCreateComputer() {	
 		try {
-			Long id = cd.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), "1");
-			List<Computer> list = cd.getListComputer(9,0, "name", "ASC");
+			Long id = computerDAO.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), "1");
+			List<Computer> list = computerDAO.getListComputer(9,0, "name", "ASC");
 			for(Computer computer : list) {
 				if(computer.getId() == id+1) {
 					assertEquals("ASUS", computer.getName());
@@ -99,11 +98,9 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testUpdateComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;
-
 		try {
-			cd.updateComputer(3L, "HP", Date.valueOf("2008-01-04").toLocalDate(), null, null);
-			Optional<Computer> c = cd.getComputer(3L);
+			computerDAO.updateComputer(3L, "HP", Date.valueOf("2008-01-04").toLocalDate(), null, null);
+			Optional<Computer> c = computerDAO.getComputer(3L);
 			assertEquals("HP", c.get().getName());	
 			assertEquals(Date.valueOf("2008-01-04").toLocalDate(), c.get().getIntroduced());	
 			assertEquals(null, c.get().getDiscontinued());
@@ -115,10 +112,9 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testDeleteComputer() {
-		ComputerDAO cd = ComputerDAO.INSTANCE;
 		try {
-			cd.deleteComputer(3L);
-			List<Computer> list = cd.getListComputer(9,0, "name", "ASC");
+			computerDAO.deleteComputer(3L);
+			List<Computer> list = computerDAO.getListComputer(9,0, "name", "ASC");
 			for(Computer computer : list) {
 				if(computer.getId() == 3L) {
 					fail("Computer still exists");				

@@ -10,13 +10,12 @@ import com.excilys.java.formation.persistence.DAOException;
 public enum CompanyValidator {
 
 	INSTANCE;
-	Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
+	private Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
 	
-	public boolean idCompanyValidator(String manufacturer) throws ValidatorException {
+	public boolean idCompanyValidator(String manufacturer, CompanyDAO companies) throws ValidatorException {
 		try {
 			if (manufacturer != null && !manufacturer.equals("null")) {
 				Long companyId = Long.valueOf(manufacturer);
-				CompanyDAO companies = CompanyDAO.INSTANCE;
 				if(companies.getCompany(companyId).isPresent()) {
 					return true;
 				}

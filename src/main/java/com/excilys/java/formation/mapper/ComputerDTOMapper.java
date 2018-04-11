@@ -11,7 +11,7 @@ import com.excilys.java.formation.entities.Computer;
 
 public enum ComputerDTOMapper {
 	INSTANCE;
-	Logger logger = LoggerFactory.getLogger(ComputerDTOMapper.class);
+	private Logger logger = LoggerFactory.getLogger(ComputerDTOMapper.class);
 	private static final String NULL ="";
 	
 	/**

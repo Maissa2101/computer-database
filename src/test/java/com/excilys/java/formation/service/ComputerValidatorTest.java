@@ -18,6 +18,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.SQLConnection;
 import com.excilys.java.formation.service.ComputerValidator;
@@ -26,6 +27,7 @@ import com.excilys.java.formation.service.ValidatorException;
 public class ComputerValidatorTest {
 	
 	static Logger logger = LoggerFactory.getLogger(ComputerValidatorTest.class);
+	private ComputerDAO computerDAO;
 	
 	@BeforeClass
 	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
@@ -51,8 +53,8 @@ public class ComputerValidatorTest {
 	@Test(expected = ValidatorException.class)
 	public void testIdValidator() throws ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
-			assertTrue(computerValidator.idValidator(1L));
-			assertFalse(computerValidator.idValidator(10000L)); 
+			assertTrue(computerValidator.idValidator(1L, computerDAO));
+			assertFalse(computerValidator.idValidator(10000L, computerDAO)); 
 	
 	}
 

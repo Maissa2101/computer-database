@@ -7,6 +7,10 @@ import java.util.Scanner;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.stereotype.Controller;
 
 import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
@@ -14,17 +18,24 @@ import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerService;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
+	
 
-
+@Controller
 public class Interface {
-	static Logger logger = LoggerFactory.getLogger(Interface.class);
+	private static Logger logger = LoggerFactory.getLogger(Interface.class);
+	@Autowired
+	private CompanyService companyService;
+	@Autowired
+	private ComputerService computerService;
+	
 
+	
 	/**
 	 * Method to choose and execute an action
 	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
-	public static void listFeatures() {
+	public void listFeatures() {
 
 		while(true) {
 			System.out.println("Select an action :\n");
@@ -92,10 +103,10 @@ public class Interface {
 	 * Method to show the list of computers
 	 * @throws ServiceException
 	 */
-	private static void listComputers() throws ServiceException {
+	private void listComputers() throws ServiceException {
 		System.out.println(" Computers : Press n to see the next page, p to see the previous page and q to quit : ");	
 		Scanner sc= new Scanner(System.in);
-		PaginationComputer pagination = new PaginationComputer(50);
+		PaginationComputer pagination = new PaginationComputer(50, computerService);
 		ETQ:	while (true)
 		{
 			pagination.printPage();
@@ -121,11 +132,11 @@ public class Interface {
 	 * Method to show the list of companies
 	 * @throws ServiceException
 	 */
-	private static void listCompanies() throws ServiceException {
+	private void listCompanies() throws ServiceException {
 		Scanner sc= new Scanner(System.in);
 		System.out.println("\n Companies : Press n to see the next page, p to see the previous page and q to quit :");
 		PaginationCompany pagination = null;
-		pagination = new PaginationCompany(15);
+		pagination = new PaginationCompany(15, companyService);
 
 		ETQ: while (true){	
 			pagination.printPage();
@@ -152,8 +163,7 @@ public class Interface {
 	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
-	private static void computerDetails() throws ServiceException, ValidatorException {
-		ComputerService computerService = ComputerService.INSTANCE;
+	private void computerDetails() throws ServiceException, ValidatorException {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
 		long id = sc.nextLong();	
@@ -165,8 +175,7 @@ public class Interface {
 	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
-	private static void createComputer() throws ServiceException, ValidatorException {
-		ComputerService computerService = ComputerService.INSTANCE;
+	private void createComputer() throws ServiceException, ValidatorException {
 		System.out.println("Add a computer : ");
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the name : ");
@@ -207,8 +216,7 @@ public class Interface {
 	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
-	private static void updateComputer() throws ServiceException, ValidatorException {
-		ComputerService computerService = ComputerService.INSTANCE;
+	private void updateComputer() throws ServiceException, ValidatorException {
 		System.out.println("Update a computer : ");
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id of the computer to Update : ");
@@ -252,16 +260,14 @@ public class Interface {
 	 * @throws ServiceException
 	 * @throws ValidatorException 
 	 */
-	private static void deleteComputer() throws ServiceException, ValidatorException {
-		ComputerService computerService = ComputerService.INSTANCE;
+	private void deleteComputer() throws ServiceException, ValidatorException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the computer to delete : ");	
 		long idDelete = scanner.nextLong();
 		computerService.deleteComputer(idDelete);
 	}
 	
-	private static void deleteCompany() throws ServiceException {
-		CompanyService companyService = CompanyService.INSTANCE;
+	private void deleteCompany() throws ServiceException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the company to delete : ");	
 		long idDelete = scanner.nextLong();
@@ -269,7 +275,10 @@ public class Interface {
 	}
 
 	public static void main(String[] args) {
-		Interface.listFeatures();
-
+		Interface ui = new Interface();
+	    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext.xml", Interface.class);
+		ui = context.getBean(Interface.class);
+		context.close();
+		ui.listFeatures();
 	}
 }

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.util.Optional;
 
 import javax.servlet.RequestDispatcher;
+import javax.servlet.ServletConfig;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -12,6 +13,8 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.context.support.SpringBeanAutowiringSupport;
 
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
@@ -27,15 +30,24 @@ import com.excilys.java.formation.service.ValidatorException;
 @WebServlet("/editComputer")
 public class UpdateComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
-	ComputerService computerService = ComputerService.INSTANCE;
-	ComputerDTOMapper computerDTOMapper = ComputerDTOMapper.INSTANCE;
-
+	private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	@Autowired
+	private ComputerService computerService;
+	private ComputerDTOMapper computerDTOMapper = ComputerDTOMapper.INSTANCE;
+	@Autowired
+	private CompanyService companyService;
+	
 	/**
 	 * @see HttpServlet#HttpServlet()
 	 */
 	public UpdateComputerServlet() {
 		super();
+	}
+	
+	@Override
+	public void init(ServletConfig config) throws ServletException {
+		super.init(config);
+		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
 	}
 
 	/**
@@ -67,7 +79,7 @@ public class UpdateComputerServlet extends HttpServlet {
 		ComputerDTO computerDTO = computerDTOMapper.getComputerDTOFromComputer(computer.get());
 		
 		try {
-			request.setAttribute("companyList", CompanyService.INSTANCE.listCompanies(CompanyService.INSTANCE.count(), 0));
+			request.setAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
 			logger.debug("Problem in UpdateComputerServlet", e);
 		}

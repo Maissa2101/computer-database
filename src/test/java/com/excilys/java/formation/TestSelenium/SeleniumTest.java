@@ -22,7 +22,6 @@ public class SeleniumTest {
 
 	@Before
 	public void setUp() throws Exception {
-		// On instancie notre driver, et on configure notre temps d'attente
 		driver = new ChromeDriver();
 		baseUrl = "http://localhost:8080/computer-database";
 		driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
@@ -30,7 +29,6 @@ public class SeleniumTest {
 
 	@Test
 	public void testSelenium() throws Exception {
-		// On se connecte au site
 		driver.get(baseUrl + "/DashboardServlet/");
 
 		// On se rend page 1

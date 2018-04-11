@@ -2,6 +2,9 @@ package com.excilys.java.formation.pagination;
 
 
 import java.util.List;
+
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ServiceException;
@@ -10,11 +13,11 @@ public class PaginationCompany extends Page{
 	private List<Company> companies;
 	private CompanyService companyService;
 
-	public PaginationCompany(int limit) throws ServiceException {
+	public PaginationCompany(int limit, CompanyService companyService) throws ServiceException {
 		this.offset = 0;
 		this.limit = limit;
-		this.companyService = CompanyService.INSTANCE;
 		this.dbSize = companyService.count();
+		this.companyService = companyService;
 		this.companies = companyService.listCompanies(limit, offset);
 	}
 	

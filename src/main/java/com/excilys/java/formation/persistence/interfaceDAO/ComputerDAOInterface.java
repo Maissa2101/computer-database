@@ -1,5 +1,6 @@
 package com.excilys.java.formation.persistence.interfaceDAO;
 
+import java.sql.Connection;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
@@ -95,4 +96,5 @@ public interface ComputerDAOInterface {
 	 */
 	List<Computer> search(String search, String columnName, String order, int limit, int offset) throws DAOException;
 	
+	public void deleteTransactionCompany(long id, Connection conn) throws DAOException;
 }

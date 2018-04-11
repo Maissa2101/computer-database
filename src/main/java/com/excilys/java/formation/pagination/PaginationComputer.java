@@ -3,6 +3,8 @@ package com.excilys.java.formation.pagination;
 
 import java.util.List;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.service.ComputerService;
 import com.excilys.java.formation.service.ServiceException;
@@ -11,15 +13,15 @@ public class PaginationComputer extends Page {
 
 	private List<Computer> computers;
 	private ComputerService computerService;
-	String order;
-	String columnName;
+	private String order;
+	private String columnName;
 
 
-	public PaginationComputer(int limit) throws ServiceException {
+	public PaginationComputer(int limit, ComputerService computerService) throws ServiceException {
 		this.offset = 0;
 		this.limit = limit;
-		this.computerService = ComputerService.INSTANCE;
 		this.dbSize = computerService.count();
+		this.computerService = computerService;
 		this.computers = computerService.listComputers(limit, offset, columnName, order);
 	}
 	

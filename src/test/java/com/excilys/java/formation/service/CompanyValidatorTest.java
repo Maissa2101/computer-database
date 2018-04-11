@@ -17,6 +17,7 @@ import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
+import com.excilys.java.formation.persistence.CompanyDAO;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.SQLConnection;
 import com.excilys.java.formation.service.CompanyValidator;
@@ -25,6 +26,7 @@ import com.excilys.java.formation.service.ValidatorException;
 public class CompanyValidatorTest {
 	
 	static Logger logger = LoggerFactory.getLogger(CompanyValidatorTest.class);
+	private CompanyDAO companyDAO;
 	
 	@BeforeClass
 	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
@@ -45,7 +47,7 @@ public class CompanyValidatorTest {
 		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
 		try {
 			for(int i = 1; i < 6 ; i++) {
-				assertTrue(companyValidator.idCompanyValidator(String.valueOf(i)));
+				assertTrue(companyValidator.idCompanyValidator(String.valueOf(i),companyDAO));
 			}
 		} catch (ValidatorException e) {
 			logger.debug("Problem in testIdCompanyValidator", e);

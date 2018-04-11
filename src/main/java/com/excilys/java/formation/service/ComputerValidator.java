@@ -2,6 +2,8 @@ package com.excilys.java.formation.service;
 
 import java.time.LocalDate;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOException;
 
@@ -10,7 +12,7 @@ import com.excilys.java.formation.persistence.DAOException;
 public enum ComputerValidator {
 
 	INSTANCE;
-
+	
 	/**
 	 * Method to verify if the name is not empty
 	 * @param name the name of the computer
@@ -31,10 +33,9 @@ public enum ComputerValidator {
 	 * @return true if the id is valid, false otherwise
 	 * @throws ValidatorException 
 	 */
-	public boolean idValidator(long id) throws ValidatorException {
-		ComputerDAO computers = ComputerDAO.INSTANCE;
+	public boolean idValidator(long id, ComputerDAO computerDAO) throws ValidatorException {
 		try {
-			if(computers.getComputer(id).isPresent()) {
+			if(computerDAO.getComputer(id).isPresent()) {
 				return true;
 			}
 			else {

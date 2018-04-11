@@ -16,6 +16,7 @@ import org.junit.BeforeClass;
 import org.junit.Test;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
@@ -23,6 +24,8 @@ import com.excilys.java.formation.persistence.CompanyDAO;
 public class CompanyDAOTest {
 	
 	static Logger logger = LoggerFactory.getLogger(CompanyDAOTest.class);
+	@Autowired
+	private CompanyDAO companyDAO;
 	
 	@BeforeClass
 	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
@@ -40,9 +43,8 @@ public class CompanyDAOTest {
 	
 	@Test
 	public void testGetListCompany() {
-		CompanyDAO cd = CompanyDAO.INSTANCE;
 		try {
-			List<Company> list = cd.getListCompany(3, 1);
+			List<Company> list = companyDAO.getListCompany(3, 1);
 			for(Company company: list) {
 				if(company.getId() == 1) {
 					assertEquals("Thinking Machines", company.getName());

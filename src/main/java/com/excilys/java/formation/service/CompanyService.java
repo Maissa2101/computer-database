@@ -5,15 +5,25 @@ import java.util.List;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.DAOException;
+import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
 
-public enum CompanyService {
-
-	INSTANCE;
-	Logger logger = LoggerFactory.getLogger(CompanyService.class);
+@Service
+public class CompanyService {
+	
+	private Logger logger = LoggerFactory.getLogger(CompanyService.class);
+	private CompanyDAOInterface companyDAO;
+	
+	@Autowired
+	public CompanyService(CompanyDAOInterface companyDAO) {
+		this.companyDAO = companyDAO;
+	}
 	
 	/**
 	 * Method to show the list of companies
@@ -23,9 +33,8 @@ public enum CompanyService {
 	 * @throws ServiceException
 	 */
 	public List<Company> listCompanies(int limit, int offset) throws ServiceException {
-		CompanyDAO companies = CompanyDAO.INSTANCE;
 		try {
-			return companies.getListCompany(limit, offset);
+			return companyDAO.getListCompany(limit, offset);
 		} catch (DAOException e) {
 			logger.debug("DAOException problem in listCompanies",e);
 			throw new ServiceException("ServiceException in listCompanies", e);
@@ -33,9 +42,8 @@ public enum CompanyService {
 	}
 	
 	public void deleteTransactionCompany(long id) throws ServiceException {
-		CompanyDAO companies = CompanyDAO.INSTANCE;
 		try {
-			companies.deleteCompany(id);
+			companyDAO.deleteCompany(id);
 		} catch (DAOException e) {
 			logger.debug("Problem in Delete Company with transactions", e);
 			throw new ServiceException("ServiceException in deleteTransactionCompany", e);
@@ -49,8 +57,8 @@ public enum CompanyService {
 	 */
 	public int count() throws ServiceException {
 		try {
-			return CompanyDAO.INSTANCE.count();
-		} catch (DAOException e) {
+			return companyDAO.count();
+		} catch (DAOException | DAOConfigurationException e) {
 			logger.debug("DAOException problem in count companies",e);
 			throw new ServiceException("ServiceException in count companies", e);
 		}

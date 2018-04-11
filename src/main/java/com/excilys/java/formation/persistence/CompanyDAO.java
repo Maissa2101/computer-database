@@ -9,22 +9,30 @@ import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.mapper.CompanyMapper;
 import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
+import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 import com.excilys.java.formation.servlets.AddComputerServlet;
 
-public enum CompanyDAO implements CompanyDAOInterface {
+@Repository
+public class CompanyDAO implements CompanyDAOInterface {
 
-	INSTANCE;
-	Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	@Autowired
+	private ComputerDAOInterface computerDAO;
 	private static final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
 	private static final String COUNT = "SELECT count(*) as total FROM company;";
 	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
 	private static final String DELETE_COMPANY = "DELETE FROM company WHERE company.id=?;";
 	
-
+	public CompanyDAO(ComputerDAOInterface computerDAO) {
+		this.computerDAO = computerDAO;
+	}
+	
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
 		List<Company> listCompanies = null;
@@ -81,7 +89,7 @@ public enum CompanyDAO implements CompanyDAOInterface {
 				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
 				AutoRollback autoRollback = new AutoRollback(conn);	
 				PreparedStatement stmt =  conn.prepareStatement(DELETE_COMPANY)) {
-			ComputerDAO.INSTANCE.deleteTransactionCompany(id, conn);
+			computerDAO.deleteTransactionCompany(id, conn);
 			stmt.setLong(1, id);
 			int res = stmt.executeUpdate();
 			if(res == 1 ) {
