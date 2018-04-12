@@ -9,6 +9,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.CompanyDAO;
@@ -16,6 +18,7 @@ import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOException;
 
 @Service
+@EnableTransactionManagement
 public class ComputerService {
 	
 	private Logger logger = LoggerFactory.getLogger(CompanyService.class);
@@ -182,6 +185,7 @@ public class ComputerService {
 	 * @param ids list of computers to delete
 	 * @throws ServiceException
 	 */
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteTransaction(List<Long> ids) throws ServiceException {
 		try {
 			computerDAO.deleteTransaction(ids);

@@ -13,7 +13,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.mapper.CompanyMapper;
@@ -37,7 +39,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
 		List<Company> listCompanies = null;
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST)) {
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
@@ -53,7 +55,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public Optional<Company> getCompany(long id) throws DAOException{
 		Company company = null;
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);) {
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
@@ -68,7 +70,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int rslt = 0;
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
@@ -86,10 +88,9 @@ public class CompanyDAO implements CompanyDAOInterface {
 
 	@Override
 	public void deleteCompany(long id) throws DAOException {
-		try(Connection conn = dataSource.getConnection();
-				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
-				AutoRollback autoRollback = new AutoRollback(conn);	
-				PreparedStatement stmt =  conn.prepareStatement(DELETE_COMPANY)) {
+		try {
+			Connection conn = DataSourceUtils.getConnection(dataSource);
+			PreparedStatement stmt =  conn.prepareStatement(DELETE_COMPANY);
 			computerDAO.deleteTransactionCompany(id, conn);
 			stmt.setLong(1, id);
 			int res = stmt.executeUpdate();
@@ -99,7 +100,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 			else {
 				logger.info("company not deleted");
 			}
-			autoRollback.commit();
+			stmt.close();
 		} catch (SQLException | DAOException e) {
 			logger.debug("Problem in CompanyDAO", e);
 			throw new DAOException("DAOException in deleteCompany", e);

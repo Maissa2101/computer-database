@@ -15,7 +15,9 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerMapper;
@@ -44,7 +46,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
 		List<Computer> listComputers = null;
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt = conn.prepareStatement(SELECT_REQUEST_LIST + " " + columnName + " " + order + " LIMIT ? OFFSET ?;")) {
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
@@ -60,7 +62,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public Optional<Computer> getComputer(long id) throws DAOException{
 		Computer computer = null;
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS)) {
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
@@ -77,7 +79,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 		int res = 0;
 		long result = 0L;
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setString(1, name);
 			if (computer.getIntroduced() == null) {
@@ -123,7 +125,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) throws DAOException{
 		int res = 0;
 		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(UPDATE_REQUEST)) {
 			stmt.setString(1, computer.getName());
 			if (computer.getIntroduced() == null) {
@@ -162,7 +164,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 
 	@Override
 	public void deleteComputer(long id) throws DAOException{
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
 			stmt.setLong(1, id);
 			int res = stmt.executeUpdate();
@@ -182,7 +184,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int result = 0;
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
@@ -201,7 +203,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public int countAfterSearch(String search) throws DAOException {
 		int result = 0;
-		try(Connection conn = dataSource.getConnection();
+		try(Connection conn = DataSourceUtils.getConnection(dataSource);
 				PreparedStatement stmt = conn.prepareStatement(COUNT_SEARCH)) {
 			stmt.setString(1, '%' + search + '%');
 			stmt.setString(2, '%' + search + '%');
@@ -221,18 +223,15 @@ public class ComputerDAO implements ComputerDAOInterface {
 
 	@Override
 	public void deleteTransaction(List<Long> ids) throws DAOException{
-		try(Connection conn = dataSource.getConnection();
-				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
-				AutoRollback autoRollback = new AutoRollback(conn);	
-				) {
+		try {
+			Connection conn = DataSourceUtils.getConnection(dataSource);
 			deleteTransaction(ids, conn);
-			autoRollback.commit();
-		} catch (SQLException | DAOException e) {
+		} catch (DAOException e) {
 			logger.debug("Problem in deleteTransaction", e);
 			throw new DAOException("DAOException in deleteTransaction", e);
 		}
 	}
-
+	
 	public void deleteTransaction(List<Long> ids, Connection conn) throws DAOException{
 		try(PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
 			int res = 0;

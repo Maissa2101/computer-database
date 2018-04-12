@@ -7,6 +7,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
@@ -17,6 +19,7 @@ import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
 import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 @Service
+@EnableTransactionManagement
 public class CompanyService {
 	
 	private Logger logger = LoggerFactory.getLogger(CompanyService.class);
@@ -43,6 +46,7 @@ public class CompanyService {
 		}
 	}
 	
+	@Transactional(rollbackFor = Exception.class)
 	public void deleteTransactionCompany(long id) throws ServiceException {
 		try {
 			companyDAO.deleteCompany(id);
