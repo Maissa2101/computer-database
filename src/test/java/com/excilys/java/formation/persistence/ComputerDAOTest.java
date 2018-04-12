@@ -14,26 +14,36 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
-import org.junit.BeforeClass;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.ComputerDAO;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/applicationContext.xml"})
 public class ComputerDAOTest {
 
 	static Logger logger = LoggerFactory.getLogger(ComputerDAOTest.class);
 	@Autowired
 	private ComputerDAO computerDAO;
+	@Autowired
+	private DataSource dataSource; 
 	
-	@BeforeClass
-	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
-		try (Connection connection = SQLConnection.getInstance().getConnection(); 
+	@Before
+	public void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
+		try (Connection connection = DataSourceUtils.getConnection(dataSource);
 				java.sql.Statement statement = connection.createStatement();
 				InputStream inputStream = SQLConnection.class.getResourceAsStream("/TEST.sql"); ) {
 		           SqlFile sqlFile = new SqlFile(new InputStreamReader(inputStream), "init", System.out, "UTF-8", false,
@@ -48,7 +58,7 @@ public class ComputerDAOTest {
 	@Test
 	public void testGetListComputer() {
 		try {
-			List<Computer> list = computerDAO.getListComputer(9,0,"name","ASC");
+			List<Computer> list = computerDAO.getListComputer(9,0,"introduced","ASC");
 			for(Computer computer : list) {
 				if(computer.getId() == 3) {
 					assertEquals("CM-2a", computer.getName());
@@ -80,7 +90,7 @@ public class ComputerDAOTest {
 	public void testCreateComputer() {	
 		try {
 			Long id = computerDAO.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), "1");
-			List<Computer> list = computerDAO.getListComputer(9,0, "name", "ASC");
+			List<Computer> list = computerDAO.getListComputer(9,0, "introduced", "ASC");
 			for(Computer computer : list) {
 				if(computer.getId() == id+1) {
 					assertEquals("ASUS", computer.getName());
@@ -114,7 +124,7 @@ public class ComputerDAOTest {
 	public void testDeleteComputer() {
 		try {
 			computerDAO.deleteComputer(3L);
-			List<Computer> list = computerDAO.getListComputer(9,0, "name", "ASC");
+			List<Computer> list = computerDAO.getListComputer(9,0, "introduced", "ASC");
 			for(Computer computer : list) {
 				if(computer.getId() == 3L) {
 					fail("Computer still exists");				
