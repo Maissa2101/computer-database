@@ -7,9 +7,12 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Company;
@@ -22,28 +25,26 @@ import com.excilys.java.formation.servlets.AddComputerServlet;
 public class CompanyDAO implements CompanyDAOInterface {
 
 	private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
-	@Autowired
-	private ComputerDAOInterface computerDAO;
 	private static final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
 	private static final String COUNT = "SELECT count(*) as total FROM company;";
 	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
 	private static final String DELETE_COMPANY = "DELETE FROM company WHERE company.id=?;";
-	
-	public CompanyDAO(ComputerDAOInterface computerDAO) {
-		this.computerDAO = computerDAO;
-	}
-	
+	@Autowired
+	private DataSource dataSource; 
+	@Autowired
+	private ComputerDAO computerDAO;
+
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
 		List<Company> listCompanies = null;
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_LIST)) {
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();
 			listCompanies = CompanyMapper.INSTANCE.getListCompanyFromResultSet(res);
 			return listCompanies;
-		} catch (SQLException | DAOConfigurationException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in getListCompany", e);
 			throw new DAOException("DAOException in getListComputer");
 		} 
@@ -52,13 +53,13 @@ public class CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public Optional<Company> getCompany(long id) throws DAOException{
 		Company company = null;
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS);) {
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
 			company = CompanyMapper.INSTANCE.getCompanyDetailsFromResultSet(res);
 			return Optional.ofNullable(company);
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in getCompany", e);
 			throw new DAOException("DAOException in getCompany");
 		} 
@@ -67,7 +68,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int rslt = 0;
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
@@ -76,7 +77,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 				throw new DAOException("Problem in count number of companies");
 			}
 			return rslt;
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in count", e);
 		} 
 		return rslt;
@@ -85,7 +86,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 
 	@Override
 	public void deleteCompany(long id) throws DAOException {
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
 				AutoRollback autoRollback = new AutoRollback(conn);	
 				PreparedStatement stmt =  conn.prepareStatement(DELETE_COMPANY)) {
@@ -99,7 +100,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 				logger.info("company not deleted");
 			}
 			autoRollback.commit();
-		} catch (DAOConfigurationException | SQLException | DAOException e) {
+		} catch (SQLException | DAOException e) {
 			logger.debug("Problem in CompanyDAO", e);
 			throw new DAOException("DAOException in deleteCompany", e);
 		}

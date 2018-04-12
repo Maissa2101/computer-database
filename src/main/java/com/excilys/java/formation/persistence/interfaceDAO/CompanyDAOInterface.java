@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.DAOException;
 

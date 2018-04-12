@@ -10,9 +10,11 @@ import org.springframework.stereotype.Service;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
+import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 @Service
 public class CompanyService {

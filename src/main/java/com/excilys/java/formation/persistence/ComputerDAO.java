@@ -10,8 +10,11 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
+import javax.sql.DataSource;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Computer;
@@ -35,18 +38,20 @@ public class ComputerDAO implements ComputerDAOInterface {
 	private static final String COUNT_SEARCH = "SELECT count(*) as total FROM computer LEFT JOIN company ON" + 
 			" computer.company_id=company.id WHERE computer.name LIKE ? OR company.name LIKE ?;";
 	private static final String DELETE_COMPUTERS_COMPANY = "DELETE FROM computer WHERE company_id=?;";
-
+	@Autowired
+	private DataSource dataSource; 
+	
 	@Override
 	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
 		List<Computer> listComputers = null;
-		try(Connection conn = SQLConnection.getInstance().getConnection(); 
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SELECT_REQUEST_LIST + " " + columnName + " " + order + " LIMIT ? OFFSET ?;")) {
 			stmt.setInt(1, limit);
 			stmt.setInt(2, offset);
 			ResultSet res = stmt.executeQuery();	
 			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 			return listComputers;
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in getListComputer", e);
 			throw new DAOException("DAOException in getListComputer", e);
 		}
@@ -55,13 +60,13 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public Optional<Computer> getComputer(long id) throws DAOException{
 		Computer computer = null;
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(SELECT_REQUEST_DETAILS)) {
 			stmt.setLong(1, id);
 			ResultSet res = stmt.executeQuery();
 			computer = ComputerMapper.INSTANCE.getComputerDetailsFromResultSet(res);
 			return Optional.ofNullable(computer);
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in getComputer" , e);
 			throw new DAOException("DAOException in getComputer", e);
 		}
@@ -72,7 +77,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 		int res = 0;
 		long result = 0L;
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(INSERT_REQUEST, Statement.RETURN_GENERATED_KEYS)) {
 			stmt.setString(1, name);
 			if (computer.getIntroduced() == null) {
@@ -108,7 +113,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 				logger.info("computer not added");
 			}
 			return result;
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in createComputer", e);
 			throw new DAOException("DAOException in createComputer", e);
 		}
@@ -118,7 +123,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) throws DAOException{
 		int res = 0;
 		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(UPDATE_REQUEST)) {
 			stmt.setString(1, computer.getName());
 			if (computer.getIntroduced() == null) {
@@ -148,7 +153,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 				logger.info("computer updated");
 			else
 				logger.info("computer not updated");
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in updateComputer", e);
 			throw new DAOException("DAOException in updateComputer", e);
 		}
@@ -157,7 +162,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 
 	@Override
 	public void deleteComputer(long id) throws DAOException{
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(DELETE_REQUEST)) {
 			stmt.setLong(1, id);
 			int res = stmt.executeUpdate();
@@ -167,7 +172,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 			else {
 				logger.info("computer not deleted");
 			}
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in deleteComputer", e);
 			throw new DAOException("DAOException in deleteComputer", e);
 		}
@@ -177,7 +182,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public int count() throws DAOException {
 		int result = 0;
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt =  conn.prepareStatement(COUNT)) {
 			ResultSet res = stmt.executeQuery();
 			if (res.next()) {
@@ -187,7 +192,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 				throw new DAOException("Problem in your count");
 			}
 			return result;
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in count", e);
 			throw new DAOException("DAOException in count number of computers", e);
 		}
@@ -196,7 +201,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public int countAfterSearch(String search) throws DAOException {
 		int result = 0;
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(COUNT_SEARCH)) {
 			stmt.setString(1, '%' + search + '%');
 			stmt.setString(2, '%' + search + '%');
@@ -208,7 +213,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 				throw new DAOException("Problem in your count after search");
 			}
 			return result;
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in countAfterSearch", e);
 			throw new DAOException("DAOException in countAfterSearch", e);
 		}
@@ -216,13 +221,13 @@ public class ComputerDAO implements ComputerDAOInterface {
 
 	@Override
 	public void deleteTransaction(List<Long> ids) throws DAOException{
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				AutoSetAutoCommit autoCommit = new AutoSetAutoCommit(conn,false);
 				AutoRollback autoRollback = new AutoRollback(conn);	
 				) {
 			deleteTransaction(ids, conn);
 			autoRollback.commit();
-		} catch (DAOConfigurationException | SQLException | DAOException e) {
+		} catch (SQLException | DAOException e) {
 			logger.debug("Problem in deleteTransaction", e);
 			throw new DAOException("DAOException in deleteTransaction", e);
 		}
@@ -250,7 +255,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 	@Override
 	public List<Computer> search(String search, String columnName, String order, int limit, int offset) throws DAOException {
 		List<Computer> listComputers = null;
-		try(Connection conn = SQLConnection.getInstance().getConnection();
+		try(Connection conn = dataSource.getConnection();
 				PreparedStatement stmt = conn.prepareStatement(SEARCH + " " + columnName + " " + order + " LIMIT ? OFFSET ?;")) {
 			stmt.setString(1, '%' + search + '%');
 			stmt.setString(2, '%' + search + '%');
@@ -259,7 +264,7 @@ public class ComputerDAO implements ComputerDAOInterface {
 			ResultSet res = stmt.executeQuery();	
 			listComputers = ComputerMapper.INSTANCE.getListComputerFromResultSet(res);
 			return listComputers;
-		} catch (DAOConfigurationException | SQLException e) {
+		} catch (SQLException e) {
 			logger.debug("Problem in search", e);
 			throw new DAOException("DAOException in Search", e);
 		}
