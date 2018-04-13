@@ -31,7 +31,7 @@ import com.excilys.java.formation.service.ServiceException;
 @WebServlet("/DashboardServlet")
 public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Logger logger = LoggerFactory.getLogger(CompanyService.class);
+	private Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 	@Autowired
 	private ComputerService computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;

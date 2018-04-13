@@ -21,7 +21,7 @@ import com.excilys.java.formation.persistence.DAOException;
 @EnableTransactionManagement
 public class ComputerService {
 	
-	private Logger logger = LoggerFactory.getLogger(CompanyService.class);
+	private Logger logger = LoggerFactory.getLogger(ComputerService.class);
 	@Autowired
 	private ComputerDAO computerDAO;
 	@Autowired

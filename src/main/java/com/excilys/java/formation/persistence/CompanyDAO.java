@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
@@ -23,7 +24,7 @@ import com.excilys.java.formation.servlets.AddComputerServlet;
 @Repository
 public class CompanyDAO implements CompanyDAOInterface {
 
-	private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	private Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 	private static final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
 	private static final String COUNT = "SELECT count(*) as total FROM company;";
 	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
@@ -32,8 +33,14 @@ public class CompanyDAO implements CompanyDAOInterface {
 	private DataSource dataSource; 
 	@Autowired
 	private ComputerDAO computerDAO;
+	
+	private JdbcTemplate jdbcTemplate;
 
-	@Override
+    public void setDataSource(DataSource dataSource) {
+        this.jdbcTemplate = new JdbcTemplate(dataSource);
+    }
+    
+    @Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
 		List<Company> listCompanies = null;
 		try(Connection conn = DataSourceUtils.getConnection(dataSource);

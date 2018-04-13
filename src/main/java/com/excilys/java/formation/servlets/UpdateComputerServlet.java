@@ -30,7 +30,7 @@ import com.excilys.java.formation.service.ValidatorException;
 @WebServlet("/editComputer")
 public class UpdateComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
-	private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
+	private Logger logger = LoggerFactory.getLogger(UpdateComputerServlet.class);
 	@Autowired
 	private ComputerService computerService;
 	private ComputerDTOMapper computerDTOMapper = ComputerDTOMapper.INSTANCE;
