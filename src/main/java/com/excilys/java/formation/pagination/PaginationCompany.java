@@ -3,7 +3,6 @@ package com.excilys.java.formation.pagination;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.service.CompanyService;

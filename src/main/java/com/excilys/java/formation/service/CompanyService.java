@@ -11,18 +11,16 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.persistence.CompanyDAO;
-import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
-import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 @Service
 @EnableTransactionManagement
 public class CompanyService {
 	
 	private Logger logger = LoggerFactory.getLogger(CompanyService.class);
+	@Autowired
 	private CompanyDAOInterface companyDAO;
 	
 	@Autowired
