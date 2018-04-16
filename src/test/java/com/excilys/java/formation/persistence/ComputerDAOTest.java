@@ -22,8 +22,6 @@ import org.hsqldb.persist.HsqlDatabaseProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
@@ -35,7 +33,6 @@ import com.excilys.java.formation.entities.Computer;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class ComputerDAOTest {
 
-	static Logger logger = LoggerFactory.getLogger(ComputerDAOTest.class);
 	@Autowired
 	private ComputerDAOSpring computerDAO;
 	@Autowired
@@ -67,37 +64,35 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testGetComputer() {
-		Optional<Computer> details = computerDAO.getComputer(5L);
-		assertEquals("CM-5", details.get().getName());
-		assertEquals(Date.valueOf("1991-01-01").toLocalDate(), details.get().getIntroduced());
-		assertNull(details.get().getDiscontinued());
-		assertEquals("2", details.get().getManufacturer());
-
+		Optional<Computer> computer = computerDAO.getComputer(5L);
+		assertEquals("CM-5", computer.get().getName());
+		assertEquals(Date.valueOf("1991-01-01").toLocalDate(), computer.get().getIntroduced());
+		assertNull(computer.get().getDiscontinued());
+		assertEquals("2", computer.get().getManufacturer());
 	}
 
 	@Test
 	public void testCreateComputer() {	
 		Long id = computerDAO.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), "1");
-		List<Computer> list = computerDAO.getListComputer(9,0, "introduced", "ASC");
+		List<Computer> list = computerDAO.getListComputer(20,0, "introduced", "ASC");
 		for(Computer computer : list) {
-			if(computer.getId() == id+1) {
+			if(computer.getId() == id) {
 				assertEquals("ASUS", computer.getName());
 				assertEquals(Date.valueOf("2008-01-04").toLocalDate(), computer.getIntroduced());
 				assertEquals(Date.valueOf("2018-01-01").toLocalDate(), computer.getDiscontinued());
 				assertEquals("1", computer.getManufacturer());
 			}
 		}
-
 	} 
 
 	@Test
 	public void testUpdateComputer() {
 		computerDAO.updateComputer(3L, "HP", Date.valueOf("2008-01-04").toLocalDate(), null, null);
-		Optional<Computer> c = computerDAO.getComputer(3L);
-		assertEquals("HP", c.get().getName());	
-		assertEquals(Date.valueOf("2008-01-04").toLocalDate(), c.get().getIntroduced());	
-		assertEquals(null, c.get().getDiscontinued());
-		assertEquals(null, c.get().getManufacturer());
+		Optional<Computer> computer = computerDAO.getComputer(3L);
+		assertEquals("HP", computer.get().getName());	
+		assertEquals(Date.valueOf("2008-01-04").toLocalDate(), computer.get().getIntroduced());	
+		assertNull(computer.get().getDiscontinued());
+		assertNull(computer.get().getManufacturer());
 	}
 
 	@Test

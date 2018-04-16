@@ -3,10 +3,7 @@ package com.excilys.java.formation.pagination;
 
 import java.util.List;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
 import com.excilys.java.formation.entities.Computer;
-//import com.excilys.java.formation.service.ComputerService;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 

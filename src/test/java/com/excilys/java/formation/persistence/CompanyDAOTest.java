@@ -10,6 +10,7 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.util.List;
+import java.util.Optional;
 
 import javax.sql.DataSource;
 
@@ -19,8 +20,6 @@ import org.hsqldb.persist.HsqlDatabaseProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
@@ -31,7 +30,6 @@ import com.excilys.java.formation.entities.Company;
 @ContextConfiguration(locations = {"/applicationContext.xml"})
 public class CompanyDAOTest {
 	
-	static Logger logger = LoggerFactory.getLogger(CompanyDAOTest.class);
 	@Autowired
 	private CompanyDAOSpring companyDAO;
 	@Autowired
@@ -57,5 +55,23 @@ public class CompanyDAOTest {
 			}
 		}
 	}
+	
+	@Test
+	public void testGetCompany() {
+		Optional<Company> details = companyDAO.getCompany(5L);
+		assertEquals("Tandy Corporation", details.get().getName());
+	}
+	
+	@Test
+	public void testDeleteCompany() {
+		companyDAO.deleteCompany(2L);
+		List<Company> list = companyDAO.getListCompany(9,0);
+		for(Company company : list) {
+			if(company.getId() == 2L) {
+				fail("Company still exists");				
+			}
+		}
+	}
+	
 
 }
