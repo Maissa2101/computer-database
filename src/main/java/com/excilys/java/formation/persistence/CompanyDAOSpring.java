@@ -26,8 +26,7 @@ public class CompanyDAOSpring implements CompanyDAOInterface {
 
 	@Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {
-		List<Company> listCompanies = (List<Company>) this.jdbcTemplate.queryForObject(SELECT_REQUEST_LIST, new Object[] {limit, offset}, Company.class);
-		return listCompanies; 
+		return this.jdbcTemplate.queryForList(SELECT_REQUEST_LIST, new Object[] {limit, offset}, Company.class);
 	}
 
 	@Override
@@ -38,8 +37,7 @@ public class CompanyDAOSpring implements CompanyDAOInterface {
 
 	@Override
 	public int count() throws DAOException {
-		int number = 0;
-		number = this.jdbcTemplate.queryForObject(COUNT, Integer.class);
+		int number = this.jdbcTemplate.queryForObject(COUNT, Integer.class);
 		if (number > 0) {
 			return number;
 		} else {

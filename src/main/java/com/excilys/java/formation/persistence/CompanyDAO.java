@@ -12,14 +12,12 @@ import javax.sql.DataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.mapper.CompanyMapper;
 import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
-import com.excilys.java.formation.servlets.AddComputerServlet;
 
 @Repository
 public class CompanyDAO implements CompanyDAOInterface {
@@ -33,12 +31,7 @@ public class CompanyDAO implements CompanyDAOInterface {
 	private DataSource dataSource; 
 	@Autowired
 	private ComputerDAO computerDAO;
-	
-	private JdbcTemplate jdbcTemplate;
 
-    public void setDataSource(DataSource dataSource) {
-        this.jdbcTemplate = new JdbcTemplate(dataSource);
-    }
     
     @Override
 	public List<Company> getListCompany(int limit, int offset) throws DAOException {

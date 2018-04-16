@@ -21,7 +21,6 @@ import org.springframework.stereotype.Repository;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerMapper;
 import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
-import com.excilys.java.formation.service.CompanyService;
 
 @Repository
 public class ComputerDAO implements ComputerDAOInterface {
