@@ -141,7 +141,7 @@
 			</c:if>
 			<c:forEach var="i"
 				begin="${((pageNumber - 3) > 0) ? (pageNumber - 3) : 1}"
-				end="${((pageNumber + 3) < (count/limit)) ? (pageNumber + 3) : (count/limit)}">
+				end="${((pageNumber + 3) < (count/limit)) ? (pageNumber + 3) : (count/limit +1)}">
 				<li><a
 					href="?search=${search}&pageNumber=${i}&limit=${limit}&columnName=${columnName}&order=${order}">${i}</a></li>
 			</c:forEach>

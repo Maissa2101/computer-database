@@ -57,14 +57,14 @@ public class ComputerDAOSpring implements ComputerDAOInterface {
 	@Override
 	public long createComputer( String name, LocalDate intro, LocalDate discontinued, String manufacturer ) throws DAOException{
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		this.jdbcTemplate.update(INSERT_REQUEST, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), (computer.getManufacturer() == null) ? null : computer.getManufacturer());
+		this.jdbcTemplate.update(INSERT_REQUEST, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer());
 		return computer.getId();
 	}
 
 	@Override
 	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) throws DAOException{
 		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		this.jdbcTemplate.update(UPDATE_REQUEST, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer(), id);
+		this.jdbcTemplate.update(UPDATE_REQUEST, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer(), id);
 	}
 
 	@Override
