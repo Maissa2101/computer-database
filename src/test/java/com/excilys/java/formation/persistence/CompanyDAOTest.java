@@ -15,6 +15,7 @@ import javax.sql.DataSource;
 
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
+import org.hsqldb.persist.HsqlDatabaseProperties;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -37,30 +38,23 @@ public class CompanyDAOTest {
 	private DataSource dataSource; 
 	
 	@Before
-	public void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
-		try (Connection connection = DataSourceUtils.getConnection(dataSource);
-				java.sql.Statement statement = connection.createStatement();
-				InputStream inputStream = SQLConnection.class.getResourceAsStream("/TEST.sql"); ) {
-		           SqlFile sqlFile = new SqlFile(new InputStreamReader(inputStream), "init", System.out, "UTF-8", false,
-		                   new File("."));
-		           sqlFile.setConnection(connection);
-		           sqlFile.execute();
-		} catch (SQLException e) {
-			logger.debug("problem in init", e);
-		}
+	public void init() throws SQLException, IOException, SqlToolError, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class.forName("org.hsqldb.jdbcDriver").newInstance();
+		Connection connection = DataSourceUtils.getConnection(dataSource);
+		InputStream inputStream = HsqlDatabaseProperties.class.getResourceAsStream("/TEST.sql");
+		SqlFile sqlFile = new SqlFile(new InputStreamReader(inputStream), "init", System.out, "UTF-8", false,
+				new File("."));
+		sqlFile.setConnection(connection);
+		sqlFile.execute();
 	}
 	
 	@Test
 	public void testGetListCompany() {
-		try {
-			List<Company> list = companyDAO.getListCompany(3, 1);
-			for(Company company: list) {
-				if(company.getId() == 1) {
-					assertEquals("Thinking Machines", company.getName());
-				}
+		List<Company> list = companyDAO.getListCompany(3, 1);
+		for(Company company: list) {
+			if(company.getId() == 1) {
+				assertEquals("Thinking Machines", company.getName());
 			}
-		} catch (DAOException e) {
-			logger.debug("problem in testGetListCompany", e);
 		}
 	}
 

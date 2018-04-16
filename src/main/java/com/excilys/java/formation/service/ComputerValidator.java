@@ -1,8 +1,6 @@
 package com.excilys.java.formation.service;
 
 import java.time.LocalDate;
-
-import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 
@@ -31,16 +29,12 @@ public enum ComputerValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean idValidator(long id, ComputerDAOInterface computerDAO) throws ValidatorException {
-		try {
 			if(computerDAO.getComputer(id).isPresent()) {
 				return true;
 			}
 			else {
 				throw new ValidatorException("This computer doesn't exist");
 			}
-		} catch (DAOException e) {
-			throw new ValidatorException("This computer doesn't exist");
-		}
 	}
 
 	/**

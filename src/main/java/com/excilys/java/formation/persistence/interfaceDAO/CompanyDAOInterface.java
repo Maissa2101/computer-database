@@ -2,10 +2,7 @@ package com.excilys.java.formation.persistence.interfaceDAO;
 
 import java.util.List;
 import java.util.Optional;
-
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.persistence.DAOConfigurationException;
-import com.excilys.java.formation.persistence.DAOException;
 
 public interface CompanyDAOInterface {
 
@@ -15,7 +12,7 @@ public interface CompanyDAOInterface {
 	 * @throws SQLException in case of a database access error
 	 * @throws DAOException
 	 */
-	List<Company> getListCompany(int limit, int offset) throws DAOException;
+	List<Company> getListCompany(int limit, int offset);
 	
 	/**
 	 * Counts the number of companies in the DB 
@@ -23,7 +20,7 @@ public interface CompanyDAOInterface {
 	 * @throws DAOConfigurationException
 	 * @throws DAOException
 	 */
-	int count() throws DAOConfigurationException, DAOException ;
+	int count();
 	
 	/**
 	 * Method to get the company by id
@@ -31,7 +28,7 @@ public interface CompanyDAOInterface {
 	 * @return the company with id = id
 	 * @throws DAOException
 	 */
-	Optional<Company> getCompany(long id) throws DAOException ;
+	Optional<Company> getCompany(long id);
 	
 	/**
 	 * Method to delete a company and all its related computers
@@ -39,7 +36,7 @@ public interface CompanyDAOInterface {
 	 * @param ids ids of the computers to delete with company id = id
 	 * @throws DAOException
 	 */
-	void deleteCompany(long id) throws DAOException;
+	void deleteCompany(long id);
 
 
 }

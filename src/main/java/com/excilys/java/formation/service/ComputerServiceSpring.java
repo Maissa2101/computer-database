@@ -15,7 +15,6 @@ import org.springframework.transaction.annotation.Transactional;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.CompanyDAOSpring;
 import com.excilys.java.formation.persistence.ComputerDAOSpring;
-import com.excilys.java.formation.persistence.DAOException;
 
 @Service
 @EnableTransactionManagement
@@ -35,18 +34,13 @@ public class ComputerServiceSpring {
 	 * @throws ServiceException
 	 */
 	public List<Computer> listComputers(int limit, int offset, String columnName, String order) throws ServiceException{
-		try {
-			if(columnName == null || (!columnName.equals("computer.name") && !columnName.equals("introduced") && !columnName.equals("discontinued") && !columnName.equals("company.name"))) {
-				columnName = "computer.id";
-			}
-			if(order == null || (!order.equals("ASC") && !order.equals("DESC"))) {
-				order = "ASC";
-			}
-			return computerDAO.getListComputer(limit, offset, columnName, order);
-		} catch (DAOException e) {
-			logger.debug("Problem in list Computer", e);
-			throw new ServiceException("ServiceException in listComputer", e);
+		if(columnName == null || (!columnName.equals("computer.name") && !columnName.equals("introduced") && !columnName.equals("discontinued") && !columnName.equals("company.name"))) {
+			columnName = "computer.id";
 		}
+		if(order == null || (!order.equals("ASC") && !order.equals("DESC"))) {
+			order = "ASC";
+		}
+		return computerDAO.getListComputer(limit, offset, columnName, order);
 	}
 
 	/**
@@ -64,7 +58,7 @@ public class ComputerServiceSpring {
 			if(computerValidator.idValidator(id, computerDAO)) {
 				rsult = "\n"+ computerDAO.getComputer(id) + "\n";
 			}
-		} catch (ValidatorException | DAOException e) {
+		} catch (ValidatorException e) {
 			throw new ServiceException("ServiceException in computerDetails", e);
 		}
 		return rsult;
@@ -78,12 +72,7 @@ public class ComputerServiceSpring {
 	 * @throws ServiceException
 	 */
 	public Optional<Computer> getComputer(long id) throws ServiceException {
-		try {
-			return computerDAO.getComputer(id);
-		} catch (DAOException e) {
-			logger.debug("Problem in getComputer", e);
-			throw new ServiceException("ServiceException in getComputer", e);
-		}
+		return computerDAO.getComputer(id);
 	}
 	/**
 	 * Method to create a computer
@@ -102,7 +91,7 @@ public class ComputerServiceSpring {
 			if((computerValidator.nameValidator(name)) && (computerValidator.dateValidator(time1, time2)) && (companyValidator.idCompanyValidator(manufacturer, companyDAO))) {
 				computerDAO.createComputer(name, time1, time2, manufacturer);
 			}	
-		} catch (ValidatorException | DAOException e) {
+		} catch (ValidatorException e) {
 			logger.debug("Problem in Create Computer", e);
 			throw new ServiceException("ServiceException in createComputer", e);
 		}	
@@ -126,7 +115,7 @@ public class ComputerServiceSpring {
 			if((computerValidator.idValidator(idUpdate, computerDAO)) && (computerValidator.nameValidator(newName)) && (computerValidator.dateValidator(newDate, newDate2)) && (CompanyValidator.INSTANCE.idCompanyValidator(manufacturer, companyDAO)) ) {
 				computerDAO.updateComputer(idUpdate, newName,newDate, newDate2, manufacturer);
 			}
-		} catch (ValidatorException | DAOException e) {
+		} catch (ValidatorException e) {
 			logger.debug("Problem in Update Computer", e);
 			throw new ServiceException("ServiceException in updateComputer", e);
 		}	
@@ -146,7 +135,7 @@ public class ComputerServiceSpring {
 			if(computerValidator.idValidator(idDelete, computerDAO)) {
 				computerDAO.deleteComputer(idDelete);
 			}	
-		} catch (ValidatorException | DAOException e) {
+		} catch (ValidatorException e) {
 			logger.debug("Problem in Delete Computer", e);
 			throw new ServiceException("ServiceException in deleteComputer", e);
 		}	
@@ -159,21 +148,11 @@ public class ComputerServiceSpring {
 	 * @throws ServiceException
 	 */
 	public int count() throws ServiceException {
-		try {
-			return computerDAO.count();
-		} catch (DAOException e) {
-			logger.debug("Problem in count computer", e);
-			throw new ServiceException("ServiceException in count", e);
-		}
+		return computerDAO.count();
 	}
 	
 	public int countAfterSearch(String search) throws ServiceException {
-		try {
-			return computerDAO.countAfterSearch(search);
-		} catch (DAOException e) {
-			logger.debug("Problem in count computer after search", e);
-			throw new ServiceException("ServiceException in countAfterSearch", e);
-		}
+		return computerDAO.countAfterSearch(search);
 	}
 	
 	/**
@@ -183,27 +162,17 @@ public class ComputerServiceSpring {
 	 */
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteTransaction(List<Long> ids) throws ServiceException {
-		try {
-			computerDAO.deleteTransaction(ids);
-		} catch (DAOException e) {
-			logger.debug("Problem in Delete Computer with transactions", e);
-			throw new ServiceException("ServiceException in deleteTransaction", e);
-		}	
+		computerDAO.deleteTransaction(ids);	
 	}
 	
 	public List<Computer> search(String search, String columnName, String order, int limit, int offset) throws ServiceException {
-		try {
-			if(columnName == null || (!columnName.equals("computer.name") && !columnName.equals("introduced") && !columnName.equals("discontinued") && !columnName.equals("company.name"))) {
-				columnName = "computer.id";
-			}
-			if(order == null || (!order.equals("ASC") && !order.equals("DESC"))) {
-				order = "ASC";
-			}
-			return computerDAO.search(search, columnName, order, limit, offset);
-		} catch (DAOException e) {
-			logger.debug("Problem in Search Computer", e);
-			throw new ServiceException("ServiceException in search", e);
+		if(columnName == null || (!columnName.equals("computer.name") && !columnName.equals("introduced") && !columnName.equals("discontinued") && !columnName.equals("company.name"))) {
+			columnName = "computer.id";
 		}
+		if(order == null || (!order.equals("ASC") && !order.equals("DESC"))) {
+			order = "ASC";
+		}
+		return computerDAO.search(search, columnName, order, limit, offset);
 		
 		
 	}

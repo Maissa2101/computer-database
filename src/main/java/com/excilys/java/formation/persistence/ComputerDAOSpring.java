@@ -38,12 +38,12 @@ public class ComputerDAOSpring implements ComputerDAOInterface {
 	}
 	
 	@Override
-	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) throws DAOException {
+	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) {
 		return this.jdbcTemplate.query(SELECT_REQUEST_LIST + " " + columnName + " " + order + " LIMIT ? OFFSET ?;", new ComputerRowMapper(), limit, offset);
 	}
 
 	@Override
-	public Optional<Computer> getComputer(long id) throws DAOException{
+	public Optional<Computer> getComputer(long id) {
 		Computer computer = null;
 		try {
 			computer = this.jdbcTemplate.queryForObject(SELECT_REQUEST_DETAILS, new ComputerRowMapper(), id);
@@ -54,53 +54,49 @@ public class ComputerDAOSpring implements ComputerDAOInterface {
 	}
 
 	@Override
-	public long createComputer( String name, LocalDate intro, LocalDate discontinued, String manufacturer ) throws DAOException{
+	public long createComputer( String name, LocalDate intro, LocalDate discontinued, String manufacturer ) {
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
 		this.jdbcTemplate.update(INSERT_REQUEST, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer());
 		return computer.getId();
 	}
 
 	@Override
-	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) throws DAOException{
+	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) {
 		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
 		this.jdbcTemplate.update(UPDATE_REQUEST, computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer(), id);
 	}
 
 	@Override
-	public void deleteComputer(long id) throws DAOException{
+	public void deleteComputer(long id) {
 		this.jdbcTemplate.update(DELETE_REQUEST, id);		
 
 	}
 
 	@Override
-	public int count() throws DAOException {
-		int number = this.jdbcTemplate.queryForObject(COUNT, Integer.class);
-		if (number > 0) {
-			return number;
-		} else {
-			throw new DAOException("Problem in count number of computers");
-		}
+	public int count() {
+		return this.jdbcTemplate.queryForObject(COUNT, Integer.class);
+		
 	}
 
 	@Override
-	public int countAfterSearch(String search) throws DAOException {
+	public int countAfterSearch(String search) {
 		return this.jdbcTemplate.queryForObject(COUNT_SEARCH, Integer.class, search + '%', '%' + search + '%');
 	}
 
 	@Override
-	public void deleteTransaction(List<Long> ids) throws DAOException{
+	public void deleteTransaction(List<Long> ids) {
 		for(Long id : ids) {
 			this.jdbcTemplate.update(DELETE_REQUEST, id);
 		}
 	}
 
 	@Override
-	public List<Computer> search(String search, String columnName, String order, int limit, int offset) throws DAOException {
+	public List<Computer> search(String search, String columnName, String order, int limit, int offset) {
 		return this.jdbcTemplate.query(SEARCH + " " + columnName + " " + order + " LIMIT ? OFFSET ?;", new ComputerRowMapper(), '%' + search + '%', '%' + search + '%', limit, offset);
 	}
 	
 	@Override
-	public void deleteTransactionCompany(long id) throws DAOException{
+	public void deleteTransactionCompany(long id) {
 		this.jdbcTemplate.update(DELETE_COMPUTERS_COMPANY, id);
 	}
 

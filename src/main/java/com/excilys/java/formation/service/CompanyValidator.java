@@ -3,8 +3,6 @@ package com.excilys.java.formation.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import com.excilys.java.formation.persistence.DAOException;
 import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
 
 public enum CompanyValidator {
@@ -23,7 +21,7 @@ public enum CompanyValidator {
 					throw new ValidatorException("ID not valid");
 				}
 			}
-		} catch(NumberFormatException | DAOException e) {
+		} catch(NumberFormatException e) {
 			logger.debug("NumberFormatException", e);
 		}
 		return true;

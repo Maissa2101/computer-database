@@ -4,10 +4,7 @@ package com.excilys.java.formation.persistence.interfaceDAO;
 import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
-
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.persistence.DAOConfigurationException;
-import com.excilys.java.formation.persistence.DAOException;
 
 public interface ComputerDAOInterface {
 
@@ -20,7 +17,7 @@ public interface ComputerDAOInterface {
 	 * @return list of computers
 	 * @throws DAOException
 	 */
-	List<Computer> getListComputer(int limit,int offset, String columnName, String order) throws DAOException;
+	List<Computer> getListComputer(int limit,int offset, String columnName, String order);
 
 	/**
 	 * Method to get a computer by its id
@@ -28,7 +25,7 @@ public interface ComputerDAOInterface {
 	 * @return the computer with id = id
 	 * @throws DAOException
 	 */
-	Optional<Computer> getComputer(long id) throws DAOException;
+	Optional<Computer> getComputer(long id);
 
 	/**
 	 * Method to create a new computer
@@ -39,8 +36,7 @@ public interface ComputerDAOInterface {
 	 * @return the id of the created computer
 	 * @throws DAOException
 	 */
-	long createComputer(String name, LocalDate intro, LocalDate discontinued, String manufacturer)
-			throws DAOException;
+	long createComputer(String name, LocalDate intro, LocalDate discontinued, String manufacturer);
 
 	/**
 	 * Method to update a computer in the db
@@ -51,15 +47,14 @@ public interface ComputerDAOInterface {
 	 * @param manufacturer new company of the computer
 	 * @throws DAOException
 	 */
-	void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer)
-			throws DAOException;
+	void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer);
 
 	/**
 	 * Method to delete a computer from the db
 	 * @param id id of the computer to delete
 	 * @throws DAOException
 	 */
-	void deleteComputer(long id) throws DAOException;
+	void deleteComputer(long id);
 	
 	/**
 	 * Counts the total number of computers in the DB
@@ -67,7 +62,7 @@ public interface ComputerDAOInterface {
 	 * @throws DAOConfigurationException
 	 * @throws DAOException
 	 */
-	int count() throws DAOConfigurationException, DAOException;
+	int count();
 	
 	/**
 	 * Counts the number of elements after the search execution
@@ -75,14 +70,14 @@ public interface ComputerDAOInterface {
 	 * @return the number of elements after the search
 	 * @throws DAOException
 	 */
-	int countAfterSearch(String search) throws DAOException;
+	int countAfterSearch(String search);
 	
 	/**
 	 * Method to delete many computers 
 	 * @param ids list of ids of the computers to delete
 	 * @throws DAOException
 	 */
-	void deleteTransaction(List<Long> ids) throws DAOException;
+	void deleteTransaction(List<Long> ids);
 	
 	/**
 	 * Method to search elements in my db
@@ -94,7 +89,7 @@ public interface ComputerDAOInterface {
 	 * @return list of computers after the search execution
 	 * @throws DAOException
 	 */
-	List<Computer> search(String search, String columnName, String order, int limit, int offset) throws DAOException;
+	List<Computer> search(String search, String columnName, String order, int limit, int offset);
 	
-	public void deleteTransactionCompany(long id) throws DAOException;
+	public void deleteTransactionCompany(long id);
 }

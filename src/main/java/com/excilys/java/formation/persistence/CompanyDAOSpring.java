@@ -33,12 +33,12 @@ public class CompanyDAOSpring implements CompanyDAOInterface {
 	}
 
 	@Override
-	public List<Company> getListCompany(int limit, int offset) throws DAOException {
+	public List<Company> getListCompany(int limit, int offset) {
 		return this.jdbcTemplate.query(SELECT_REQUEST_LIST, new CompanyRowMapper(), limit, offset);
 	}
 
 	@Override
-	public Optional<Company> getCompany(long id) throws DAOException{
+	public Optional<Company> getCompany(long id) {
 		try {
 			Company company =  this.jdbcTemplate.queryForObject(SELECT_REQUEST_DETAILS, new CompanyRowMapper(), id);
 			return Optional.ofNullable(company);
@@ -48,17 +48,12 @@ public class CompanyDAOSpring implements CompanyDAOInterface {
 	}
 
 	@Override
-	public int count() throws DAOException {
-		int number = this.jdbcTemplate.queryForObject(COUNT, Integer.class);
-		if (number > 0) {
-			return number;
-		} else {
-			throw new DAOException("Problem in count number of companies");
-		}
+	public int count() {
+		return this.jdbcTemplate.queryForObject(COUNT, Integer.class);
 	}
 
 	@Override
-	public void deleteCompany(long id) throws DAOException {
+	public void deleteCompany(long id)  {
 		computerDAO.deleteTransactionCompany(id);
 		this.jdbcTemplate.update(DELETE_COMPANY, id);		
 	}

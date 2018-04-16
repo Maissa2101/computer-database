@@ -9,38 +9,43 @@ import java.io.InputStreamReader;
 import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
+import javax.sql.DataSource;
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
-import org.junit.BeforeClass;
+import org.hsqldb.persist.HsqlDatabaseProperties;
+import org.junit.Before;
 import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import com.excilys.java.formation.persistence.DAOConfigurationException;
-import com.excilys.java.formation.persistence.SQLConnection;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.jdbc.datasource.DataSourceUtils;
+import org.springframework.test.context.ContextConfiguration;
+import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+@RunWith(SpringJUnit4ClassRunner.class)
+@ContextConfiguration(locations = {"/applicationContext.xml"})
 public class CompanyMapperTest {
 	
 	static Logger logger = LoggerFactory.getLogger(CompanyMapperTest.class);
 	
-	@BeforeClass
-	public static void init() throws SQLException, IOException, ClassNotFoundException, DAOConfigurationException, SqlToolError {
-		try (Connection connection = SQLConnection.getInstance().getConnection(); 
-				java.sql.Statement statement = connection.createStatement();
-				InputStream inputStream = SQLConnection.class.getResourceAsStream("/TEST.sql"); ) {
-		           SqlFile sqlFile = new SqlFile(new InputStreamReader(inputStream), "init", System.out, "UTF-8", false,
-		                   new File("."));
-		           sqlFile.setConnection(connection);
-		           sqlFile.execute();
-		} catch (SQLException e) {
-			logger.debug("problem in init", e);
-		}
-	}
+	@Autowired
+	private DataSource dataSource;
+	
+	@Before
+	public void init() throws SQLException, IOException, SqlToolError, InstantiationException, IllegalAccessException, ClassNotFoundException {
+		Class.forName("org.hsqldb.jdbcDriver").newInstance();
+		Connection connection = DataSourceUtils.getConnection(dataSource);
+		InputStream inputStream = HsqlDatabaseProperties.class.getResourceAsStream("/TEST.sql");
+		SqlFile sqlFile = new SqlFile(new InputStreamReader(inputStream), "init", System.out, "UTF-8", false,
+				new File("."));
+		sqlFile.setConnection(connection);
+		sqlFile.execute();
+    }
 	
 	@Test
-	public void testGetListCompanyFromResultSet() throws SQLException, DAOConfigurationException, ClassNotFoundException {
-		SQLConnection.getInstance();
-		try (Connection connection = SQLConnection.getConnection(); 
+	public void testGetListCompanyFromResultSet() throws SQLException, ClassNotFoundException {
+		try (Connection connection = dataSource.getConnection(); 
 				java.sql.Statement statement = connection.createStatement();) {
 			ResultSet result = statement.executeQuery("SELECT count(*) as total FROM company");	
 			if (result.next()) {
