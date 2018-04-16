@@ -19,7 +19,7 @@ import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
 @EnableTransactionManagement
 public class CompanyServiceSpring {
 	
-	private Logger logger = LoggerFactory.getLogger(CompanyService.class);
+	private Logger logger = LoggerFactory.getLogger(CompanyServiceSpring.class);
 	@Autowired
 	private CompanyDAOInterface companyDAOSpring;
 	

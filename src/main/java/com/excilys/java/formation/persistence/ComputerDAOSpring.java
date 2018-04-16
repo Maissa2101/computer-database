@@ -12,7 +12,6 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.mapper.CompanyRowMapper;
 import com.excilys.java.formation.mapper.ComputerRowMapper;
 import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 

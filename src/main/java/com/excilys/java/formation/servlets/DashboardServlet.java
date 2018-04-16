@@ -21,9 +21,7 @@ import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
 import com.excilys.java.formation.pagination.PaginationComputer;
-import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.ComputerServiceSpring;
-//import com.excilys.java.formation.service.ComputerService;
 import com.excilys.java.formation.service.ServiceException;
 
 /**

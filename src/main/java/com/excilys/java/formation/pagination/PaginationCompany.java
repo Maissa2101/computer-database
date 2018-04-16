@@ -5,7 +5,6 @@ import java.util.List;
 
 
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.service.CompanyService;
 import com.excilys.java.formation.service.CompanyServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 
