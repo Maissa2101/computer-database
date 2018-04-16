@@ -6,18 +6,19 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.service.ComputerService;
+//import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 
 public class PaginationComputer extends Page {
 
 	private List<Computer> computers;
-	private ComputerService computerService;
+	private ComputerServiceSpring computerService;
 	private String order;
 	private String columnName;
 
 
-	public PaginationComputer(int limit, ComputerService computerService) throws ServiceException {
+	public PaginationComputer(int limit, ComputerServiceSpring computerService) throws ServiceException {
 		this.offset = 0;
 		this.limit = limit;
 		this.dbSize = computerService.count();

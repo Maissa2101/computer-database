@@ -1,4 +1,4 @@
-package com.excilys.java.formation.persistence;
+/*package com.excilys.java.formation.persistence;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -108,6 +108,6 @@ public class CompanyDAO implements CompanyDAOInterface {
 
 
 
-
+*/
 
 

@@ -22,7 +22,8 @@ import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
 import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.CompanyService;
-import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.ComputerServiceSpring;
+//import com.excilys.java.formation.service.ComputerService;
 import com.excilys.java.formation.service.ServiceException;
 
 /**
@@ -33,7 +34,7 @@ public class DashboardServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 	@Autowired
-	private ComputerService computerService;
+	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
 
 	@Override

@@ -1,4 +1,4 @@
-package com.excilys.java.formation.persistence;
+/*package com.excilys.java.formation.persistence;
 
 import java.sql.Connection;
 import java.sql.Date;
@@ -267,7 +267,6 @@ public class ComputerDAO implements ComputerDAOInterface {
 		}
 	}
 	
-	@Override
 	public void deleteTransactionCompany(long id, Connection conn) throws DAOException{
 		try(PreparedStatement stmt =  conn.prepareStatement(DELETE_COMPUTERS_COMPANY)) {
 			stmt.setLong(1, id);
@@ -284,4 +283,11 @@ public class ComputerDAO implements ComputerDAOInterface {
 		}
 	}
 
+	@Override
+	public void deleteTransactionCompany(long id) throws DAOException {
+		// TODO Auto-generated method stub
+		
+	}
+
 }
+*/

@@ -2,11 +2,8 @@ package com.excilys.java.formation.service;
 
 import java.time.LocalDate;
 
-import org.springframework.beans.factory.annotation.Autowired;
-
-import com.excilys.java.formation.persistence.ComputerDAO;
 import com.excilys.java.formation.persistence.DAOException;
-
+import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 
 public enum ComputerValidator {
@@ -33,7 +30,7 @@ public enum ComputerValidator {
 	 * @return true if the id is valid, false otherwise
 	 * @throws ValidatorException 
 	 */
-	public boolean idValidator(long id, ComputerDAO computerDAO) throws ValidatorException {
+	public boolean idValidator(long id, ComputerDAOInterface computerDAO) throws ValidatorException {
 		try {
 			if(computerDAO.getComputer(id).isPresent()) {
 				return true;

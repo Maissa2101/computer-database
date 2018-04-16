@@ -6,13 +6,14 @@ import java.util.List;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.service.CompanyService;
+import com.excilys.java.formation.service.CompanyServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 
 public class PaginationCompany extends Page{
 	private List<Company> companies;
-	private CompanyService companyService;
+	private CompanyServiceSpring companyService;
 
-	public PaginationCompany(int limit, CompanyService companyService) throws ServiceException {
+	public PaginationCompany(int limit, CompanyServiceSpring companyService) throws ServiceException {
 		this.offset = 0;
 		this.limit = limit;
 		this.dbSize = companyService.count();

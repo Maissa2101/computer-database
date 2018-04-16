@@ -24,7 +24,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.ComputerDAOSpring;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.SQLConnection;
 import com.excilys.java.formation.service.ComputerValidator;
@@ -36,7 +36,7 @@ public class ComputerValidatorTest {
 	
 	private static Logger logger = LoggerFactory.getLogger(ComputerValidatorTest.class);
 	@Autowired
-	private ComputerDAO computerDAO;
+	private ComputerDAOSpring computerDAO;
 	@Autowired
 	private DataSource dataSource; 
 	

@@ -23,7 +23,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
-import com.excilys.java.formation.persistence.CompanyDAO;
+import com.excilys.java.formation.persistence.CompanyDAOSpring;
 import com.excilys.java.formation.persistence.DAOConfigurationException;
 import com.excilys.java.formation.persistence.SQLConnection;
 import com.excilys.java.formation.service.CompanyValidator;
@@ -35,7 +35,7 @@ public class CompanyValidatorTest {
 	
 	static Logger logger = LoggerFactory.getLogger(CompanyValidatorTest.class);
 	@Autowired
-	private CompanyDAO companyDAO;
+	private CompanyDAOSpring companyDAO;
 	@Autowired
 	private DataSource dataSource; 
 	

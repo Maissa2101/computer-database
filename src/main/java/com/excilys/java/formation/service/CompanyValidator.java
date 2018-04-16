@@ -4,15 +4,15 @@ package com.excilys.java.formation.service;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import com.excilys.java.formation.persistence.CompanyDAO;
 import com.excilys.java.formation.persistence.DAOException;
+import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
 
 public enum CompanyValidator {
 
 	INSTANCE;
 	private Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
 	
-	public boolean idCompanyValidator(String manufacturer, CompanyDAO companies) throws ValidatorException {
+	public boolean idCompanyValidator(String manufacturer, CompanyDAOInterface companies) throws ValidatorException {
 		try {
 			if (manufacturer != null && !manufacturer.equals("null")) {
 				Long companyId = Long.valueOf(manufacturer);

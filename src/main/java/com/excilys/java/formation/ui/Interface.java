@@ -13,8 +13,8 @@ import org.springframework.stereotype.Controller;
 
 import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
-import com.excilys.java.formation.service.CompanyService;
-import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.CompanyServiceSpring;
+import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 	
@@ -23,11 +23,10 @@ import com.excilys.java.formation.service.ValidatorException;
 public class Interface {
 	private static Logger logger = LoggerFactory.getLogger(Interface.class);
 	@Autowired
-	private CompanyService companyService;
+	private CompanyServiceSpring companyService;
 	@Autowired
-	private ComputerService computerService;
+	private ComputerServiceSpring computerService;
 	
-
 	
 	/**
 	 * Method to choose and execute an action

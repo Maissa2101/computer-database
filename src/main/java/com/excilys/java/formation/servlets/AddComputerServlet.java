@@ -19,7 +19,8 @@ import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
 import com.excilys.java.formation.service.CompanyService;
-import com.excilys.java.formation.service.ComputerService;
+//import com.excilys.java.formation.service.ComputerService;
+import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 
@@ -31,7 +32,7 @@ public class AddComputerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 	private Logger logger = LoggerFactory.getLogger(AddComputerServlet.class);
 	@Autowired
-	private ComputerService computerService;
+	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper computerDTOMapper = ComputerDTOMapper.INSTANCE;
 	@Autowired
 	private CompanyService companyService;

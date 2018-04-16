@@ -25,7 +25,6 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
 
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.persistence.CompanyDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -33,7 +32,7 @@ public class CompanyDAOTest {
 	
 	static Logger logger = LoggerFactory.getLogger(CompanyDAOTest.class);
 	@Autowired
-	private CompanyDAO companyDAO;
+	private CompanyDAOSpring companyDAO;
 	@Autowired
 	private DataSource dataSource; 
 	

@@ -1,4 +1,4 @@
-/*package com.excilys.java.formation.service;
+package com.excilys.java.formation.service;
 
 
 import java.time.LocalDate;
@@ -13,31 +13,27 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.persistence.CompanyDAO;
-import com.excilys.java.formation.persistence.ComputerDAO;
+import com.excilys.java.formation.persistence.CompanyDAOSpring;
+import com.excilys.java.formation.persistence.ComputerDAOSpring;
 import com.excilys.java.formation.persistence.DAOException;
 
 @Service
 @EnableTransactionManagement
-public class ComputerService {
+public class ComputerServiceSpring {
 	
-	private Logger logger = LoggerFactory.getLogger(ComputerService.class);
+	private Logger logger = LoggerFactory.getLogger(ComputerServiceSpring.class);
 	@Autowired
-	private ComputerDAO computerDAO;
+	private ComputerDAOSpring computerDAO;
 	@Autowired
-	private CompanyDAO companyDAO;
+	private CompanyDAOSpring companyDAO;
 	
-	public ComputerService(ComputerDAO computers) {
-		this.computerDAO = computers;
-	}
-
 	/**
 	 * Method to show the list of computers
 	 * @param limit maximum number of computers in a page
 	 * @param offset starting index
 	 * @return list of computers starting from offset with length equals to limit
 	 * @throws ServiceException
-	 */ /*
+	 */
 	public List<Computer> listComputers(int limit, int offset, String columnName, String order) throws ServiceException{
 		try {
 			if(columnName == null || (!columnName.equals("computer.name") && !columnName.equals("introduced") && !columnName.equals("discontinued") && !columnName.equals("company.name"))) {
@@ -59,7 +55,7 @@ public class ComputerService {
 	 * @return computer details
 	 * @throws ServiceException
 	 * @throws ValidatorException
-	 */ /*
+	 */
 	public String computerDetails(long id) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 		String rsult = null;
@@ -80,7 +76,7 @@ public class ComputerService {
 	 * @param id the id of the computer to get
 	 * @return the computer
 	 * @throws ServiceException
-	 */ /*
+	 */
 	public Optional<Computer> getComputer(long id) throws ServiceException {
 		try {
 			return computerDAO.getComputer(id);
@@ -97,7 +93,7 @@ public class ComputerService {
 	 * @param manufacturer the company of the computer to create
 	 * @throws ServiceException
 	 * @throws ValidatorException
-	 */ /*
+	 */
 	public void createComputer(String name, LocalDate time1, LocalDate time2, String manufacturer) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
@@ -122,7 +118,7 @@ public class ComputerService {
 	 * @param manufacturer new company of the computer to update
 	 * @throws ServiceException
 	 * @throws ValidatorException
-	 */ /*
+	 */
 	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2, String manufacturer ) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
@@ -142,7 +138,7 @@ public class ComputerService {
 	 * @param idDelete id of the computer to delete
 	 * @throws ServiceException
 	 * @throws ValidatorException
-	 */ /*
+	 */
 	public void deleteComputer(long idDelete) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
@@ -161,7 +157,7 @@ public class ComputerService {
 	 * Counts the number of computers in the DB
 	 * @return total number of computers
 	 * @throws ServiceException
-	 */ /*
+	 */
 	public int count() throws ServiceException {
 		try {
 			return computerDAO.count();
@@ -184,7 +180,7 @@ public class ComputerService {
 	 * Method to delete one or many computers with transactions
 	 * @param ids list of computers to delete
 	 * @throws ServiceException
-	 */ /*
+	 */
 	@Transactional(rollbackFor = Exception.class)
 	public void deleteTransaction(List<Long> ids) throws ServiceException {
 		try {
@@ -212,4 +208,3 @@ public class ComputerService {
 		
 	}
 }
-*/

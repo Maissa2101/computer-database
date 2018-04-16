@@ -29,7 +29,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.persistence.ComputerDAO;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = {"/applicationContext.xml"})
@@ -37,7 +36,7 @@ public class ComputerDAOTest {
 
 	static Logger logger = LoggerFactory.getLogger(ComputerDAOTest.class);
 	@Autowired
-	private ComputerDAO computerDAO;
+	private ComputerDAOSpring computerDAO;
 	@Autowired
 	private DataSource dataSource; 
 	
