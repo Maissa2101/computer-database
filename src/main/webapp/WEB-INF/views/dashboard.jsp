@@ -16,7 +16,7 @@
 
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="DashboardServlet"> Application -
+		<a class="navbar-brand" href="dashboard"> Application -
 			Computer Database </a>
 	</div>
 	</header>
@@ -24,7 +24,7 @@
 
 	<c:choose>
 		<c:when test="${computerList == null}">
-			<c:redirect url="DashboardServlet" />
+			<c:redirect url="dashboard" />
 		</c:when>
 	</c:choose>
 

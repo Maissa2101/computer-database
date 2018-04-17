@@ -56,7 +56,7 @@ public class ComputerDAOSpring implements ComputerDAOInterface {
 	@Override
 	public long createComputer( String name, LocalDate intro, LocalDate discontinued, String manufacturer ) {
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
-		this.jdbcTemplate.update(INSERT_REQUEST, computer.getName(), Date.valueOf(computer.getIntroduced()), Date.valueOf(computer.getDiscontinued()), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer());
+		this.jdbcTemplate.update(INSERT_REQUEST, computer.getName(), (computer.getIntroduced() == null) ? null : Date.valueOf(computer.getIntroduced()), (computer.getDiscontinued() == null) ? null : Date.valueOf(computer.getDiscontinued()), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer());
 		return computer.getId();
 	}
 

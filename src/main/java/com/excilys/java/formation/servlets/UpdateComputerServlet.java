@@ -1,20 +1,14 @@
 package com.excilys.java.formation.servlets;
 
-import java.io.IOException;
 import java.util.Optional;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
@@ -24,12 +18,9 @@ import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 
-/**
- * Servlet implementation class UpdateComputerServlet
- */
-@WebServlet("/editComputer")
-public class UpdateComputerServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+@Controller
+@RequestMapping(value = {"editComputer"})
+public class UpdateComputerServlet {
 	private Logger logger = LoggerFactory.getLogger(UpdateComputerServlet.class);
 	@Autowired
 	private ComputerServiceSpring computerService;
@@ -37,25 +28,8 @@ public class UpdateComputerServlet extends HttpServlet {
 	@Autowired
 	private CompanyServiceSpring companyService;
 	
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public UpdateComputerServlet() {
-		super();
-	}
-	
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idStr = request.getParameter("id");
+	@RequestMapping(method = RequestMethod.GET)
+	protected String doGet(ModelMap model, @RequestParam(value="id", required=false) String idStr) {
 		Optional<Computer> computer = null;
 
 		long id=0;
@@ -67,40 +41,30 @@ public class UpdateComputerServlet extends HttpServlet {
 		try {
 			computer = computerService.getComputer(id);
 			if(!computer.isPresent()) {
-				response.sendRedirect(request.getContextPath() + "/DashboardServlet");
-				return;
+				return "dashboard";
 			}
 		} catch(ServiceException e) {
 			logger.debug("ServiceException problem", e);
-			response.sendRedirect(request.getContextPath() + "/DashboardServlet");
-			return;
+			return "dashboard";
 		}
 		
 		ComputerDTO computerDTO = computerDTOMapper.getComputerDTOFromComputer(computer.get());
 		
 		try {
-			request.setAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
+			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
 			logger.debug("Problem in UpdateComputerServlet", e);
 		}
-		request.setAttribute("computer", computerDTO);
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/editComputer.jsp");
-		dispatcher.forward(request, response);
-
-
+		model.addAttribute("computer", computerDTO);
+		return "editComputer";
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idStr = request.getParameter("id");
-		String name = request.getParameter("name");
-		String introduced = request.getParameter("introduced");
-		String discontinued = request.getParameter("discontinued");
-		String manufacturer = request.getParameter("manufacturer");
-
+	@RequestMapping(method = RequestMethod.POST)
+	protected String doPost(ModelMap model, @RequestParam(value="id", required=false) String idStr,
+			@RequestParam(value="name", required=false) String name,
+			@RequestParam(value="introduced", required=false) String introduced,
+			@RequestParam(value="discontinued", required=false) String discontinued,
+			@RequestParam(value="manufacturer", required=false) String manufacturer) {
 		long id = 0;
 		try {
 			id = Long.parseLong(idStr);
@@ -120,9 +84,8 @@ public class UpdateComputerServlet extends HttpServlet {
 			logger.debug("Problem with the update function in the Servlet", e);
 		}
 
-		request.setAttribute("computer", computer);
-		response.sendRedirect(request.getContextPath() + "/DashboardServlet");
-
+		model.addAttribute("computer", computer);
+		return "dashboard";
 	}
 
 }

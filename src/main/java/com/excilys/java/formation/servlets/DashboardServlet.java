@@ -1,21 +1,15 @@
 package com.excilys.java.formation.servlets;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletConfig;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.context.support.SpringBeanAutowiringSupport;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.ModelMap;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
@@ -24,42 +18,24 @@ import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 
-/**
- * Servlet implementation class DashboardServlet
- */
-@WebServlet("/DashboardServlet")
-public class DashboardServlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+
+@Controller
+@RequestMapping(value = {"/", "dashboard"})
+public class DashboardServlet {
 	private Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 	@Autowired
 	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
 
-	@Override
-	public void init(ServletConfig config) throws ServletException {
-		super.init(config);
-		SpringBeanAutowiringSupport.processInjectionBasedOnServletContext(this, config.getServletContext());
-	}
-
-	/**
-	 * @see HttpServlet#HttpServlet()
-	 */
-	public DashboardServlet() {
-		super();
-	}
-
-	/**
-	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		PaginationComputer page = (PaginationComputer) request.getAttribute("ComputerPage");
+	
+	@RequestMapping(method = RequestMethod.GET)
+	protected String doGet(ModelMap model, @RequestParam(value="ComputerPage", required=false) PaginationComputer page, 
+			@RequestParam(value="pageNumber", required=false) String pageNumberStr, 
+			@RequestParam(value="limit", required=false) String limitStr, 
+			@RequestParam(value="search", required=false) String search,
+			@RequestParam(value="columnName", required=false) String columnName,
+			@RequestParam(value="order", required=false) String order) {
 		List<Computer> listSearch = null;
-		String pageNumberStr = request.getParameter("pageNumber");
-		String limitStr = request.getParameter("limit");
-		String search = request.getParameter("search");
-		String columnName = request.getParameter("columnName");
-		String order = request.getParameter("order");
 		int pageNumber = 1;
 		int limit = 20;
 		try {
@@ -88,27 +64,24 @@ public class DashboardServlet extends HttpServlet {
 			for(Computer computerSearch : listSearch) {
 				listDTOSearch.add(computerMapper.getComputerDTOFromComputer(computerSearch));
 			}
-			request.setAttribute("computerList", listDTOSearch);
-			request.setAttribute("count", i);
-			request.setAttribute("pagination", page);
-			request.setAttribute("pageNumber", pageNumber);
-			request.setAttribute("limit", limit);
-			request.setAttribute("search", search);
-			request.setAttribute("columnName", columnName);
-			request.setAttribute("order", order);
-			RequestDispatcher dispatcher = request.getSession().getServletContext().getRequestDispatcher("/dashboard.jsp");
-			dispatcher.forward(request, response);
+			model.addAttribute("computerList", listDTOSearch);
+			model.addAttribute("count", i);
+			model.addAttribute("pagination", page);
+			model.addAttribute("pageNumber", pageNumber);
+			model.addAttribute("limit", limit);
+			model.addAttribute("search", search);
+			model.addAttribute("columnName", columnName);
+			model.addAttribute("order", order);
+			return "dashboard";
 		} catch (ServiceException e) {
 			logger.debug("Problem in my Dashboard", e);
-		} 
+		}
+		return "404"; 
 	}
 
-	/**
-	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
-	 */
-	@Override
-	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-		String idStr = request.getParameter("selection");
+
+	@RequestMapping(method = RequestMethod.POST)
+	protected String doPost(ModelMap model, @RequestParam(value="selection", required=false) String idStr) {
 		String[] split = idStr.split(",");
 		List<Long> listIDS = new ArrayList<>();
 		try {
@@ -123,8 +96,9 @@ public class DashboardServlet extends HttpServlet {
 		} catch (ServiceException e) {
 			logger.debug("Problem with the delete function in the Servlet", e);
 		}
-		response.sendRedirect(request.getContextPath() + "/DashboardServlet");
+		return "dashboard";
 
 	}
-
+		
 }
+
