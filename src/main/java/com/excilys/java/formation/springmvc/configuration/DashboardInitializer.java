@@ -4,7 +4,7 @@ package com.excilys.java.formation.springmvc.configuration;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
 
-public class HelloWorldInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
+public class DashboardInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	 
     @Override
     protected Class<?>[] getRootConfigClasses() {
