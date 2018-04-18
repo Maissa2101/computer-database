@@ -4,6 +4,7 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +21,7 @@ import com.excilys.java.formation.service.ValidatorException;
 
 @Controller
 @RequestMapping(value = {"editComputer"})
+@Profile("!interface")
 public class UpdateComputerServlet {
 	private Logger logger = LoggerFactory.getLogger(UpdateComputerServlet.class);
 	@Autowired

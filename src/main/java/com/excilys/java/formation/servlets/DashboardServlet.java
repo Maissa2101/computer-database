@@ -5,6 +5,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,13 +22,13 @@ import com.excilys.java.formation.service.ServiceException;
 
 @Controller
 @RequestMapping(value = {"/", "dashboard"})
+@Profile("!interface")
 public class DashboardServlet {
 	private Logger logger = LoggerFactory.getLogger(DashboardServlet.class);
 	@Autowired
 	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
 
-	
 	@RequestMapping(method = RequestMethod.GET)
 	protected String doGet(ModelMap model, @RequestParam(value="ComputerPage", required=false) PaginationComputer page, 
 			@RequestParam(value="pageNumber", required=false) String pageNumberStr, 

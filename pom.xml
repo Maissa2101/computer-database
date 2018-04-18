@@ -33,17 +33,18 @@
 		<spring-security.version>5.0.4.RELEASE</spring-security.version>
 		<maven-war.version>3.2.0</maven-war.version>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
+		<mojo.version>1.2.1</mojo.version>
 	</properties>
 
 
 	<dependencies>
-		
-		 <dependency>
-            <groupId>org.apache.maven.plugins</groupId>
-            <artifactId>maven-war-plugin</artifactId>
-            <version>${maven-war.version}</version>
-        </dependency>
-        
+
+		<dependency>
+			<groupId>org.apache.maven.plugins</groupId>
+			<artifactId>maven-war-plugin</artifactId>
+			<version>${maven-war.version}</version>
+		</dependency>
+
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
@@ -188,11 +189,26 @@
 			<version>${spring-security.version}</version>
 		</dependency>
 
-
 	</dependencies>
 
 	<build>
 		<plugins>
+			 <!-- Enables launching the CLI via command line using Maven -->
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>${mojo.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>java</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <mainClass>com.excilys.java.formation.ui.Interface</mainClass>
+                </configuration>
+            </plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
@@ -213,15 +229,15 @@
 				</configuration>
 			</plugin>
 			<plugin>
-                    <groupId>org.apache.maven.plugins</groupId>
-                    <artifactId>maven-war-plugin</artifactId>
-                    <version>2.4</version>
-                    <configuration>
-                        <warSourceDirectory>target/</warSourceDirectory>
-                        <warName>computer-database</warName>
-                        <failOnMissingWebXml>false</failOnMissingWebXml>
-                    </configuration>
-                </plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.4</version>
+				<configuration>
+					<warSourceDirectory>target/</warSourceDirectory>
+					<warName>computer-database</warName>
+					<failOnMissingWebXml>false</failOnMissingWebXml>
+				</configuration>
+			</plugin>
 		</plugins>
 	</build>
 

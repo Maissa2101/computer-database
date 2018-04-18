@@ -1,9 +1,10 @@
 package com.excilys.java.formation.springmvc.configuration;
 
 
+import org.springframework.context.annotation.Profile;
 import org.springframework.web.servlet.support.AbstractAnnotationConfigDispatcherServletInitializer;
 
-
+@Profile("!interface")
 public class DashboardInitializer extends AbstractAnnotationConfigDispatcherServletInitializer {
 	 
     @Override

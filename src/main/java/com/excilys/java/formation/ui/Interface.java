@@ -8,6 +8,7 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 import org.springframework.stereotype.Controller;
 
@@ -17,21 +18,18 @@ import com.excilys.java.formation.service.CompanyServiceSpring;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
-	
+
 
 @Controller
 public class Interface {
-	private static Logger logger = LoggerFactory.getLogger(Interface.class);
+	private Logger logger = LoggerFactory.getLogger(Interface.class);
 	@Autowired
 	private CompanyServiceSpring companyService;
 	@Autowired
 	private ComputerServiceSpring computerService;
 	
-	
 	/**
 	 * Method to choose and execute an action
-	 * @throws ServiceException
-	 * @throws ValidatorException 
 	 */
 	public void listFeatures() {
 
@@ -271,6 +269,7 @@ public class Interface {
 		long idDelete = scanner.nextLong();
 		companyService.deleteTransactionCompany(idDelete);
 	}
+	
 
 	public static void main(String[] args) {
 		Interface ui = new Interface();
