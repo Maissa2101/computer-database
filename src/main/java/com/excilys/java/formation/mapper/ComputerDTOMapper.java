@@ -13,7 +13,7 @@ public enum ComputerDTOMapper {
 	INSTANCE;
 	private Logger logger = LoggerFactory.getLogger(ComputerDTOMapper.class);
 	private static final String NULL ="";
-	
+
 	/**
 	 * Method to convert computer to a computerDTO
 	 * @param computer the computer to convert
@@ -39,7 +39,7 @@ public enum ComputerDTOMapper {
 		computerDTO.setManufacturer(manufacturer);
 		return computerDTO;    
 	}
-	
+
 	/**
 	 * Method to convert computerDTO to a computer
 	 * @param computerDTO the computerDTO to convert
@@ -50,14 +50,11 @@ public enum ComputerDTOMapper {
 		LocalDate discontinued = null;
 
 		try{
-			if(!computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
+			if(!computerDTO.getIntroduced().equals(NULL)) {
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
-				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
 			}
-			else if(computerDTO.getIntroduced().equals(NULL) && !computerDTO.getDiscontinued().equals(NULL)) {
+			if (!computerDTO.getDiscontinued().equals(NULL)) {
 				discontinued = LocalDate.parse(computerDTO.getDiscontinued());
-			} else if(!computerDTO.getIntroduced().equals(NULL) && computerDTO.getDiscontinued().equals(NULL)) {
-				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
 			}
 		}
 		catch(DateTimeParseException e) {

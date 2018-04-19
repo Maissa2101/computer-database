@@ -13,7 +13,6 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.excilys.java.formation.dto.ComputerDTO;
@@ -100,13 +99,13 @@ public class ComputerController {
 		try {
 			computerService.deleteTransaction(listIDS);
 		} catch (ServiceException e) {
-			logger.debug("Problem with the delete function in the Servlet", e);
+			logger.debug("Problem with the delete function", e);
 		}
 		return "dashboard";
 	}
 	
 	@GetMapping("/addComputer")
-	protected String doGetAdd(ModelMap model) {
+	protected String doGetAdd(ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
 		try {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
@@ -116,20 +115,12 @@ public class ComputerController {
 	}
 	
 	@PostMapping("/addComputer")
-	protected String doPostAdd(ModelMap model, @RequestParam(value="computerName", required=false) String name,
-			@RequestParam(value="introduced", required=false) String introduced,
-			@RequestParam(value="discontinued", required=false) String discontinued,
-			@RequestParam(value="manufacturer", required=false) String manufacturer)  {
-		ComputerDTO computerDTO = new ComputerDTO();
-		computerDTO.setName(name);
-		computerDTO.setIntroduced(introduced);
-		computerDTO.setDiscontinued(discontinued);
-		computerDTO.setManufacturer(manufacturer);
+	protected String doPostAdd(ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {
 			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ValidatorException | ServiceException e) {
-			logger.debug("Problem in AddComputerServlet", e);
+			logger.debug("Problem in AddComputer", e);
 		}
 		model.addAttribute("computer", computer);
 		return "addComputer";
@@ -160,7 +151,7 @@ public class ComputerController {
 		try {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
-			logger.debug("Problem in UpdateComputerServlet", e);
+			logger.debug("Problem in UpdateComputer", e);
 		}
 		model.addAttribute("computer", computerDTO);
 		return "editComputer";
@@ -172,7 +163,7 @@ public class ComputerController {
 		try {
 			computerService.updateComputer(computer.getId(), computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ServiceException | ValidatorException e) {
-			logger.debug("Problem with the update function in the Servlet", e);
+			logger.debug("Problem with the update function", e);
 		}
 
 		model.addAttribute("computer", computer);

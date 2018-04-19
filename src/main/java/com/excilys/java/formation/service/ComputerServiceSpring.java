@@ -86,7 +86,6 @@ public class ComputerServiceSpring {
 	public void createComputer(String name, LocalDate time1, LocalDate time2, String manufacturer) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
-
 		try {
 			if((computerValidator.nameValidator(name)) && (computerValidator.dateValidator(time1, time2)) && (companyValidator.idCompanyValidator(manufacturer, companyDAO))) {
 				computerDAO.createComputer(name, time1, time2, manufacturer);

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -15,8 +16,8 @@
 
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard"> Application
-			-Computer Database </a>
+		<a class="navbar-brand" href="dashboard"> Application -Computer
+			Database </a>
 	</div>
 	</header>
 
@@ -25,33 +26,34 @@
 		<div class="row">
 			<div class="col-xs-8 col-xs-offset-2 box">
 				<h1>Add Computer</h1>
-				<form action="addComputer" method="POST">
+				<form:form action="addComputer" method="POST"
+					modelAttribute="computerDTO">
 					<fieldset>
 						<div class="form-group">
-							<label for="computerName">Computer name</label> <input
-								type="text" data-validation="custom"
+							<form:label for="computerName" path="name">Computer name</form:label>
+							<input type="text" data-validation="custom"
 								data-validation-regexp="^[\wÀ-ÿ]+[\wÀ-ÿ_\-'\+\* ]+$"
 								class="form-control" id="computerName"
-								placeholder="Computer name" name="computerName">
+								placeholder="Computer name" name="name">
 						</div>
 						<div class="form-group">
-							<label for="introduced">Introduced date</label> <input
-								type="date" data-validation="date"
+							<form:label for="introduced" path="introduced">Introduced date</form:label>
+							<input type="date" data-validation="date"
 								data-validation-format="yyyy-mm-dd"
 								data-validation-optional="true" class="form-control"
 								id="introduced" placeholder="Introduced date" name="introduced">
 						</div>
 						<div class="form-group">
-							<label for="discontinued">Discontinued date</label> <input
-								type="date" data-validation="date"
+							<form:label for="discontinued" path="discontinued">Discontinued date</form:label>
+							<input type="date" data-validation="date"
 								data-validation-format="yyyy-mm-dd"
 								data-validation-optional="true" class="form-control"
 								id="discontinued" placeholder="Discontinued date"
 								name="discontinued">
 						</div>
 						<div class="form-group">
-							<label for="companyId">Company</label> <select
-								class="form-control" id="companyId" name="manufacturer">
+							<form:label for="companyId" path="manufacturer">Company</form:label>
+							<select class="form-control" id="companyId" name="manufacturer">
 								<option value="null"></option>
 								<c:forEach items="${companyList}" var="company">
 									<option value="${company.id}">${company.name}</option>
@@ -64,7 +66,7 @@
 						<input type="submit" value="Add" class="btn btn-primary">
 						or <a href="dashboard" class="btn btn-default">Cancel</a>
 					</div>
-				</form>
+				</form:form>
 			</div>
 		</div>
 	</div>
