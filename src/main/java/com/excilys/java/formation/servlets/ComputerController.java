@@ -1,16 +1,22 @@
 package com.excilys.java.formation.servlets;
 
 import java.util.ArrayList;
+
 import java.util.List;
 import java.util.Optional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.Validator;
+import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,6 +29,7 @@ import com.excilys.java.formation.service.CompanyServiceSpring;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
+import java.util.Locale;
 
 @Controller
 @Profile("!interface")
@@ -33,14 +40,27 @@ public class ComputerController {
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
 	@Autowired
 	private CompanyServiceSpring companyService;
+	
+	@Qualifier("ComputerDTOValidator")
+	private Validator validator;
+
+	@InitBinder
+	private void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
+	
 
 	@GetMapping(value = {"/","/dashboard"})
-	protected String doGet(ModelMap model, @RequestParam(value="ComputerPage", required=false) PaginationComputer page, 
+	protected String doGet(Locale locale, ModelMap model, @RequestParam(value="ComputerPage", required=false) PaginationComputer page, 
 			@RequestParam(value="pageNumber", required=false) String pageNumberStr, 
 			@RequestParam(value="limit", required=false) String limitStr, 
 			@RequestParam(value="search", required=false) String search,
 			@RequestParam(value="columnName", required=false) String columnName,
 			@RequestParam(value="order", required=false) String order) {
+	    
+		Locale currentLocale = LocaleContextHolder.getLocale();
+        model.addAttribute("locale", currentLocale);
+        
 		List<Computer> listSearch = null;
 		int pageNumber = 1;
 		int limit = 20;
@@ -104,8 +124,10 @@ public class ComputerController {
 		return "dashboard";
 	}
 	
-	@GetMapping("/addComputer")
-	protected String doGetAdd(ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
+	@GetMapping(value = "/addComputer")
+	protected String doGetAdd(Locale locale, ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
+		Locale currentLocale = LocaleContextHolder.getLocale();
+        model.addAttribute("locale", currentLocale);
 		try {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
@@ -114,7 +136,7 @@ public class ComputerController {
 		return "addComputer";
 	}
 	
-	@PostMapping("/addComputer")
+	@PostMapping(value = "/addComputer")
 	protected String doPostAdd(ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {
@@ -126,8 +148,10 @@ public class ComputerController {
 		return "addComputer";
 	}
 	
-	@GetMapping("/editComputer")
-	protected String doGetUpdate(ModelMap model, @RequestParam(value="id", required=false) String idStr) {
+	@GetMapping(value = "/editComputer")
+	protected String doGetUpdate(Locale locale, ModelMap model, @RequestParam(value="id", required=false) String idStr) {
+		Locale currentLocale = LocaleContextHolder.getLocale();
+        model.addAttribute("locale", currentLocale);
 		Optional<Computer> computer = null;
 
 		long id=0;
@@ -157,7 +181,7 @@ public class ComputerController {
 		return "editComputer";
 	}
 	
-	@PostMapping("/editComputer")
+	@PostMapping(value = "/editComputer")
 	protected String doPostUpdate(ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {

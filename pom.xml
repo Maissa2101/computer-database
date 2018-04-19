@@ -34,6 +34,8 @@
 		<maven-war.version>3.2.0</maven-war.version>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<mojo.version>1.2.1</mojo.version>
+		<validation.version>1.0.0.GA</validation.version>
+		<hibernate.version>4.1.0.Final</hibernate.version>
 	</properties>
 
 
@@ -189,26 +191,38 @@
 			<version>${spring-security.version}</version>
 		</dependency>
 
+		<dependency>
+			<groupId>javax.validation</groupId>
+			<artifactId>validation-api</artifactId>
+			<version>${validation.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate.version}</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>
 		<plugins>
-			 <!-- Enables launching the CLI via command line using Maven -->
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <version>${mojo.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>java</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <mainClass>com.excilys.java.formation.ui.Interface</mainClass>
-                </configuration>
-            </plugin>
+			<!-- Enables launching the CLI via command line using Maven -->
+			<plugin>
+				<groupId>org.codehaus.mojo</groupId>
+				<artifactId>exec-maven-plugin</artifactId>
+				<version>${mojo.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>java</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<mainClass>com.excilys.java.formation.ui.Interface</mainClass>
+				</configuration>
+			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
