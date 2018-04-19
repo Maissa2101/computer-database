@@ -2,7 +2,7 @@ package com.excilys.java.formation.springmvc.configuration;
 
 import javax.sql.DataSource;
 import org.springframework.context.annotation.Bean;
-
+import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
@@ -11,6 +11,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 
 @Configuration
 @Profile("interface")
+@ComponentScan(basePackages = {"com.excilys.java.formation"})
 public class InterfaceConfiguration {
         
 	@Bean

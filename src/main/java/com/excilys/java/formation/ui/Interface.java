@@ -8,8 +8,9 @@ import java.util.Scanner;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Profile;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
+import org.springframework.context.ApplicationContext;
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
+import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Controller;
 
 import com.excilys.java.formation.pagination.PaginationCompany;
@@ -18,9 +19,10 @@ import com.excilys.java.formation.service.CompanyServiceSpring;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
+import com.excilys.java.formation.springmvc.configuration.InterfaceConfiguration;
 
 
-@Controller
+@Component
 public class Interface {
 	private Logger logger = LoggerFactory.getLogger(Interface.class);
 	@Autowired
@@ -272,10 +274,7 @@ public class Interface {
 	
 
 	public static void main(String[] args) {
-		Interface ui = new Interface();
-	    ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("/applicationContext.xml", Interface.class);
-		ui = context.getBean(Interface.class);
-		context.close();
-		ui.listFeatures();
+		ApplicationContext context = new AnnotationConfigApplicationContext(InterfaceConfiguration.class);
+        context.getBean(Interface.class).listFeatures();
 	}
 }
