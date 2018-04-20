@@ -34,21 +34,21 @@
 							<input type="text" data-validation="custom"
 								data-validation-regexp="^[\wÀ-ÿ]+[\wÀ-ÿ_\-'\+\* ]+$"
 								class="form-control" id="computerName"
-								placeholder="Computer name" name="name">
+								placeholder=<spring:message code="dashboard.name"/> name="name">
 						</div>
 						<div class="form-group">
 							<form:label for="introduced" path="introduced"><spring:message code="dashboard.introduced"/></form:label>
 							<input type="date" data-validation="date"
 								data-validation-format="yyyy-mm-dd"
 								data-validation-optional="true" class="form-control"
-								id="introduced" placeholder="Introduced date" name="introduced">
+								id="introduced" placeholder=<spring:message code="dashboard.introduced"/> name="introduced">
 						</div>
 						<div class="form-group">
 							<form:label for="discontinued" path="discontinued"><spring:message code="dashboard.discontinued"/></form:label>
 							<input type="date" data-validation="date"
 								data-validation-format="yyyy-mm-dd"
 								data-validation-optional="true" class="form-control"
-								id="discontinued" placeholder="Discontinued date"
+								id="discontinued" placeholder=<spring:message code="dashboard.discontinued"/>
 								name="discontinued">
 						</div>
 						<div class="form-group">

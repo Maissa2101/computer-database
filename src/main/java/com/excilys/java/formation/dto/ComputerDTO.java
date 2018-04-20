@@ -5,7 +5,6 @@ import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 
 public class ComputerDTO {
-	@NotNull
 	private long id;	
 	@NotNull
     @Size(min=2, max=60)

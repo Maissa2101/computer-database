@@ -5,6 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +15,7 @@ import org.springframework.context.annotation.Profile;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
+import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -125,7 +128,10 @@ public class ComputerController {
 	}
 	
 	@GetMapping(value = "/addComputer")
-	protected String doGetAdd(Locale locale, ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
+	protected String doGetAdd(Locale locale, ModelMap model, @Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new RuntimeException("Fail!");
+		}
 		Locale currentLocale = LocaleContextHolder.getLocale();
         model.addAttribute("locale", currentLocale);
 		try {
@@ -137,7 +143,10 @@ public class ComputerController {
 	}
 	
 	@PostMapping(value = "/addComputer")
-	protected String doPostAdd(ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
+	protected String doPostAdd(ModelMap model, @Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new RuntimeException("Fail!");
+		}
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {
 			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
@@ -182,7 +191,10 @@ public class ComputerController {
 	}
 	
 	@PostMapping(value = "/editComputer")
-	protected String doPostUpdate(ModelMap model, @ModelAttribute("computerDTO") ComputerDTO computerDTO) {
+	protected String doPostUpdate(ModelMap model,@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
+		if (bindingResult.hasErrors()) {
+			throw new RuntimeException("Fail!");
+		}
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {
 			computerService.updateComputer(computer.getId(), computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
