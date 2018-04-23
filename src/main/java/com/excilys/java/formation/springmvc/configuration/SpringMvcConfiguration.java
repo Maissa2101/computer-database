@@ -1,24 +1,31 @@
 package com.excilys.java.formation.springmvc.configuration;
 
 import java.util.Locale;
+import java.util.Properties;
 
 import javax.sql.DataSource;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.web.servlet.HandlerExceptionResolver;
+import org.springframework.web.servlet.NoHandlerFoundException;
 import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
+import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
+import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
+import org.springframework.core.Ordered;
+import org.springframework.http.HttpStatus;
 import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.transaction.PlatformTransactionManager;
@@ -89,5 +96,22 @@ public class SpringMvcConfiguration extends WebMvcConfigurerAdapter implements W
 	        LocaleChangeInterceptor interceptor = new LocaleChangeInterceptor();
 	        interceptor.setParamName("lang");
 	        return interceptor;
+	    }
+	    
+	    @Bean
+	    public static PropertySourcesPlaceholderConfigurer
+	    propertySourcesPlaceholderConfigurer() {
+	        return new PropertySourcesPlaceholderConfigurer();
+	    }
+
+	    @Bean
+	    HandlerExceptionResolver customExceptionResolver() {
+	        SimpleMappingExceptionResolver s = new SimpleMappingExceptionResolver();
+	        Properties p = new Properties();
+	        p.setProperty(NoHandlerFoundException.class.getName(), "404");
+	        s.setExceptionMappings(p);
+	        s.addStatusCode("404", HttpStatus.NOT_FOUND.value());
+	        s.setOrder(Ordered.HIGHEST_PRECEDENCE);
+	        return s;
 	    }
 }
