@@ -122,6 +122,7 @@ public class ComputerController {
 			computerService.deleteTransaction(listIDS);
 		} catch (ServiceException e) {
 			logger.debug("Problem with the delete function", e);
+			return "404";
 		}
 		return "dashboard";
 	}
@@ -137,6 +138,7 @@ public class ComputerController {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
 			logger.debug("ServiceException in AddComputerServlet");
+			return "500";
 		}
 		return "addComputer";
 	}
@@ -151,6 +153,7 @@ public class ComputerController {
 			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ValidatorException | ServiceException e) {
 			logger.debug("Problem in AddComputer", e);
+			return "500";
 		}
 		model.addAttribute("computer", computer);
 		return "addComputer";
@@ -184,6 +187,7 @@ public class ComputerController {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
 			logger.debug("Problem in UpdateComputer", e);
+			return "500";
 		}
 		model.addAttribute("computer", computerDTO);
 		return "editComputer";
@@ -199,6 +203,7 @@ public class ComputerController {
 			computerService.updateComputer(computer.getId(), computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ServiceException | ValidatorException e) {
 			logger.debug("Problem with the update function", e);
+			return "500";
 		}
 
 		model.addAttribute("computer", computer);

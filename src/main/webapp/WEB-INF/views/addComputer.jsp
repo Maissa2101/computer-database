@@ -38,14 +38,14 @@
 						</div>
 						<div class="form-group">
 							<form:label for="introduced" path="introduced"><spring:message code="dashboard.introduced"/></form:label>
-							<input type="date" data-validation="date"
+							<input path="introduced" type="date" data-validation="date"
 								data-validation-format="yyyy-mm-dd"
 								data-validation-optional="true" class="form-control"
 								id="introduced" placeholder=<spring:message code="dashboard.introduced"/> name="introduced">
 						</div>
 						<div class="form-group">
 							<form:label for="discontinued" path="discontinued"><spring:message code="dashboard.discontinued"/></form:label>
-							<input type="date" data-validation="date"
+							<input path="discontinued" type="date" data-validation="date"
 								data-validation-format="yyyy-mm-dd"
 								data-validation-optional="true" class="form-control"
 								id="discontinued" placeholder=<spring:message code="dashboard.discontinued"/>
