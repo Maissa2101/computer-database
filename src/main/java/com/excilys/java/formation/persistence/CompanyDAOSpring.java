@@ -12,10 +12,9 @@ import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.mapper.CompanyRowMapper;
-import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
 
 @Repository
-public class CompanyDAOSpring implements CompanyDAOInterface {
+public class CompanyDAOSpring {
 
 	private static final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
 	private static final String COUNT = "SELECT count(*) as total FROM company;";
@@ -32,12 +31,10 @@ public class CompanyDAOSpring implements CompanyDAOInterface {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 
-	@Override
 	public List<Company> getListCompany(int limit, int offset) {
 		return this.jdbcTemplate.query(SELECT_REQUEST_LIST, new CompanyRowMapper(), limit, offset);
 	}
 
-	@Override
 	public Optional<Company> getCompany(long id) {
 		try {
 			Company company =  this.jdbcTemplate.queryForObject(SELECT_REQUEST_DETAILS, new CompanyRowMapper(), id);
@@ -47,12 +44,10 @@ public class CompanyDAOSpring implements CompanyDAOInterface {
 		}
 	}
 
-	@Override
 	public int count() {
 		return this.jdbcTemplate.queryForObject(COUNT, Integer.class);
 	}
 
-	@Override
 	public void deleteCompany(long id)  {
 		computerDAO.deleteTransactionCompany(id);
 		this.jdbcTemplate.update(DELETE_COMPANY, id);		

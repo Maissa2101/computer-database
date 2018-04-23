@@ -14,10 +14,9 @@ import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerRowMapper;
-import com.excilys.java.formation.persistence.interfaceDAO.ComputerDAOInterface;
 
 @Repository
-public class ComputerDAOSpring implements ComputerDAOInterface {
+public class ComputerDAOSpring {
 
 	private static final String SELECT_REQUEST_LIST = "SELECT computer.id, computer.name, introduced, discontinued, company.name FROM computer LEFT JOIN company ON computer.company_id=company.id ORDER BY";
 	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name, introduced, discontinued, company_id FROM computer WHERE id=?;";
@@ -38,12 +37,10 @@ public class ComputerDAOSpring implements ComputerDAOInterface {
 		this.jdbcTemplate = new JdbcTemplate(dataSource);
 	}
 	
-	@Override
 	public List<Computer> getListComputer(int limit, int offset, String columnName, String order) {
 		return this.jdbcTemplate.query(SELECT_REQUEST_LIST + " " + columnName + " " + order + " LIMIT ? OFFSET ?;", new ComputerRowMapper(), limit, offset);
 	}
 
-	@Override
 	public Optional<Computer> getComputer(long id) {
 		try {
 			Computer computer = this.jdbcTemplate.queryForObject(SELECT_REQUEST_DETAILS, new ComputerRowMapper(), id);
@@ -53,49 +50,40 @@ public class ComputerDAOSpring implements ComputerDAOInterface {
 		}
 	}
 
-	@Override
 	public long createComputer( String name, LocalDate intro, LocalDate discontinued, String manufacturer ) {
 		Computer computer = new Computer.ComputerBuilder(name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
 		this.jdbcTemplate.update(INSERT_REQUEST, computer.getName(), (computer.getIntroduced() == null) ? null : Date.valueOf(computer.getIntroduced()), (computer.getDiscontinued() == null) ? null : Date.valueOf(computer.getDiscontinued()), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer());
 		return computer.getId();
 	}
 
-	@Override
 	public void updateComputer(long id, String name, LocalDate intro, LocalDate discontinued, String manufacturer) {
 		Computer computer = new Computer.ComputerBuilder(id, name).introduced(intro).discontinued(discontinued).manufacturer(manufacturer).build();
 		this.jdbcTemplate.update(UPDATE_REQUEST, computer.getName(), (computer.getIntroduced() == null) ? null : Date.valueOf(computer.getIntroduced()), (computer.getDiscontinued() == null) ? null : Date.valueOf(computer.getDiscontinued()), (computer.getManufacturer() == null || computer.getManufacturer().equals("null")) ? null : computer.getManufacturer(), id);
 	}
 
-	@Override
 	public void deleteComputer(long id) {
 		this.jdbcTemplate.update(DELETE_REQUEST, id);		
 
 	}
 
-	@Override
 	public int count() {
 		return this.jdbcTemplate.queryForObject(COUNT, Integer.class);
 		
 	}
 
-	@Override
 	public int countAfterSearch(String search) {
 		return this.jdbcTemplate.queryForObject(COUNT_SEARCH, Integer.class, search + '%', '%' + search + '%');
 	}
-
-	@Override
 	public void deleteTransaction(List<Long> ids) {
 		for(Long id : ids) {
 			this.jdbcTemplate.update(DELETE_REQUEST, id);
 		}
 	}
 
-	@Override
 	public List<Computer> search(String search, String columnName, String order, int limit, int offset) {
 		return this.jdbcTemplate.query(SEARCH + " " + columnName + " " + order + " LIMIT ? OFFSET ?;", new ComputerRowMapper(), '%' + search + '%', '%' + search + '%', limit, offset);
 	}
 	
-	@Override
 	public void deleteTransactionCompany(long id) {
 		this.jdbcTemplate.update(DELETE_COMPUTERS_COMPANY, id);
 	}

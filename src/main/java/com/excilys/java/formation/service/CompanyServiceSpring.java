@@ -8,14 +8,14 @@ import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.persistence.interfaceDAO.CompanyDAOInterface;
+import com.excilys.java.formation.persistence.CompanyDAOSpring;
 
 @Service
 @EnableTransactionManagement
 public class CompanyServiceSpring {
 	
 	@Autowired
-	private CompanyDAOInterface companyDAOSpring;
+	private CompanyDAOSpring companyDAOSpring;
 	
 	
 	public List<Company> listCompanies(int limit, int offset) throws ServiceException {
