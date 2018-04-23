@@ -8,13 +8,11 @@ import java.util.Optional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.i18n.LocaleContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.Validator;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -28,6 +26,7 @@ import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.mapper.ComputerDTOMapper;
 import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.CompanyServiceSpring;
+import com.excilys.java.formation.service.ComputerDTOValidator;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
@@ -44,13 +43,13 @@ public class ComputerController {
 	@Autowired
 	private CompanyServiceSpring companyService;
 
-	@Qualifier("ComputerDTOValidator")
-	private Validator validator;
-	
-	@InitBinder("ComputerDTO")
-    protected void initUserBinder(WebDataBinder binder) {
-        binder.setValidator(validator);
-    }
+	@Autowired
+	private ComputerDTOValidator validator;
+
+	@InitBinder("computerDTO")
+	protected void initBinder(WebDataBinder binder) {
+		binder.setValidator(validator);
+	}
 
 	@GetMapping(value = {"/","/dashboard"})
 	protected String doGet(Locale locale, ModelMap model, @RequestParam(value="ComputerPage", required=false) PaginationComputer page, 
@@ -128,10 +127,7 @@ public class ComputerController {
 	}
 
 	@GetMapping(value = "/addComputer")
-	protected String doGetAdd(Locale locale, ModelMap model,@ModelAttribute("computerDTO") @Validated(ComputerDTO.class) ComputerDTO computerDTO, BindingResult bindingResult) {
-		if (bindingResult.hasErrors()) {
-			throw new RuntimeException("Fail!");
-		}
+	protected String doGetAdd(Locale locale, ModelMap model,@ModelAttribute("computerDTO") ComputerDTO computerDTO) {
 		Locale currentLocale = LocaleContextHolder.getLocale();
 		model.addAttribute("locale", currentLocale);
 		try {
@@ -144,9 +140,9 @@ public class ComputerController {
 	}
 
 	@PostMapping(value = "/addComputer")
-	protected String doPostAdd(ModelMap model,@ModelAttribute("computerDTO") @Validated(ComputerDTO.class) ComputerDTO computerDTO, BindingResult bindingResult) {
+	protected String doPostAdd(ModelMap model,@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			throw new RuntimeException("Fail!");
+			return "500";
 		}
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {
@@ -194,9 +190,9 @@ public class ComputerController {
 	}
 
 	@PostMapping(value = "/editComputer")
-	protected String doPostUpdate(ModelMap model,@ModelAttribute("computerDTO") @Validated(ComputerDTO.class) ComputerDTO computerDTO, BindingResult bindingResult) {
+	protected String doPostUpdate(ModelMap model,@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			throw new RuntimeException("Fail!");
+			return "500";
 		}
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {

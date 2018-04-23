@@ -46,8 +46,7 @@ public enum ComputerValidator {
 	 * @throws ValidatorException 
 	 */
 	public boolean dateValidator(LocalDate time1, LocalDate time2) throws ValidatorException {
-		if((time2 != null) && (time1 != null)) 
-		{
+		if((time2 != null) && (time1 != null)) {
 			if (time2.isAfter(time1)) {
 				return true;
 			}
