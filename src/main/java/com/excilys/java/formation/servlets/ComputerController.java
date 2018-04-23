@@ -5,8 +5,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import javax.validation.Valid;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +15,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.Validator;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
@@ -34,6 +33,7 @@ import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 import java.util.Locale;
 
+
 @Controller
 @Profile("!interface")
 public class ComputerController {
@@ -43,15 +43,14 @@ public class ComputerController {
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
 	@Autowired
 	private CompanyServiceSpring companyService;
-	
+
 	@Qualifier("ComputerDTOValidator")
 	private Validator validator;
-
-	@InitBinder
-	private void initBinder(WebDataBinder binder) {
-		binder.setValidator(validator);
-	}
 	
+	@InitBinder("ComputerDTO")
+    protected void initUserBinder(WebDataBinder binder) {
+        binder.setValidator(validator);
+    }
 
 	@GetMapping(value = {"/","/dashboard"})
 	protected String doGet(Locale locale, ModelMap model, @RequestParam(value="ComputerPage", required=false) PaginationComputer page, 
@@ -60,10 +59,10 @@ public class ComputerController {
 			@RequestParam(value="search", required=false) String search,
 			@RequestParam(value="columnName", required=false) String columnName,
 			@RequestParam(value="order", required=false) String order) {
-	    
+
 		Locale currentLocale = LocaleContextHolder.getLocale();
-        model.addAttribute("locale", currentLocale);
-        
+		model.addAttribute("locale", currentLocale);
+
 		List<Computer> listSearch = null;
 		int pageNumber = 1;
 		int limit = 20;
@@ -107,7 +106,7 @@ public class ComputerController {
 		}
 		return "404"; 
 	}
-	
+
 	@PostMapping(value = "/dashboard")
 	protected String doPost(ModelMap model, @RequestParam(value="selection", required=false) String idStr) {
 		String[] split = idStr.split(",");
@@ -126,14 +125,14 @@ public class ComputerController {
 		}
 		return "dashboard";
 	}
-	
+
 	@GetMapping(value = "/addComputer")
-	protected String doGetAdd(Locale locale, ModelMap model, @Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
+	protected String doGetAdd(Locale locale, ModelMap model,@ModelAttribute("computerDTO") @Validated(ComputerDTO.class) ComputerDTO computerDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			throw new RuntimeException("Fail!");
 		}
 		Locale currentLocale = LocaleContextHolder.getLocale();
-        model.addAttribute("locale", currentLocale);
+		model.addAttribute("locale", currentLocale);
 		try {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
@@ -141,9 +140,9 @@ public class ComputerController {
 		}
 		return "addComputer";
 	}
-	
+
 	@PostMapping(value = "/addComputer")
-	protected String doPostAdd(ModelMap model, @Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
+	protected String doPostAdd(ModelMap model,@ModelAttribute("computerDTO") @Validated(ComputerDTO.class) ComputerDTO computerDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			throw new RuntimeException("Fail!");
 		}
@@ -156,11 +155,11 @@ public class ComputerController {
 		model.addAttribute("computer", computer);
 		return "addComputer";
 	}
-	
+
 	@GetMapping(value = "/editComputer")
 	protected String doGetUpdate(Locale locale, ModelMap model, @RequestParam(value="id", required=false) String idStr) {
 		Locale currentLocale = LocaleContextHolder.getLocale();
-        model.addAttribute("locale", currentLocale);
+		model.addAttribute("locale", currentLocale);
 		Optional<Computer> computer = null;
 
 		long id=0;
@@ -178,9 +177,9 @@ public class ComputerController {
 			logger.debug("ServiceException problem", e);
 			return "dashboard";
 		}
-		
+
 		ComputerDTO computerDTO = computerMapper.getComputerDTOFromComputer(computer.get());
-		
+
 		try {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
@@ -189,9 +188,9 @@ public class ComputerController {
 		model.addAttribute("computer", computerDTO);
 		return "editComputer";
 	}
-	
+
 	@PostMapping(value = "/editComputer")
-	protected String doPostUpdate(ModelMap model,@Valid @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
+	protected String doPostUpdate(ModelMap model,@ModelAttribute("computerDTO") @Validated(ComputerDTO.class) ComputerDTO computerDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
 			throw new RuntimeException("Fail!");
 		}

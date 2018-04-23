@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
@@ -35,7 +36,8 @@
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<mojo.version>1.2.1</mojo.version>
 		<validation.version>1.0.0.GA</validation.version>
-		<hibernate.version>4.1.0.Final</hibernate.version>
+		<hibernate-validator.version>4.1.0.Final</hibernate-validator.version>
+		<hibernate.version>5.2.16.Final</hibernate.version>
 	</properties>
 
 
@@ -199,8 +201,14 @@
 
 		<dependency>
 			<groupId>org.hibernate</groupId>
-			<artifactId>hibernate-validator</artifactId>
+			<artifactId>hibernate-core</artifactId>
 			<version>${hibernate.version}</version>
+		</dependency>
+
+		<dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-validator</artifactId>
+			<version>${hibernate-validator.version}</version>
 		</dependency>
 
 	</dependencies>
