@@ -1,0 +1,15 @@
+package com.excilys.java.formation.console;
+
+public enum Feature {
+	LIST_COMPUTERS,
+	LIST_COMPANIES,
+	SHOW_COMPUTER_DETAILS,
+	CREATE_COMPUTER,
+	UPDATE_COMPUTER,
+	DELETE_COMPUTER,
+	DELETE_COMPANY,
+	QUIT,	
+	DEFAULT
+}
+
+

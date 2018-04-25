@@ -1,2 +1,0 @@
-# computer-database
-Training-java
