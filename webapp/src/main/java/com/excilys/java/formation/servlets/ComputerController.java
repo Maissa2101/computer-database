@@ -32,7 +32,6 @@ import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 import java.util.Locale;
 
-
 @Controller
 @Profile("!interface")
 public class ComputerController {

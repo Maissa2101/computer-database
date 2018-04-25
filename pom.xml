@@ -28,7 +28,6 @@
 		<jsp-api.version>2.0</jsp-api.version>
 		<jstl.version>1.2</jstl.version>
 		<javax.servlet-api.version>3.0.1</javax.servlet-api.version>
-		<seleniumhq.selenium.version>2.27.0</seleniumhq.selenium.version>
 		<com.zaxxer.version>2.7.8</com.zaxxer.version>
 		<sqltool.version>2.4.0</sqltool.version>
 		<spring.version>5.0.5.RELEASE</spring.version>
@@ -36,13 +35,14 @@
 		<maven-war.version>3.2.0</maven-war.version>
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<mojo.version>1.2.1</mojo.version>
-		<validation.version>1.0.0.GA</validation.version>
-		<hibernate-validator.version>4.1.0.Final</hibernate-validator.version>
+		<validation.version>2.0.1.Final</validation.version>
+		<hibernate-validator.version>4.0.2.GA</hibernate-validator.version>
 		<hibernate.version>5.2.16.Final</hibernate.version>
 		<maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
 		<tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
 		<maven-war-plugin.version>2.4</maven-war-plugin.version>
 		<module.version>1.0-SNAPSHOT</module.version>
+		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
 	</properties>
 
 	<dependencyManagement>
@@ -222,7 +222,7 @@
 				<version>${spring-security.version}</version>
 			</dependency>
 
-			<dependency>
+		<!--  	<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate.version}</version>
@@ -232,8 +232,8 @@
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-validator</artifactId>
 				<version>${hibernate-validator.version}</version>
-			</dependency>
-			
+			</dependency>-->
+
 			<dependency>
 				<groupId>javax.validation</groupId>
 				<artifactId>validation-api</artifactId>
@@ -262,21 +262,21 @@
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-compiler-plugin</artifactId>
-				<version>3.1</version>
+				<version>${maven-compiler-plugin.version}</version>
 				<configuration>
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-			<plugin>
+	<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>${tomcat7-maven-plugin.version}</version>
-				
 				<configuration>
 					<url>http://localhost:8080/manager/text</url>
 					<server>TomcatServer</server>
 					<path>/computer-database</path>
+					<update>true</update>
 				</configuration>
 			</plugin>
 			<plugin>
@@ -288,7 +288,7 @@
 					<warName>webapp</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
-			</plugin>
+			</plugin>		
 		</plugins>
 	</build>
 

@@ -20,7 +20,10 @@ import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
 
+import com.excilys.java.formation.configuration.ServiceConfig;
+
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
 import org.springframework.context.support.PropertySourcesPlaceholderConfigurer;
 import org.springframework.context.support.ReloadableResourceBundleMessageSource;
@@ -34,6 +37,7 @@ import org.springframework.transaction.PlatformTransactionManager;
 @EnableWebMvc
 @ComponentScan(basePackages = "com.excilys.java.formation")
 @Profile("!interface")
+@Import(ServiceConfig.class)
 public class SpringMvcConfiguration implements WebMvcConfigurer {
 	
 	@Bean
