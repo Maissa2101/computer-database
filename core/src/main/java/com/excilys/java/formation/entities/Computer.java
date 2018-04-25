@@ -1,14 +1,28 @@
 package com.excilys.java.formation.entities;
 
-
 import java.time.LocalDate;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.persistence.Temporal;
+import javax.persistence.TemporalType;
 
+import org.hibernate.annotations.GenericGenerator;
+
+@Entity
+@Table( name = "COMPUTER" )
 public class Computer {
+	@Id
+	@GeneratedValue(generator="increment")
+	@GenericGenerator(name="id", strategy = "increment")
 	private long id;	
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
+	@Column( name = "COMPANY_ID" )
 	private String manufacturer;
 
 	public Computer(ComputerBuilder builder) {
@@ -21,7 +35,8 @@ public class Computer {
 
 	public Computer() {
 	}
-
+	
+	
 	public long getId() {
 		return id;
 	}
@@ -29,7 +44,7 @@ public class Computer {
 	public void setId(long id) {
 		this.id = id;
 	}
-
+	
 	public String getName() {
 		return name;
 	}
@@ -37,7 +52,9 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "INTRODUCED")
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
@@ -45,7 +62,9 @@ public class Computer {
 	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
-
+	
+	@Temporal(TemporalType.DATE)
+	@Column(name = "DISCONTINUED")
 	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
