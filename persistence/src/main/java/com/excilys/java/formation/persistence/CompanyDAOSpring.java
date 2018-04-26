@@ -3,57 +3,65 @@ package com.excilys.java.formation.persistence;
 import java.util.List;
 import java.util.Optional;
 
-import javax.sql.DataSource;
+import javax.persistence.TypedQuery;
 
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.query.Query;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.IncorrectResultSizeDataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import com.excilys.java.formation.entities.Company;
-import com.excilys.java.formation.binding.CompanyRowMapper;
 
 @Repository
 public class CompanyDAOSpring {
 
-	private static final String SELECT_REQUEST_LIST = "SELECT id, name FROM company LIMIT ? OFFSET ?;";
+	private static final String SELECT_REQUEST_LIST = "FROM COMPANY LIMIT ? OFFSET ?;";
 	private static final String COUNT = "SELECT count(*) as total FROM company;";
-	private static final String SELECT_REQUEST_DETAILS = "SELECT id, name FROM company WHERE id=?;";
+	private static final String SELECT_REQUEST_DETAILS = "FROM company WHERE id=?;";
 	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id=?;";
-
-	private JdbcTemplate jdbcTemplate;
+	
+	private SessionFactory factory;
 	private ComputerDAOSpring computerDAO;
 	
 	@Autowired
-	public CompanyDAOSpring(ComputerDAOSpring computerDAO) {
+	public CompanyDAOSpring(SessionFactory factory, ComputerDAOSpring computerDAO) {
 		this.computerDAO = computerDAO;
-	}
-
-	@Autowired
-	public void init(DataSource dataSource) {
-		this.jdbcTemplate = new JdbcTemplate(dataSource);
+		this.factory = factory;
 	}
 
 	public List<Company> getListCompany(int limit, int offset) {
-		return this.jdbcTemplate.query(SELECT_REQUEST_LIST, new CompanyRowMapper(), limit, offset);
+		Session session = factory.openSession();
+		TypedQuery<Company> query = session.createQuery(SELECT_REQUEST_LIST, Company.class)
+				.setParameter(0, limit)
+				.setParameter(1, offset);
+		List<Company> result = query.getResultList();
+		session.close();
+		return result;
 	}
 
 	public Optional<Company> getCompany(long id) {
-		try {
-			Company company =  this.jdbcTemplate.queryForObject(SELECT_REQUEST_DETAILS, new CompanyRowMapper(), id);
-			return Optional.ofNullable(company);
-		} catch (IncorrectResultSizeDataAccessException e) {
-			return Optional.empty();
-		}
+		Session session = factory.openSession();
+		TypedQuery<Company> query = session.createQuery(SELECT_REQUEST_DETAILS, Company.class).setParameter(0, id);
+		Company company = (Company) ((Query) query).uniqueResult();
+		session.close();
+		return Optional.ofNullable(company);
 	}
 
 	public int count() {
-		return this.jdbcTemplate.queryForObject(COUNT, Integer.class);
+		Session session = factory.openSession();
+		TypedQuery<Company> query = session.createQuery(COUNT, Company.class);
+		int count = (int)((Query) query).uniqueResult();
+		session.close();
+		return count;
 	}
 
 	public void deleteCompany(long id)  {
+		Session session = factory.openSession();
 		computerDAO.deleteTransactionCompany(id);
-		this.jdbcTemplate.update(DELETE_COMPANY, id);		
+		TypedQuery<Company> query = session.createQuery(DELETE_COMPANY, Company.class).setParameter(0, id);
+		query.executeUpdate();
+		session.close();
 	}
 
 }

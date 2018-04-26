@@ -13,6 +13,7 @@ import org.springframework.context.annotation.AnnotationConfigApplicationContext
 import org.springframework.stereotype.Component;
 
 import com.excilys.java.formation.console.configuration.InterfaceConfiguration;
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.CompanyServiceSpring;
@@ -208,7 +209,9 @@ public class Interface {
 		{
 			manufacturer = null;
 		} 
-		computerService.createComputer(name, introduced, discontinued, manufacturer);
+		Company company = new Company();
+		company.setId(Integer.parseInt(manufacturer));
+		computerService.createComputer(name, introduced, discontinued,company);
 	}
 
 	/**
@@ -251,8 +254,9 @@ public class Interface {
 		{
 			manufacturer = null;
 		}
-
-		computerService.updateComputer(idUpdate, newName, newDate, newDate2, manufacturer);
+		Company company = new Company();
+		company.setId(Integer.parseInt(manufacturer));
+		computerService.updateComputer(idUpdate, newName, newDate, newDate2, company);
 	}
 
 	/**

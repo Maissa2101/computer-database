@@ -1,18 +1,15 @@
 package com.excilys.java.formation.entities;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.GenericGenerator;
-
 @Entity
-@Table( name = "COMPANY" )
+@Table( name = "company" )
 public class Company {	
-	@Id
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="id", strategy = "increment")
 	private long id;
 	private String name;
 
@@ -23,7 +20,8 @@ public class Company {
 
 	public Company() {
 	}
-
+	
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -31,6 +29,8 @@ public class Company {
 		this.name = name;
 	}
 	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public long getId() {
 		return id;
 	}

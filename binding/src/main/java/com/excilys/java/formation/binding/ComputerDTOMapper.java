@@ -7,6 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import com.excilys.java.formation.dto.ComputerDTO;
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
 
 public enum ComputerDTOMapper {
@@ -30,7 +31,7 @@ public enum ComputerDTOMapper {
 		}
 		long id = computer.getId();
 		String name = computer.getName();
-		String manufacturer = computer.getManufacturer();
+		String manufacturer = String.valueOf(computer.getManufacturer());
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setIntroduced(introduced);
 		computerDTO.setDiscontinued(discontinued);
@@ -48,7 +49,7 @@ public enum ComputerDTOMapper {
 	public Computer getComputerFromComputerDTO(ComputerDTO computerDTO) {
 		LocalDate introduced = null; 
 		LocalDate discontinued = null;
-
+		Company company = new Company();
 		try{
 			if(!computerDTO.getIntroduced().equals(NULL)) {
 				introduced = LocalDate.parse(computerDTO.getIntroduced()); 
@@ -68,7 +69,8 @@ public enum ComputerDTOMapper {
 		computer.setDisconnected(discontinued);
 		computer.setId(id);
 		computer.setName(name);
-		computer.setManufacturer(manufacturer);
+		company.setId(Integer.parseInt(manufacturer));
+		computer.setManufacturer(company);
 		return computer; 
 	}
 }

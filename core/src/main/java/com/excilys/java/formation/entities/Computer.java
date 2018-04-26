@@ -5,38 +5,34 @@ import java.time.LocalDate;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
-import javax.persistence.Temporal;
-import javax.persistence.TemporalType;
-
-import org.hibernate.annotations.GenericGenerator;
 
 @Entity
-@Table( name = "COMPUTER" )
+@Table( name = "computer" )
 public class Computer {
-	@Id
-	@GeneratedValue(generator="increment")
-	@GenericGenerator(name="id", strategy = "increment")
 	private long id;	
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
-	@Column( name = "COMPANY_ID" )
-	private String manufacturer;
+	private Company company;
 
 	public Computer(ComputerBuilder builder) {
 		this.id = builder.id;
 		this.name = builder.name;
 		this.introduced = builder.introduced;
 		this.discontinued = builder.discontinued;
-		this.manufacturer = builder.manufacturer;
+		this.company = builder.company;
 	}
 
 	public Computer() {
 	}
 	
-	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	public long getId() {
 		return id;
 	}
@@ -45,6 +41,7 @@ public class Computer {
 		this.id = id;
 	}
 	
+	@Column(name = "name", nullable = false)
 	public String getName() {
 		return name;
 	}
@@ -53,8 +50,7 @@ public class Computer {
 		this.name = name;
 	}
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "INTRODUCED")
+	@Column(name = "introduced", nullable = true)
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
@@ -63,8 +59,7 @@ public class Computer {
 		this.introduced = introduced;
 	}
 	
-	@Temporal(TemporalType.DATE)
-	@Column(name = "DISCONTINUED")
+	@Column(name = "discontinued", nullable = true)
 	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
@@ -72,19 +67,21 @@ public class Computer {
 	public void setDisconnected(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
-
-	public String getManufacturer() {
-		return manufacturer;
+	
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "company_id")
+	public Company getManufacturer() {
+		return company;
 	}
 
-	public void setManufacturer(String manufacturer) {
-		this.manufacturer = manufacturer;
+	public void setManufacturer(Company manufacturer) {
+		this.company = manufacturer;
 	}
 
 	@Override
 	public String toString() {
 		return "Computer " + id + ": name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", manufacturer=" + manufacturer;
+				+ ", manufacturer=" + company;
 	}
 
 	@Override
@@ -105,7 +102,7 @@ public class Computer {
 		private String name;
 		private LocalDate introduced;
 		private LocalDate discontinued;
-		private String manufacturer;
+		private Company company;
 
 		public ComputerBuilder(long id, String name) {
 			this.id = id;
@@ -126,8 +123,8 @@ public class Computer {
 			return this;
 		}
 
-		public ComputerBuilder manufacturer(String manufacturer) {
-			this.manufacturer = manufacturer;
+		public ComputerBuilder manufacturer(Company manufacturer) {
+			this.company = manufacturer;
 			return this;
 		}
 

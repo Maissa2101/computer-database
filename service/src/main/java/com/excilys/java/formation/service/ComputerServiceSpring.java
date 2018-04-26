@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.persistence.CompanyDAOSpring;
 import com.excilys.java.formation.persistence.ComputerDAOSpring;
@@ -87,7 +88,7 @@ public class ComputerServiceSpring {
 	 * @throws ServiceException
 	 * @throws ValidatorException
 	 */
-	public void createComputer(String name, LocalDate time1, LocalDate time2, String manufacturer) throws ServiceException, ValidatorException {
+	public void createComputer(String name, LocalDate time1, LocalDate time2, Company manufacturer) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
 		try {
@@ -111,7 +112,7 @@ public class ComputerServiceSpring {
 	 * @throws ServiceException
 	 * @throws ValidatorException
 	 */
-	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2, String manufacturer ) throws ServiceException, ValidatorException {
+	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2, Company manufacturer ) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 
 		try {

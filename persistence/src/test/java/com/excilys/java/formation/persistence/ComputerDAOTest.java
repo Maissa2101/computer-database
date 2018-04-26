@@ -27,6 +27,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
 
 @RunWith(SpringJUnit4ClassRunner.class)
@@ -73,7 +74,9 @@ public class ComputerDAOTest {
 
 	@Test
 	public void testCreateComputer() {	
-		Long id = computerDAO.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), "1");
+		Company company = new Company();
+		company.setId(1);
+		Long id = computerDAO.createComputer("ASUS", Date.valueOf("2008-01-04").toLocalDate(), Date.valueOf("2018-01-01").toLocalDate(), company);
 		List<Computer> list = computerDAO.getListComputer(20,0, "introduced", "ASC");
 		for(Computer computer : list) {
 			if(computer.getId() == id) {

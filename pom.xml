@@ -36,43 +36,55 @@
 		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<mojo.version>1.2.1</mojo.version>
 		<validation.version>2.0.1.Final</validation.version>
-		<hibernate-validator.version>4.0.2.GA</hibernate-validator.version>
 		<hibernate.version>5.2.16.Final</hibernate.version>
 		<maven-checkstyle-plugin.version>3.0.0</maven-checkstyle-plugin.version>
 		<tomcat7-maven-plugin.version>2.2</tomcat7-maven-plugin.version>
 		<maven-war-plugin.version>2.4</maven-war-plugin.version>
 		<module.version>1.0-SNAPSHOT</module.version>
 		<maven-compiler-plugin.version>3.1</maven-compiler-plugin.version>
+		<hql.version>1.4.0.Final</hql.version>
+		<hibernate-java8.version>5.1.0.Final</hibernate-java8.version>
 	</properties>
 
 	<dependencyManagement>
 		<dependencies>
 
 			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-java8</artifactId>
+				<version>${hibernate-java8.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>com.excilys.java.formation</groupId>
 				<artifactId>core</artifactId>
 				<version>${module.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.excilys.java.formation</groupId>
 				<artifactId>service</artifactId>
 				<version>${module.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.excilys.java.formation</groupId>
 				<artifactId>persistence</artifactId>
 				<version>${module.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.excilys.java.formation</groupId>
 				<artifactId>console</artifactId>
 				<version>${module.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.excilys.java.formation</groupId>
 				<artifactId>binding</artifactId>
 				<version>${module.version}</version>
 			</dependency>
+
 			<dependency>
 				<groupId>com.excilys.java.formation</groupId>
 				<artifactId>webapp</artifactId>
@@ -217,28 +229,39 @@
 			</dependency>
 
 			<dependency>
+				<groupId>org.springframework</groupId>
+				<artifactId>spring-orm</artifactId>
+				<version>${spring.version}</version>
+			</dependency>
+
+			<dependency>
 				<groupId>org.springframework.security</groupId>
 				<artifactId>spring-security-web</artifactId>
 				<version>${spring-security.version}</version>
 			</dependency>
 
-		 	<dependency>
+			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-core</artifactId>
 				<version>${hibernate.version}</version>
 			</dependency>
 
-			<!-- <dependency>
-				<groupId>org.hibernate</groupId>
-				<artifactId>hibernate-validator</artifactId>
-				<version>${hibernate-validator.version}</version>
-			</dependency>-->
+			<!-- <dependency> <groupId>org.hibernate</groupId> <artifactId>hibernate-validator</artifactId> 
+				<version>${hibernate-validator.version}</version> </dependency> -->
 
 			<dependency>
 				<groupId>javax.validation</groupId>
 				<artifactId>validation-api</artifactId>
 				<version>${validation.version}</version>
 			</dependency>
+
+			<dependency>
+				<groupId>org.hibernate</groupId>
+				<artifactId>hibernate-entitymanager</artifactId>
+				<version>${hibernate.version}</version>
+			</dependency>
+
+
 
 		</dependencies>
 	</dependencyManagement>
@@ -268,7 +291,7 @@
 					<target>${java.version}</target>
 				</configuration>
 			</plugin>
-	<plugin>
+			<plugin>
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<version>${tomcat7-maven-plugin.version}</version>
@@ -288,7 +311,7 @@
 					<warName>webapp</warName>
 					<failOnMissingWebXml>false</failOnMissingWebXml>
 				</configuration>
-			</plugin>		
+			</plugin>
 		</plugins>
 	</build>
 

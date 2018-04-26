@@ -24,6 +24,7 @@ import org.springframework.jdbc.datasource.DataSourceUtils;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAOSpring;
 import com.excilys.java.formation.service.CompanyValidator;
 import com.excilys.java.formation.service.ValidatorException;
@@ -52,9 +53,10 @@ public class CompanyValidatorTest {
 	@Test
 	public void testIdCompanyValidator() {
 		CompanyValidator companyValidator = CompanyValidator.INSTANCE;
+		Company company = new Company();
 		try {
 			for(int i = 1; i < 6 ; i++) {
-				assertTrue(companyValidator.idCompanyValidator(String.valueOf(i),companyDAO));
+				assertTrue(companyValidator.idCompanyValidator(company ,companyDAO));
 			}
 		} catch (ValidatorException e) {
 			logger.debug("Problem in testIdCompanyValidator", e);

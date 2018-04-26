@@ -3,6 +3,8 @@ package com.excilys.java.formation.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAOSpring;
 
 public enum CompanyValidator {
@@ -10,10 +12,10 @@ public enum CompanyValidator {
 	INSTANCE;
 	private Logger logger = LoggerFactory.getLogger(CompanyValidator.class);
 	
-	public boolean idCompanyValidator(String manufacturer, CompanyDAOSpring companies) throws ValidatorException {
+	public boolean idCompanyValidator(Company manufacturer, CompanyDAOSpring companies) throws ValidatorException {
 		try {
 			if (manufacturer != null && !manufacturer.equals("null")) {
-				Long companyId = Long.valueOf(manufacturer);
+				Long companyId = manufacturer.getId();
 				if(companies.getCompany(companyId).isPresent()) {
 					return true;
 				}
