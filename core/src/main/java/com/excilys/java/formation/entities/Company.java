@@ -1,6 +1,5 @@
 package com.excilys.java.formation.entities;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,6 +9,8 @@ import javax.persistence.Table;
 @Entity
 @Table( name = "company" )
 public class Company {	
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;
 	private String name;
 
@@ -20,17 +21,14 @@ public class Company {
 
 	public Company() {
 	}
-	
-	@Column(name = "name", nullable = false)
+
 	public String getName() {
 		return name;
 	}
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+
 	public long getId() {
 		return id;
 	}
@@ -48,10 +46,25 @@ public class Company {
 	}
 
 	@Override
-	public boolean equals(Object company) {
-		return (((Company) company).getId() == this.getId());
+	public boolean equals(Object obj) {
+		if (super.equals(obj)) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!(this.getName().equals(((Company) obj).getName()))) {
+			return false;
+		}
+		if ((!(this.getId() == (((Company) obj).getId())))) {
+			return false;
+		}
+		return true;
 	}
-	
+
 	public static class CompanyBuilder {
 		private long id;
 		private String name;

@@ -16,14 +16,13 @@ import com.excilys.java.formation.entities.Company;
 @Repository
 public class CompanyDAOSpring {
 
-	private static final String SELECT_REQUEST_LIST = "FROM COMPANY LIMIT ? OFFSET ?;";
-	private static final String COUNT = "SELECT count(*) as total FROM company;";
-	private static final String SELECT_REQUEST_DETAILS = "FROM company WHERE id=?;";
-	private static final String DELETE_COMPANY = "DELETE FROM company WHERE id=?;";
-	
+	private static final String SELECT_REQUEST_LIST = "FROM " + Company.class.getName();
+	private static final String COUNT = "SELECT count(*) FROM " + Company.class.getName();
+	private static final String SELECT_REQUEST_DETAILS = "FROM " + Company.class.getName() +" company WHERE company.id=?";
+
 	private SessionFactory factory;
 	private ComputerDAOSpring computerDAO;
-	
+
 	@Autowired
 	public CompanyDAOSpring(SessionFactory factory, ComputerDAOSpring computerDAO) {
 		this.computerDAO = computerDAO;
@@ -32,12 +31,12 @@ public class CompanyDAOSpring {
 
 	public List<Company> getListCompany(int limit, int offset) {
 		Session session = factory.openSession();
-		TypedQuery<Company> query = session.createQuery(SELECT_REQUEST_LIST, Company.class)
-				.setParameter(0, limit)
-				.setParameter(1, offset);
-		List<Company> result = query.getResultList();
+		List<Company> query = session.createQuery(SELECT_REQUEST_LIST, Company.class)
+				.setMaxResults(limit)
+				.setFirstResult(offset)
+				.list();
 		session.close();
-		return result;
+		return query;
 	}
 
 	public Optional<Company> getCompany(long id) {
@@ -50,18 +49,20 @@ public class CompanyDAOSpring {
 
 	public int count() {
 		Session session = factory.openSession();
-		TypedQuery<Company> query = session.createQuery(COUNT, Company.class);
-		int count = (int)((Query) query).uniqueResult();
+		TypedQuery<Long> query = session.createQuery(COUNT, Long.class);
+		Long count = (Long)((Query) query).uniqueResult();
 		session.close();
-		return count;
+		return count.intValue();
 	}
 
 	public void deleteCompany(long id)  {
-		Session session = factory.openSession();
-		computerDAO.deleteTransactionCompany(id);
-		TypedQuery<Company> query = session.createQuery(DELETE_COMPANY, Company.class).setParameter(0, id);
-		query.executeUpdate();
-		session.close();
+			Session session = factory.openSession();
+			computerDAO.deleteTransactionCompany(id);
+			session.beginTransaction();
+			Optional<Company> company = getCompany(id);
+			session.delete(company.get());
+			session.getTransaction().commit();	
+			session.close();
 	}
 
 }

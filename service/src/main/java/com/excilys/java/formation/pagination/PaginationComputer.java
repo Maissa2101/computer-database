@@ -23,10 +23,6 @@ public class PaginationComputer extends Page {
 		this.computers = computerService.listComputers(limit, offset, columnName, order);
 	}
 	
-	/**
-	 * Update the list of computers with limit and offset
-	 * @throws ServiceException
-	 */
 	private void updateComputer() throws ServiceException  {
 		this.computers = computerService.listComputers(limit, offset, columnName, order);
 	}

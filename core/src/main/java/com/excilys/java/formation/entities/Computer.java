@@ -2,7 +2,6 @@ package com.excilys.java.formation.entities;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -14,10 +13,14 @@ import javax.persistence.Table;
 @Entity
 @Table( name = "computer" )
 public class Computer {
+	@Id
+	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	private long id;	
 	private String name;
 	private LocalDate introduced;
 	private LocalDate discontinued;
+	@ManyToOne(optional = true)
+	@JoinColumn(name = "company_id")
 	private Company company;
 
 	public Computer(ComputerBuilder builder) {
@@ -30,9 +33,8 @@ public class Computer {
 
 	public Computer() {
 	}
-	
-	@Id
-	@GeneratedValue(strategy=GenerationType.IDENTITY)
+
+
 	public long getId() {
 		return id;
 	}
@@ -40,8 +42,7 @@ public class Computer {
 	public void setId(long id) {
 		this.id = id;
 	}
-	
-	@Column(name = "name", nullable = false)
+
 	public String getName() {
 		return name;
 	}
@@ -49,8 +50,7 @@ public class Computer {
 	public void setName(String name) {
 		this.name = name;
 	}
-	
-	@Column(name = "introduced", nullable = true)
+
 	public LocalDate getIntroduced() {
 		return introduced;
 	}
@@ -58,8 +58,7 @@ public class Computer {
 	public void setIntroduced(LocalDate introduced) {
 		this.introduced = introduced;
 	}
-	
-	@Column(name = "discontinued", nullable = true)
+
 	public LocalDate getDiscontinued() {
 		return discontinued;
 	}
@@ -67,9 +66,7 @@ public class Computer {
 	public void setDisconnected(LocalDate discontinued) {
 		this.discontinued = discontinued;
 	}
-	
-	@ManyToOne(optional = true)
-	@JoinColumn(name = "company_id")
+
 	public Company getManufacturer() {
 		return company;
 	}
@@ -89,12 +86,46 @@ public class Computer {
 		return super.hashCode();
 	}
 
+	private boolean equalsDate(Object obj) {
+		if (this.getIntroduced() != null) {
+			if (!this.getIntroduced().equals(((Computer) obj).getIntroduced())) {
+				return false;
+			}
+		} else if (((Computer) obj).getIntroduced()!=null){
+			return false;
+		}
+		if (this.getDiscontinued()!=null) {
+			if (!this.getDiscontinued().equals(((Computer) obj).getDiscontinued())) {
+				return false;
+			}
+		}else if (((Computer) obj).getDiscontinued()!=null){
+			return false;
+		}
+		return true;
+	}
+
 	@Override
-	public boolean equals(Object computer) {
-		boolean result = false;
-		if(((Computer) computer).getId() == this.getId())
-			result = true;
-		return result;
+	public boolean equals(Object obj) {
+		if (super.equals(obj)) {
+			return true;
+		}
+		if (obj == null) {
+			return false;
+		}
+		if (getClass() != obj.getClass()) {
+			return false;
+		}
+		if (!this.getName().equals(((Computer) obj).getName())) {
+			return false;
+		}
+		if (!this.equalsDate(obj)) {
+			return false;
+		}
+		if ( this.getManufacturer() != null) {
+			return this.getManufacturer().equals(((Computer) obj).getManufacturer());
+		}else {
+			return ((Computer) obj).getManufacturer()==null;
+		}
 	}
 
 	public static class ComputerBuilder {

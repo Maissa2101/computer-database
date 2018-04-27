@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -14,6 +14,7 @@ import java.util.Optional;
 
 import javax.sql.DataSource;
 
+import org.hibernate.Session;
 import org.hsqldb.cmdline.SqlFile;
 import org.hsqldb.cmdline.SqlToolError;
 import org.hsqldb.persist.HsqlDatabaseProperties;
