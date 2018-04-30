@@ -35,7 +35,8 @@ import java.util.Locale;
 @Controller
 @Profile("!interface")
 public class ComputerController {
-	
+	private static final String PAGE500 = "500";
+	private static final String PAGE_DASHBOARD = "dashboard";
 	private Logger logger = LoggerFactory.getLogger(ComputerController.class);
 	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
@@ -102,7 +103,7 @@ public class ComputerController {
 			model.addAttribute("search", search);
 			model.addAttribute("columnName", columnName);
 			model.addAttribute("order", order);
-			return "dashboard";
+			return PAGE_DASHBOARD;
 		} catch (ServiceException e) {
 			logger.debug("Problem in my Dashboard", e);
 		}
@@ -126,7 +127,7 @@ public class ComputerController {
 			logger.debug("Problem with the delete function", e);
 			return "404";
 		}
-		return "dashboard";
+		return PAGE_DASHBOARD;
 	}
 
 	@GetMapping(value = "/addComputer")
@@ -137,7 +138,7 @@ public class ComputerController {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
 			logger.debug("ServiceException in AddComputerServlet");
-			return "500";
+			return PAGE500;
 		}
 		return "addComputer";
 	}
@@ -145,14 +146,14 @@ public class ComputerController {
 	@PostMapping(value = "/addComputer")
 	protected String doPostAdd(ModelMap model,@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return "500";
+			return PAGE500;
 		}
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {
 			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ValidatorException | ServiceException e) {
 			logger.debug("Problem in AddComputer", e);
-			return "500";
+			return PAGE500;
 		}
 		model.addAttribute("computer", computer);
 		return "addComputer";
@@ -173,11 +174,11 @@ public class ComputerController {
 		try {
 			computer = computerService.getComputer(id);
 			if(!computer.isPresent()) {
-				return "dashboard";
+				return PAGE_DASHBOARD;
 			}
 		} catch(ServiceException e) {
 			logger.debug("ServiceException problem", e);
-			return "dashboard";
+			return PAGE_DASHBOARD;
 		}
 
 		ComputerDTO computerDTO = computerMapper.getComputerDTOFromComputer(computer.get());
@@ -186,7 +187,7 @@ public class ComputerController {
 			model.addAttribute("companyList", companyService.listCompanies(companyService.count(), 0));
 		} catch (ServiceException e) {
 			logger.debug("Problem in UpdateComputer", e);
-			return "500";
+			return PAGE500;
 		}
 		model.addAttribute("computer", computerDTO);
 		return "editComputer";
@@ -195,14 +196,14 @@ public class ComputerController {
 	@PostMapping(value = "/editComputer")
 	protected String doPostUpdate(ModelMap model,@Validated @ModelAttribute("computerDTO") ComputerDTO computerDTO, BindingResult bindingResult) {
 		if (bindingResult.hasErrors()) {
-			return "500";
+			return PAGE500;
 		}
 		Computer computer = computerMapper.getComputerFromComputerDTO(computerDTO);
 		try {
 			computerService.updateComputer(computer.getId(), computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ServiceException | ValidatorException e) {
 			logger.debug("Problem with the update function", e);
-			return "500";
+			return PAGE500;
 		}
 
 		model.addAttribute("computer", computer);
