@@ -18,7 +18,6 @@ import com.excilys.java.formation.persistence.CompanyDAOSpring;
 import com.excilys.java.formation.persistence.ComputerDAOSpring;
 
 @Service
-@EnableTransactionManagement
 public class ComputerServiceSpring {
 	
 	private Logger logger = LoggerFactory.getLogger(ComputerServiceSpring.class);
@@ -164,7 +163,6 @@ public class ComputerServiceSpring {
 	 * @param ids list of computers to delete
 	 * @throws ServiceException
 	 */
-	@Transactional(rollbackFor = Exception.class)
 	public void deleteTransaction(List<Long> ids) throws ServiceException {
 		computerDAO.deleteTransaction(ids);	
 	}

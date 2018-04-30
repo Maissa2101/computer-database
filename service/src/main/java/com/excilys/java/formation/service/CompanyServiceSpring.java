@@ -11,7 +11,6 @@ import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.persistence.CompanyDAOSpring;
 
 @Service
-@EnableTransactionManagement
 public class CompanyServiceSpring {
 	
 	private CompanyDAOSpring companyDAOSpring;
@@ -25,7 +24,6 @@ public class CompanyServiceSpring {
 		return companyDAOSpring.getListCompany(limit, offset);
 	}
 	
-	@Transactional(rollbackFor = Exception.class)
 	public void deleteTransactionCompany(long id) throws ServiceException {
 			companyDAOSpring.deleteCompany(id);
 	}

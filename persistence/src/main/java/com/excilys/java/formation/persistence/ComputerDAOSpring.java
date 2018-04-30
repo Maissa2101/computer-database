@@ -23,6 +23,7 @@ public class ComputerDAOSpring {
 	private static final String COUNT = "SELECT count(*) FROM " + Computer.class.getName();
 	private static final String SEARCH = "FROM " + Computer.class.getName() +" computer WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
 	private static final String COUNT_SEARCH = "SELECT count(*) as total FROM " + Computer.class.getName() +" computer WHERE computer.name LIKE ? OR company.name LIKE ?";
+	private static final String COMPUTERS_TO_DELETE = "FROM "+ Computer.class.getName() +" computer WHERE computer.company.id=?";
 
 	private SessionFactory factory;
 
@@ -72,8 +73,8 @@ public class ComputerDAOSpring {
 			if(computer.isPresent()) {
 				session.getTransaction().begin();
 				session.delete(computer.get());
-				session.getTransaction().commit();
 			}
+			session.getTransaction().commit();
 		}
 	}
 
@@ -101,9 +102,9 @@ public class ComputerDAOSpring {
 			session.beginTransaction();
 			for(Long id : ids) {
 				Optional<Computer> computer = getComputer(id);
-				session.delete(computer.get());
-				session.getTransaction().commit();	
+				session.delete(computer.get());	
 			}
+			session.getTransaction().commit();
 		}
 	}
 
@@ -119,12 +120,17 @@ public class ComputerDAOSpring {
 		return query;
 	}
 
-	public void deleteTransactionCompany(long id) {
-		try(Session session = factory.openSession();) {
-			session.beginTransaction();
-			Optional<Computer> computer = getComputer(id);
-			session.delete(computer.get());
-			session.getTransaction().commit();	
+	public void deleteTransactionCompany(long id, Session session) {
+		if(session != null) {
+			List<Computer> query = session.createQuery(COMPUTERS_TO_DELETE, Computer.class)
+					.setParameter(0, id)
+					.list();
+			for(Computer ids : query) {
+				Optional<Computer> computer = getComputer(ids.getId());
+				session.flush();
+				session.clear();
+				session.delete(computer.get());	
+			}
 		}
 	}
 

@@ -77,8 +77,13 @@ public class Computer {
 
 	@Override
 	public String toString() {
+		String nameCompany = null;
+		if (company != null) {
+			nameCompany = company.getName();
+		}
 		return "Computer " + id + ": name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
-				+ ", manufacturer=" + company.getName();
+				+ ", manufacturer=" + nameCompany;
+			
 	}
 
 	@Override

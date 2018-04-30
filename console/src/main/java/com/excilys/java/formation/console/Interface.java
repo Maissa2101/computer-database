@@ -27,13 +27,13 @@ public class Interface {
 	private Logger logger = LoggerFactory.getLogger(Interface.class);
 	private CompanyServiceSpring companyService;
 	private ComputerServiceSpring computerService;
-	
+
 	@Autowired
 	public Interface(CompanyServiceSpring companyService, ComputerServiceSpring computerService) {
 		this.companyService = companyService;
 		this.computerService = computerService;
 	}
-	
+
 	/**
 	 * Method to choose and execute an action
 	 */
@@ -211,7 +211,11 @@ public class Interface {
 			manufacturer = null;
 		} 
 		Company company = new Company();
-		company.setId(Integer.parseInt(manufacturer));
+		if(manufacturer != null) {
+			company.setId(Integer.parseInt(manufacturer));
+		} else {
+			company = null;
+		}
 		computerService.createComputer(name, introduced, discontinued,company);
 	}
 
@@ -256,7 +260,12 @@ public class Interface {
 			manufacturer = null;
 		}
 		Company company = new Company();
-		company.setId(Integer.parseInt(manufacturer));
+		if(manufacturer != null) {
+			company.setId(Integer.parseInt(manufacturer));
+		}
+		else {
+			company = null;
+		}
 		computerService.updateComputer(idUpdate, newName, newDate, newDate2, company);
 	}
 
@@ -271,17 +280,17 @@ public class Interface {
 		long idDelete = scanner.nextLong();
 		computerService.deleteComputer(idDelete);
 	}
-	
+
 	private void deleteCompany() throws ServiceException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the company to delete : ");	
 		long idDelete = scanner.nextLong();
 		companyService.deleteTransactionCompany(idDelete);
 	}
-	
+
 
 	public static void main(String[] args) {
 		ApplicationContext context = new AnnotationConfigApplicationContext(InterfaceConfiguration.class);
-        context.getBean(Interface.class).listFeatures();
+		context.getBean(Interface.class).listFeatures();
 	}
 }

@@ -57,8 +57,8 @@ public class CompanyDAOSpring {
 
 	public void deleteCompany(long id)  {
 			Session session = factory.openSession();
-			computerDAO.deleteTransactionCompany(id);
 			session.beginTransaction();
+			computerDAO.deleteTransactionCompany(id, session);
 			Optional<Company> company = getCompany(id);
 			session.delete(company.get());
 			session.getTransaction().commit();	
