@@ -22,7 +22,7 @@ public class ComputerDAOSpring {
 	private static final String SELECT_REQUEST_DETAILS = "FROM " + Computer.class.getName() +" computer WHERE computer.id=?";
 	private static final String COUNT = "SELECT count(*) FROM " + Computer.class.getName();
 	private static final String SEARCH = "FROM " + Computer.class.getName() +" computer WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
-	private static final String COUNT_SEARCH = "SELECT count(*) as total FROM " + Computer.class.getName() +" computer WHERE computer.name LIKE ? OR company.name LIKE ?";
+	private static final String COUNT_SEARCH = "SELECT count(*) FROM " + Computer.class.getName() +" computer WHERE computer.name LIKE ? OR company.name LIKE ?";
 	private static final String COMPUTERS_TO_DELETE = "FROM "+ Computer.class.getName() +" computer WHERE computer.company.id=?";
 
 	private SessionFactory factory;
@@ -90,7 +90,7 @@ public class ComputerDAOSpring {
 	public int countAfterSearch(String search) {
 		Session session = factory.openSession();
 		TypedQuery<Long> query = session.createQuery(COUNT_SEARCH, Long.class)
-				.setParameter(0, search + '%')
+				.setParameter(0, '%' + search + '%')
 				.setParameter(1, '%' + search + '%');
 		Long count = (Long)((Query) query).uniqueResult();
 		session.close();

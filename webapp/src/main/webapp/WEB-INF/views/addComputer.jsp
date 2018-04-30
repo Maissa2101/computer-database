@@ -72,7 +72,7 @@
 								<spring:message code="dashboard.company" />
 							</form:label>
 							<select class="form-control" id="companyId" name="manufacturer">
-								<option value="null"></option>
+								<option value=""></option>
 								<c:forEach items="${companyList}" var="company">
 									<option value="${company.id}">${company.name}</option>
 								</c:forEach>

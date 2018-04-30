@@ -35,6 +35,7 @@ import java.util.Locale;
 @Controller
 @Profile("!interface")
 public class ComputerController {
+	
 	private Logger logger = LoggerFactory.getLogger(ComputerController.class);
 	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
@@ -82,7 +83,7 @@ public class ComputerController {
 		}
 		try {
 			int i = computerService.count();
-			if(search == null){
+			if(search == "" || search == null){
 				listSearch = computerService.listComputers(limit,limit*(pageNumber-1), columnName, order);
 			}
 			else {
@@ -161,7 +162,7 @@ public class ComputerController {
 	protected String doGetUpdate(Locale locale, ModelMap model, @RequestParam(value="id", required=false) String idStr) {
 		Locale currentLocale = LocaleContextHolder.getLocale();
 		model.addAttribute("locale", currentLocale);
-		Optional<Computer> computer = null;
+		Optional<Computer> computer;
 
 		long id=0;
 		try {

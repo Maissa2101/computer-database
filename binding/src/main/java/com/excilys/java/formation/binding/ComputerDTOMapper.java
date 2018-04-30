@@ -5,6 +5,7 @@ import java.time.format.DateTimeParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.util.StringUtils;
 
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Company;
@@ -23,6 +24,7 @@ public enum ComputerDTOMapper {
 	public ComputerDTO getComputerDTOFromComputer(Computer computer) {
 		String introduced = null;
 		String discontinued = null;
+		String manufacturer = null;
 		if(computer.getDiscontinued() != null) {
 			discontinued = computer.getDiscontinued().toString();
 		}
@@ -31,7 +33,9 @@ public enum ComputerDTOMapper {
 		}
 		long id = computer.getId();
 		String name = computer.getName();
-		String manufacturer = String.valueOf(computer.getManufacturer());
+		if(computer.getManufacturer() != null) {
+			manufacturer = String.valueOf(computer.getManufacturer().getName());
+		}
 		ComputerDTO computerDTO = new ComputerDTO();
 		computerDTO.setIntroduced(introduced);
 		computerDTO.setDiscontinued(discontinued);
@@ -69,7 +73,11 @@ public enum ComputerDTOMapper {
 		computer.setDisconnected(discontinued);
 		computer.setId(id);
 		computer.setName(name);
-		company.setId(Integer.parseInt(manufacturer));
+		if(!StringUtils.isEmpty(manufacturer)) {
+			company.setId(Integer.parseInt(manufacturer));
+		} else {
+			company = null;
+		}
 		computer.setManufacturer(company);
 		return computer; 
 	}
