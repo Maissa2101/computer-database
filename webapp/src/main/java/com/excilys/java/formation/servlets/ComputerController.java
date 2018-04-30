@@ -207,6 +207,6 @@ public class ComputerController {
 		}
 
 		model.addAttribute("computer", computer);
-		return "dashboard";
+		return PAGE_DASHBOARD;
 	}
 }

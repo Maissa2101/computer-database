@@ -1,13 +1,13 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8"
 	pageEncoding="UTF-8"%>
 <%@taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
-<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags"%>
 
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title><spring:message code="title"/></title>
+<title><spring:message code="title" /></title>
 <link href="static/css/bootstrap.min.css" rel="stylesheet"
 	media="screen">
 <link href="static/css/font-awesome.css" rel="stylesheet" media="screen">
@@ -17,7 +17,18 @@
 
 	<header class="navbar navbar-inverse navbar-fixed-top">
 	<div class="container">
-		<a class="navbar-brand" href="dashboard"> <spring:message code="dashboard.title"/> </a>
+		<a class="navbar-brand" href="dashboard"> <spring:message
+				code="dashboard.title" />
+	
+	<div class="pull-right">
+		<form id="logout-form" action="<c:url value="/logout"/>" method="post">
+			<input type="hidden" name="${_csrf.parameterName}"
+				value="${_csrf.token}" />
+		</form>
+		<a href="#" class="navbar-brand"
+			onclick="document.getElementById('logout-form').submit();">
+			<spring:message code="logout" /> </a>
+	</div>
 	</div>
 	</header>
 
@@ -30,20 +41,25 @@
 
 	<section id="main">
 	<div class="container">
-		<h1 id="homeTitle">${count} <spring:message code="dashboard.count"/></h1>
+		<h1 id="homeTitle">${count}
+			<spring:message code="dashboard.count" />
+		</h1>
 		<div id="actions" class="form-horizontal">
 			<div class="pull-left">
 				<form id="searchForm" action="#" method="GET" class="form-inline">
 
 					<input type="search" id="searchbox" name="search"
 						class="form-control" placeholder="Search name" /> <input
-						type="submit" id="searchsubmit" value=<spring:message code="dashboard.filter"/>
+						type="submit" id="searchsubmit"
+						value=<spring:message code="dashboard.filter"/>
 						class="btn btn-primary" />
 				</form>
 			</div>
 			<div class="pull-right">
-				<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message code="dashboard.add"/></a> <a class="btn btn-default" id="deleteComputer" href="#"
-					onclick="$.fn.toggleEditMode();"><spring:message code="dashboard.delete"/></a>
+				<a class="btn btn-success" id="addComputer" href="addComputer"><spring:message
+						code="dashboard.add" /></a> <a class="btn btn-default"
+					id="deleteComputer" href="#" onclick="$.fn.toggleEditMode();"><spring:message
+						code="dashboard.delete" /></a>
 			</div>
 		</div>
 	</div>
@@ -66,7 +82,7 @@
 								class="fa fa-trash-o fa-lg"></i>
 						</a>
 					</span></th>
-					<th><spring:message code="dashboard.name"/>
+					<th><spring:message code="dashboard.name" />
 						<div class="btn-group">
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&uarr;"
@@ -74,9 +90,8 @@
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&darr;"
 								onclick="location.href='?search=${search}&pageNumber=${pageNumber}&limit=${limit}&columnName=computer.name&order=DESC'" />
-						</div>
-					</th>
-					<th><spring:message code="dashboard.introduced"/>
+						</div></th>
+					<th><spring:message code="dashboard.introduced" />
 						<div class="btn-group">
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&uarr;"
@@ -84,9 +99,8 @@
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&darr;"
 								onclick="location.href='?search=${search}&pageNumber=${pageNumber}&limit=${limit}&columnName=introduced&order=DESC'" />
-						</div>
-					</th>
-					<th><spring:message code="dashboard.discontinued"/>
+						</div></th>
+					<th><spring:message code="dashboard.discontinued" />
 						<div class="btn-group">
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&uarr;"
@@ -94,9 +108,8 @@
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&darr;"
 								onclick="location.href='?search=${search}&pageNumber=${pageNumber}&limit=${limit}&columnName=discontinued&order=DESC'" />
-						</div>
-					</th>
-					<th><spring:message code="dashboard.company"/>
+						</div></th>
+					<th><spring:message code="dashboard.company" />
 						<div class="btn-group">
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&uarr;"
@@ -104,8 +117,7 @@
 							<input type="button" class="btn btn-primary btn-xs"
 								value="&darr;"
 								onclick="location.href='?search=${search}&pageNumber=${pageNumber}&limit=${limit}&columnName=company.name&order=DESC'" />
-						</div>
-					</th>
+						</div></th>
 
 				</tr>
 			</thead>
