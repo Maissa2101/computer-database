@@ -2,9 +2,7 @@ package com.excilys.java.formation.springmvc.configuration;
 
 import java.util.Locale;
 import java.util.Properties;
-
 import javax.sql.DataSource;
-
 import org.hibernate.SessionFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -21,9 +19,7 @@ import org.springframework.web.servlet.i18n.CookieLocaleResolver;
 import org.springframework.web.servlet.i18n.LocaleChangeInterceptor;
 import org.springframework.web.servlet.view.InternalResourceViewResolver;
 import org.springframework.web.servlet.view.JstlView;
-
 import com.excilys.java.formation.configuration.ServiceConfig;
-
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
 import org.springframework.context.annotation.Profile;
@@ -37,14 +33,8 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
 import org.springframework.orm.hibernate5.HibernateTransactionManager;
 import org.springframework.orm.hibernate5.LocalSessionFactoryBean;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
-import org.springframework.security.core.userdetails.User;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
-import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
+
 
 @Configuration
 @EnableWebMvc
@@ -53,34 +43,7 @@ import org.springframework.security.web.authentication.www.DigestAuthenticationF
 @Import(ServiceConfig.class)
 @EnableWebSecurity
 public class SpringMvcConfiguration implements WebMvcConfigurer {
-
-	@Bean
-	public UserDetailsService userDetailsService() throws Exception {
-		InMemoryUserDetailsManager manager = new InMemoryUserDetailsManager();
-		manager.createUser(User.withDefaultPasswordEncoder().username("Maissa").password("210195").roles("USER").build());
-		return manager;
-	}
-
-	@Bean
-	protected void configure(HttpSecurity http) throws Exception {
-		DigestAuthenticationEntryPoint authenticationEntryPoint = new DigestAuthenticationEntryPoint();
-		authenticationEntryPoint.setKey("sewatech");
-		authenticationEntryPoint.setRealmName("example");
-		DigestAuthenticationFilter filter = new DigestAuthenticationFilter();
-		filter.setAuthenticationEntryPoint(authenticationEntryPoint);
-		filter.setUserDetailsService(userDetailsService());
-
-		http.addFilter(filter)
-		.exceptionHandling().authenticationEntryPoint(authenticationEntryPoint)
-		.and()
-		.authorizeRequests()
-		.anyRequest().authenticated();
-	}
-
-	protected void configure(AuthenticationManagerBuilder builder) throws Exception {
-		builder.userDetailsService(userDetailsService());
-	}
-
+	
 	@Bean
 	public DataSource dataSource() {
 		DriverManagerDataSource dataSource = new DriverManagerDataSource();
