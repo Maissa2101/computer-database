@@ -13,6 +13,7 @@ import org.springframework.web.servlet.ViewResolver;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
 import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
 import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.web.servlet.config.annotation.ViewControllerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.springframework.web.servlet.handler.SimpleMappingExceptionResolver;
 import org.springframework.web.servlet.i18n.CookieLocaleResolver;
@@ -63,6 +64,12 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
 
 		return viewResolver;
 	}
+	
+	@Override
+    public void addViewControllers(ViewControllerRegistry registry) {
+        registry.addViewController("/login").setViewName("login");
+        registry.setOrder(Ordered.HIGHEST_PRECEDENCE);
+    }
 
 	@Override
 	public void addInterceptors(InterceptorRegistry registry) {
@@ -154,7 +161,6 @@ public class SpringMvcConfiguration implements WebMvcConfigurer {
 
 	private final Properties hibernateProperties() {
 		Properties hibernateProperties = new Properties();
-		hibernateProperties.setProperty("hibernate.hbm2ddl.auto", "create-drop");
 		hibernateProperties.setProperty("hibernate.dialect", "org.hibernate.dialect.H2Dialect");
 		return hibernateProperties;
 	}

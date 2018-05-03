@@ -1,4 +1,4 @@
-package com.excilys.java.formation.userDTO;
+package com.excilys.java.formation.entities;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
@@ -19,21 +19,19 @@ public class Roles {
 	@Column(name = "id")
 	private long id;
 	@ManyToOne(fetch = FetchType.EAGER, cascade = CascadeType.MERGE)
-	@JoinColumn(name = "pseudo")
+	@JoinColumn(name = "user_pseudo")
 	private Users user;
 	private String role;
 
 	public Roles() {
-		this.role = "ROLE_USER";
+
 	}
 
 	public Roles(RoleBuilder builder) {
-		this.id = builder.id;
 		this.user = builder.user;
 		this.role = builder.role;
 	}
 
-	
 	public long getId() {
 		return id;
 	}
@@ -60,46 +58,49 @@ public class Roles {
 
 	@Override
 	public String toString() {
-		return "UserRoles [userRoleId=" + id  + ", role=" + role + ", user=" + user
-				+ "]";
+		return "Roles Id=" + id  + ", role=" + role + ", user=" + user;
 	}
-	
+
 	@Override
 	public int hashCode() {
 		return super.hashCode();
 	}
-	
+
 	@Override
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
 		if (obj == null)
 			return false;
-		if (getClass() != obj.getClass())
+		if (getClass() != obj.getClass()) {
 			return false;
+		}
 		Roles other = (Roles) obj;
 		if (role == null) {
-			if (other.role != null)
+			if (other.role != null) {
 				return false;
-		} else if (!role.equals(other.role))
+			}
+		} else if (!role.equals(other.role)) {
 			return false;
+		}
 		if (user == null) {
-			if (other.user != null)
+			if (other.user != null) {
 				return false;
-		} else if (!user.equals(other.user))
+			}
+		} else if (!user.equals(other.user)) {
 			return false;
-		if (id != other.id)
+		}
+		if (id != other.id) {
 			return false;
+		}
 		return true;
 	}
 
 	public static class RoleBuilder {
-		private long id;
 		private Users user;
 		private String role;
 
-		public RoleBuilder(long id, Users user, String role) {
-			this.id = id;
+		public RoleBuilder(Users user, String role) {
 			this.user = user;
 			this.role = role;
 		}

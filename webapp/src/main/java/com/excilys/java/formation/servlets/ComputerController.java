@@ -209,4 +209,11 @@ public class ComputerController {
 		model.addAttribute("computer", computer);
 		return PAGE_DASHBOARD;
 	}
+	
+	@GetMapping(value = { "/403" })
+    @PostMapping(value = {"/403"})
+    public String denied() {
+            return "403";
+
+        }
 }

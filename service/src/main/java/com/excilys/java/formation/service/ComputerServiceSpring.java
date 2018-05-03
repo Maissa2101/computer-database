@@ -54,7 +54,6 @@ public class ComputerServiceSpring {
 	public String computerDetails(long id) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
 		String rsult = null;
-
 		try {
 			if(computerValidator.idValidator(id, computerDAO)) {
 				rsult = "\n"+ computerDAO.getComputer(id) + "\n";

@@ -18,8 +18,8 @@
   alter table roles add constraint fk_roles_users_1 foreign key (user_pseudo) references users (pseudo) on delete restrict on update restrict;
   
   
-insert into users (pseudo, passeword, enabled) values ('Maissa','210195', TRUE);
-insert into users (pseudo, passeword, enabled) values ('test','123456', FALSE);
+insert into users (pseudo, password, enabled) values ('Maissa','210195', TRUE);
+insert into users (pseudo, password, enabled) values ('test','123456', FALSE);
 
 insert into roles (id, user_pseudo, role) values (1,'Maissa', 'ADMIN');
 insert into roles (id, user_pseudo, role) values (2,'test', 'USER');
