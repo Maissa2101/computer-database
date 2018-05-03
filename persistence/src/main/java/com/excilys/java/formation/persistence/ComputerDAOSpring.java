@@ -21,10 +21,17 @@ public class ComputerDAOSpring {
 	private static final String SELECT_REQUEST_LIST = "FROM " + Computer.class.getName() +" computer ORDER BY";
 	private static final String SELECT_REQUEST_DETAILS = "FROM " + Computer.class.getName() +" computer WHERE computer.id=?";
 	private static final String COUNT = "SELECT count(*) FROM " + Computer.class.getName();
-	private static final String SEARCH = "FROM " + Computer.class.getName() +" computer WHERE computer.name LIKE ? OR company.name LIKE ? ORDER BY";
-	private static final String COUNT_SEARCH = "SELECT count(*) FROM " + Computer.class.getName() +" computer WHERE computer.name LIKE ? OR company.name LIKE ?";
 	private static final String COMPUTERS_TO_DELETE = "FROM "+ Computer.class.getName() +" computer WHERE computer.company.id=?";
+	private static final String SEARCH = "FROM " + Computer.class.getName() +" computer WHERE computer IN ((FROM " + Computer.class.getName() + " computer1 WHERE computer1.name LIKE ";
+	private static final String SEARCH2 = ") ,(FROM " + Computer.class.getName() + " computer2 WHERE computer2.company.name LIKE ";
+	private static final String SEARCH3 = ")) ORDER BY";
 
+	
+	private static final String COUNT_SEARCH = "SELECT count(*) FROM " + Computer.class.getName() +" computer WHERE computer IN ((FROM " + Computer.class.getName() + " computer1 WHERE computer1.name LIKE ";
+
+
+	
+	
 	private SessionFactory factory;
 
 	@Autowired
@@ -89,9 +96,7 @@ public class ComputerDAOSpring {
 
 	public int countAfterSearch(String search) {
 		Session session = factory.openSession();
-		TypedQuery<Long> query = session.createQuery(COUNT_SEARCH, Long.class)
-				.setParameter(0, '%' + search + '%')
-				.setParameter(1, '%' + search + '%');
+		TypedQuery<Long> query = session.createQuery(COUNT_SEARCH + "'%" + search + "%'" + " " + SEARCH2 + "'%" + search + "%'" + " ))", Long.class);
 		Long count = (Long)((Query) query).uniqueResult();
 		session.close();
 		return count.intValue();
@@ -110,9 +115,7 @@ public class ComputerDAOSpring {
 
 	public List<Computer> search(String search, String columnName, String order, int limit, int offset) {
 		Session session = factory.openSession();
-		List<Computer> query = session.createQuery(SEARCH + " " + columnName + " " + order, Computer.class)
-				.setParameter(0, '%' + search + '%')
-				.setParameter(1, '%' + search + '%')
+		List<Computer> query = session.createQuery(SEARCH + "'%" + search + "%'" + " " + SEARCH2 + "'%" + search + "%'" + " " + SEARCH3 + " " +columnName + " " + order, Computer.class)
 				.setMaxResults(limit)
 				.setFirstResult(offset)
 				.list();
