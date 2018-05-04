@@ -42,7 +42,7 @@ public class ComputerController {
 	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
 	private CompanyServiceSpring companyService;
 	private ComputerDTOValidator validator;
-	
+
 	@Autowired
 	public ComputerController(ComputerServiceSpring computerService, CompanyServiceSpring companyService, ComputerDTOValidator validator) {
 		this.computerService = computerService;
@@ -209,11 +209,10 @@ public class ComputerController {
 		model.addAttribute("computer", computer);
 		return PAGE_DASHBOARD;
 	}
-	
-	@GetMapping(value = { "/403" })
-    @PostMapping(value = {"/403"})
-    public String denied() {
-            return "403";
 
-        }
+	@GetMapping(value = {"/403"})
+	@PostMapping(value = {"/403"})
+	public String denied() {
+		return "403";
+	}
 }
