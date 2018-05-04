@@ -25,12 +25,7 @@ public class ComputerDAOSpring {
 	private static final String SEARCH = "FROM " + Computer.class.getName() +" computer WHERE computer IN ((FROM " + Computer.class.getName() + " computer1 WHERE computer1.name LIKE ";
 	private static final String SEARCH2 = ") ,(FROM " + Computer.class.getName() + " computer2 WHERE computer2.company.name LIKE ";
 	private static final String SEARCH3 = ")) ORDER BY";
-
-	
 	private static final String COUNT_SEARCH = "SELECT count(*) FROM " + Computer.class.getName() +" computer WHERE computer IN ((FROM " + Computer.class.getName() + " computer1 WHERE computer1.name LIKE ";
-
-
-	
 	
 	private SessionFactory factory;
 
@@ -136,5 +131,4 @@ public class ComputerDAOSpring {
 			}
 		}
 	}
-
 }

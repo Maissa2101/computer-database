@@ -12,6 +12,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.web.authentication.www.DigestAuthenticationEntryPoint;
 import org.springframework.security.web.authentication.www.DigestAuthenticationFilter;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 
 import com.excilys.java.formation.service.UserService;
 
@@ -23,7 +24,12 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Autowired
 	UserService userDetailsService;
 
-		@Autowired
+	@Bean
+	public HttpSessionEventPublisher httpSessionEventPublisher() {
+		return new HttpSessionEventPublisher();
+	}
+
+	@Autowired
 	public void configureGlobalSecurity(AuthenticationManagerBuilder auth) throws Exception {
 		auth.userDetailsService(userDetailsService);
 		auth.authenticationProvider(authenticationProvider());
@@ -47,16 +53,15 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		authProvider.setUserDetailsService(userDetailsService);
 		return authProvider;
 	}
-	 
 
 	@Bean
-    DigestAuthenticationFilter digestAuthenticationFilter() {
-        DigestAuthenticationFilter digestAuthenticationFilter = new DigestAuthenticationFilter();
-        digestAuthenticationFilter.setUserDetailsService(userDetailsService);
-        digestAuthenticationFilter.setAuthenticationEntryPoint(digestEntryPoint());
-        return digestAuthenticationFilter;
-    }
-	
+	DigestAuthenticationFilter digestAuthenticationFilter() {
+		DigestAuthenticationFilter digestAuthenticationFilter = new DigestAuthenticationFilter();
+		digestAuthenticationFilter.setUserDetailsService(userDetailsService);
+		digestAuthenticationFilter.setAuthenticationEntryPoint(digestEntryPoint());
+		return digestAuthenticationFilter;
+	}
+
 	@Bean
 	public DigestAuthenticationEntryPoint digestEntryPoint() {
 		DigestAuthenticationEntryPoint digestAuthenticationEntryPoint = new DigestAuthenticationEntryPoint();

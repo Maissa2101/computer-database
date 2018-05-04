@@ -32,7 +32,9 @@
 					</h1>
 					<c:if test="${not empty computer}">
 						<form action="editComputer" method="POST">
-							<input type="hidden" value="${computer.id}" id="id" name="id" />
+							<input type="hidden" name="${_csrf.parameterName}"
+								value="${_csrf.token}" /> <input type="hidden"
+								value="${computer.id}" id="id" name="id" />
 							<fieldset>
 								<div class="form-group">
 									<label for="computerName"><spring:message
