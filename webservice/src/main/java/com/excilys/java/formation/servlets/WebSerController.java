@@ -25,13 +25,13 @@ public class WebSerController {
 	private Logger logger = LoggerFactory.getLogger(WebSerController.class);
 	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper computerDTOMapper;
-	
+
 	@Autowired
 	public WebSerController (ComputerServiceSpring computerService, ComputerDTOMapper computerDTOMapper) {
 		this.computerService = computerService;
 		this.computerDTOMapper = computerDTOMapper;
 	}
-	
+
 	@GetMapping(value = "listComputer/{limit}/{offset}/{columnName}/{order}")
 	protected List<ComputerDTO> getListComputers(@PathVariable Integer limit,@PathVariable Integer offset,@PathVariable String columnName,@PathVariable String order) {
 		List<Computer> liste = null;
@@ -59,7 +59,7 @@ public class WebSerController {
 		}
 		return computerDto;
 	}
-	
+
 	@PostMapping(value= "addComputer")
 	protected void addComputer(@RequestBody ComputerDTO computerDTO) {
 		Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
@@ -69,7 +69,7 @@ public class WebSerController {
 			logger.debug("Problem in adding a computer", e);
 		}
 	}
-	
+
 	@PutMapping(value= "updateComputer")
 	protected void updateComputer(@RequestBody ComputerDTO computerDTO) {
 		try {
@@ -78,5 +78,20 @@ public class WebSerController {
 		} catch (ServiceException | ValidatorException e) {
 			logger.debug("Problem with the update function", e);
 		}
+	}
+
+	@GetMapping(value = "search/{search}/{columnName}/{order}/{limit}/{offset}")
+	protected List<ComputerDTO> getListAfterSearch(@PathVariable String search,@PathVariable String columnName,@PathVariable String order,@PathVariable Integer limit, @PathVariable Integer offset) {
+		List<Computer> listSearch = null;
+		List<ComputerDTO> listDTOSearch = new ArrayList<>();
+		try {
+			listSearch = computerService.search(search, columnName, order, limit, offset);		
+			for(Computer computerSearch : listSearch) {
+				listDTOSearch.add(computerDTOMapper.getComputerDTOFromComputer(computerSearch));
+			}
+		} catch (ServiceException e) {
+			logger.debug("Problem in my Search", e);
+		}
+		return listDTOSearch;
 	}
 }
