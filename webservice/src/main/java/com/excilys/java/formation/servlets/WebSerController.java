@@ -6,6 +6,7 @@ import java.util.List;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.excilys.java.formation.binding.ComputerDTOMapper;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
@@ -90,8 +92,43 @@ public class WebSerController {
 				listDTOSearch.add(computerDTOMapper.getComputerDTOFromComputer(computerSearch));
 			}
 		} catch (ServiceException e) {
-			logger.debug("Problem in my Search", e);
+			logger.debug("Problem in the search", e);
 		}
 		return listDTOSearch;
+	}
+
+	@DeleteMapping(value = "delete/{id}")
+	protected void delete(@PathVariable Long id) {
+		try {
+			computerService.deleteComputer(id);
+		} catch (ServiceException | ValidatorException e) {
+			logger.debug("Problem in the delete one computer", e);
+		}
+	}
+
+	@DeleteMapping(value = "deleteList")
+	protected void deleteList(@RequestBody List<Long> ids) {
+		try {
+			computerService.deleteTransaction(ids);
+		} catch (ServiceException e) {
+			logger.debug("Problem in the delete a list of computers", e);
+		}
+	}
+
+	@GetMapping(value= "pagination/{limit}/{pageNumber}/{columnName}/{order}")
+	protected List<ComputerDTO> pagination(@PathVariable Integer limit,@PathVariable Integer pageNumber, @PathVariable String columnName, @PathVariable String order) {
+		
+		List<Computer> liste = null;
+		List<ComputerDTO> listeResult = new ArrayList<ComputerDTO>();
+		try {
+			PaginationComputer page = new PaginationComputer(limit, computerService);
+			liste = computerService.listComputers(limit, limit*(pageNumber-1), columnName, order);
+			for(Computer computer : liste) {
+				listeResult.add(computerDTOMapper.getComputerDTOFromComputer(computer));
+			}
+		} catch (ServiceException e) {
+			logger.debug("Problem in webService list Computers {}", e);
+		}
+		return listeResult;
 	}
 }
