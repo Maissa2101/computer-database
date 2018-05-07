@@ -8,6 +8,9 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.excilys.java.formation.binding.ComputerDTOMapper;
@@ -15,6 +18,7 @@ import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Computer;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
+import com.excilys.java.formation.service.ValidatorException;
 
 @RestController
 public class WebSerController {
@@ -28,7 +32,7 @@ public class WebSerController {
 		this.computerDTOMapper = computerDTOMapper;
 	}
 	
-	@GetMapping(value = "/{limit}/{offset}/{columnName}/{order}")
+	@GetMapping(value = "listComputer/{limit}/{offset}/{columnName}/{order}")
 	protected List<ComputerDTO> getListComputers(@PathVariable Integer limit,@PathVariable Integer offset,@PathVariable String columnName,@PathVariable String order) {
 		List<Computer> liste = null;
 		List<ComputerDTO> listeResult = new ArrayList<ComputerDTO>();
@@ -43,7 +47,7 @@ public class WebSerController {
 		return listeResult;
 	}
 
-	@GetMapping(value = "/{id}")
+	@GetMapping(value = "getComputer/{id}")
 	protected ComputerDTO getComputer(@PathVariable Long id) {
 		ComputerDTO computerDto = null;
 		Computer computer;
@@ -54,5 +58,25 @@ public class WebSerController {
 			logger.debug("Problem in webService in get computer by id {}", e);
 		}
 		return computerDto;
+	}
+	
+	@PostMapping(value= "addComputer")
+	protected void addComputer(@RequestBody ComputerDTO computerDTO) {
+		Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
+		try {
+			computerService.createComputer(computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
+		} catch (ValidatorException | ServiceException e) {
+			logger.debug("Problem in adding a computer", e);
+		}
+	}
+	
+	@PutMapping(value= "updateComputer")
+	protected void updateComputer(@RequestBody ComputerDTO computerDTO) {
+		try {
+			Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
+			computerService.updateComputer(computer.getId(), computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
+		} catch (ServiceException | ValidatorException e) {
+			logger.debug("Problem with the update function", e);
+		}
 	}
 }

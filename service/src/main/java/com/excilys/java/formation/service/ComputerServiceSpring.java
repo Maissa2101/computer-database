@@ -109,7 +109,6 @@ public class ComputerServiceSpring {
 	 */
 	public void updateComputer(long idUpdate, String newName, LocalDate newDate, LocalDate newDate2, Company manufacturer ) throws ServiceException, ValidatorException {
 		ComputerValidator computerValidator = ComputerValidator.INSTANCE;
-
 		try {
 			if((computerValidator.idValidator(idUpdate, computerDAO)) && (computerValidator.nameValidator(newName)) && (computerValidator.dateValidator(newDate, newDate2)) && (CompanyValidator.INSTANCE.idCompanyValidator(manufacturer, companyDAO)) ) {
 				computerDAO.updateComputer(idUpdate, newName,newDate, newDate2, manufacturer);
