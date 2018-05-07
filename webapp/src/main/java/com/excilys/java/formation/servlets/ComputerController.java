@@ -39,15 +39,16 @@ public class ComputerController {
 	private static final String PAGE_DASHBOARD = "dashboard";
 	private Logger logger = LoggerFactory.getLogger(ComputerController.class);
 	private ComputerServiceSpring computerService;
-	private ComputerDTOMapper computerMapper = ComputerDTOMapper.INSTANCE;
+	private ComputerDTOMapper computerMapper;
 	private CompanyServiceSpring companyService;
 	private ComputerDTOValidator validator;
 
 	@Autowired
-	public ComputerController(ComputerServiceSpring computerService, CompanyServiceSpring companyService, ComputerDTOValidator validator) {
+	public ComputerController(ComputerDTOMapper computerMapper, ComputerServiceSpring computerService, CompanyServiceSpring companyService, ComputerDTOValidator validator) {
 		this.computerService = computerService;
 		this.companyService = companyService;
 		this.validator = validator;
+		this.computerMapper = computerMapper;
 	}
 
 	@InitBinder("computerDTO")

@@ -1,10 +1,12 @@
 package com.excilys.java.formation.binding;
 
+import org.springframework.stereotype.Component;
+
 import com.excilys.java.formation.dto.CompanyDTO;
 import com.excilys.java.formation.entities.Company;
 
-public enum CompanyDTOMapper {
-	INSTANCE;
+@Component
+public class CompanyDTOMapper {
 	
 	/**
 	 * Method to convert a Company to a CompanyDTO

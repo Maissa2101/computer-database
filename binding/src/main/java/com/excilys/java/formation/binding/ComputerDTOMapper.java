@@ -5,14 +5,16 @@ import java.time.format.DateTimeParseException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
 
-public enum ComputerDTOMapper {
-	INSTANCE;
+@Component
+public class ComputerDTOMapper {
+
 	private Logger logger = LoggerFactory.getLogger(ComputerDTOMapper.class);
 	private static final String NULL ="";
 
