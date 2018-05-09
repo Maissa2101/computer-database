@@ -300,14 +300,16 @@ public class Interface {
 		.path("delete/" + String.valueOf(idDelete))
 		.request(MediaType.APPLICATION_JSON)
 		.delete();
-
 	}
 
 	private void deleteCompany() throws ServiceException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the company to delete : ");	
 		long idDelete = scanner.nextLong();
-		companyService.deleteTransactionCompany(idDelete);
+		client
+		.path("deleteCompany/" + String.valueOf(idDelete))
+		.request(MediaType.APPLICATION_JSON)
+		.delete();
 	}
 
 
