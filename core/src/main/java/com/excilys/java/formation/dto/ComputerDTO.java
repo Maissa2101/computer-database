@@ -46,4 +46,10 @@ public class ComputerDTO {
 	public void setManufacturer(String manufacturer) {
 		this.manufacturer = manufacturer;
 	}
+	
+	@Override
+	public String toString() {
+		return "Computer " + id + ": name=" + name + ", introduced=" + introduced + ", discontinued=" + discontinued
+				+ ", manufacturer=" + manufacturer;	
+	}
 }

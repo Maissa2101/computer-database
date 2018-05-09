@@ -46,7 +46,7 @@
 		<hibernate-java8.version>5.1.0.Final</hibernate-java8.version>
 		<security.version>5.0.4.RELEASE</security.version>
 		<jackson.version>2.9.5</jackson.version>
-		<jackson-mapper.version>2.9.5</jackson-mapper.version>
+		<jersey.version>2.27</jersey.version>
 	</properties>
 
 	<dependencyManagement>
@@ -54,8 +54,32 @@
 
 			<dependency>
 				<groupId>com.fasterxml.jackson.core</groupId>
+				<artifactId>jackson-annotations</artifactId>
+				<version>${jackson.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-client</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.jersey.media</groupId>
+				<artifactId>jersey-media-json-jackson</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>org.glassfish.jersey.inject</groupId>
+				<artifactId>jersey-hk2</artifactId>
+				<version>${jersey.version}</version>
+			</dependency>
+
+			<dependency>
+				<groupId>com.fasterxml.jackson.core</groupId>
 				<artifactId>jackson-databind</artifactId>
-				<version>${jackson-mapper.version}</version>
+				<version>${jackson.version}</version>
 			</dependency>
 
 			<dependency>

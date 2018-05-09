@@ -5,6 +5,13 @@ import java.time.LocalDate;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import javax.ws.rs.Path;
+import javax.ws.rs.client.Client;
+import javax.ws.rs.client.ClientBuilder;
+import javax.ws.rs.client.Entity;
+import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.MediaType;
+
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,8 +20,12 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.stereotype.Component;
 
+import com.excilys.java.formation.binding.ComputerDTOMapper;
 import com.excilys.java.formation.console.configuration.InterfaceConfiguration;
+import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Company;
+import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.entities.Computer.ComputerBuilder;
 import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.CompanyServiceSpring;
@@ -27,12 +38,18 @@ public class Interface {
 	private Logger logger = LoggerFactory.getLogger(Interface.class);
 	private CompanyServiceSpring companyService;
 	private ComputerServiceSpring computerService;
+	private ComputerDTOMapper mapper;
 
 	@Autowired
-	public Interface(CompanyServiceSpring companyService, ComputerServiceSpring computerService) {
+	public Interface(ComputerDTOMapper mapper, CompanyServiceSpring companyService, ComputerServiceSpring computerService) {
 		this.companyService = companyService;
 		this.computerService = computerService;
+		this.mapper = mapper;
 	}
+
+	private static final String REST_URI = "http://localhost:8080/webapp/";
+
+	private WebTarget client = ClientBuilder.newClient().target(REST_URI);
 
 	/**
 	 * Method to choose and execute an action
@@ -101,10 +118,7 @@ public class Interface {
 		}
 	}
 
-	/**
-	 * Method to show the list of computers
-	 * @throws ServiceException
-	 */
+
 	private void listComputers() throws ServiceException {
 		System.out.println(" Computers : Press n to see the next page, p to see the previous page and q to quit : ");	
 		Scanner sc= new Scanner(System.in);
@@ -130,10 +144,6 @@ public class Interface {
 		}
 	}
 
-	/**
-	 * Method to show the list of companies
-	 * @throws ServiceException
-	 */
 	private void listCompanies() throws ServiceException {
 		Scanner sc= new Scanner(System.in);
 		System.out.println("\n Companies : Press n to see the next page, p to see the previous page and q to quit :");
@@ -160,23 +170,19 @@ public class Interface {
 		}
 	}
 
-	/**
-	 * Method to show a computer details giving its ID
-	 * @throws ServiceException
-	 * @throws ValidatorException 
-	 */
 	private void computerDetails() throws ServiceException, ValidatorException {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("give the id : ");
 		long id = sc.nextLong();	
-		System.out.println(computerService.computerDetails(id));
+		ComputerDTO computer = client
+				.path("getComputer/" + String.valueOf(id))
+				.request(MediaType.APPLICATION_JSON)
+				.get(ComputerDTO.class);
+		System.out.println(computer.toString());
+
 	}
 
-	/**
-	 * Method to create a computer
-	 * @throws ServiceException
-	 * @throws ValidatorException 
-	 */
+
 	private void createComputer() throws ServiceException, ValidatorException {
 		System.out.println("Add a computer : ");
 		Scanner sc = new Scanner(System.in);
@@ -216,14 +222,15 @@ public class Interface {
 		} else {
 			company = null;
 		}
-		computerService.createComputer(name, introduced, discontinued,company);
+		Computer computerBuilder = new Computer.ComputerBuilder(name).introduced(introduced).discontinued(discontinued).manufacturer(company).build();
+		ComputerDTO computerDTO = mapper.getComputerDTOFromComputer(computerBuilder);
+		
+		client
+		.path("addComputer/")
+		.request(MediaType.APPLICATION_JSON)
+		.post(Entity.entity(computerDTO, MediaType.APPLICATION_JSON));
 	}
 
-	/**
-	 * Method to update a computer
-	 * @throws ServiceException
-	 * @throws ValidatorException 
-	 */
 	private void updateComputer() throws ServiceException, ValidatorException {
 		System.out.println("Update a computer : ");
 		Scanner sc = new Scanner(System.in);
@@ -266,19 +273,26 @@ public class Interface {
 		else {
 			company = null;
 		}
-		computerService.updateComputer(idUpdate, newName, newDate, newDate2, company);
+	
+		Computer computerBuilder = new Computer.ComputerBuilder(idUpdate, newName).introduced(newDate).discontinued(newDate2).manufacturer(company).build();
+		ComputerDTO computerDTO = mapper.getComputerDTOFromComputer(computerBuilder);
+		
+		client
+		.path("updateComputer/")
+		.request(MediaType.APPLICATION_JSON)
+		.put(Entity.entity(computerDTO, MediaType.APPLICATION_JSON));
 	}
 
-	/**
-	 * Method to delete a computer
-	 * @throws ServiceException
-	 * @throws ValidatorException 
-	 */
 	private void deleteComputer() throws ServiceException, ValidatorException {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the computer to delete : ");	
 		long idDelete = scanner.nextLong();
-		computerService.deleteComputer(idDelete);
+		
+		client
+		.path("delete/" + String.valueOf(idDelete))
+		.request(MediaType.APPLICATION_JSON)
+		.delete();
+		
 	}
 
 	private void deleteCompany() throws ServiceException {
