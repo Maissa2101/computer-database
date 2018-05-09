@@ -23,4 +23,9 @@ public class CompanyDTO {
 	public void setName(String name) {
 		this.name = name;
 	}
+	
+	@Override
+	public String toString() {
+		return "Company " + id + ": name=" + name;
+	}
 }

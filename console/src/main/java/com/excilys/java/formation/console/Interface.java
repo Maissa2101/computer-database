@@ -21,6 +21,7 @@ import org.springframework.stereotype.Component;
 
 import com.excilys.java.formation.binding.ComputerDTOMapper;
 import com.excilys.java.formation.console.configuration.InterfaceConfiguration;
+import com.excilys.java.formation.dto.CompanyDTO;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
@@ -150,18 +151,22 @@ public class Interface {
 	private void listCompanies() throws ServiceException {
 		Scanner sc= new Scanner(System.in);
 		System.out.println("\n Companies : Press n to see the next page, p to see the previous page and q to quit :");
-		PaginationCompany pagination = null;
-		pagination = new PaginationCompany(15, companyService);
+
+		int pageNumber = 1;
+		int limit = 20;
 
 		ETQ: while (true){	
-			pagination.printPage();
+			client
+			.path("paginationCompany/" + limit + "/" + pageNumber)
+			.request(MediaType.APPLICATION_JSON)
+			.get(new GenericType<List<CompanyDTO>>() {}).forEach(System.out::println);
 			String scanner = sc.nextLine();
 			switch (scanner) {
 			case "n" : 	
-				pagination.getNext();
+				pageNumber++;
 				break;
 			case "p" :
-				pagination.getPrevious();
+				pageNumber--;
 				break;
 			case "q" : 
 				System.out.println("Quit");

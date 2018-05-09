@@ -14,10 +14,15 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.excilys.java.formation.binding.CompanyDTOMapper;
 import com.excilys.java.formation.binding.ComputerDTOMapper;
+import com.excilys.java.formation.dto.CompanyDTO;
 import com.excilys.java.formation.dto.ComputerDTO;
+import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
+import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
+import com.excilys.java.formation.service.CompanyServiceSpring;
 import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
@@ -26,12 +31,16 @@ import com.excilys.java.formation.service.ValidatorException;
 public class WebSerController {
 	private Logger logger = LoggerFactory.getLogger(WebSerController.class);
 	private ComputerServiceSpring computerService;
+	private CompanyServiceSpring companyService;
 	private ComputerDTOMapper computerDTOMapper;
+	private CompanyDTOMapper companyDTOMapper;
 
 	@Autowired
-	public WebSerController (ComputerServiceSpring computerService, ComputerDTOMapper computerDTOMapper) {
+	public WebSerController (CompanyServiceSpring companyService, CompanyDTOMapper companyDTOMapper, ComputerServiceSpring computerService, ComputerDTOMapper computerDTOMapper) {
 		this.computerService = computerService;
 		this.computerDTOMapper = computerDTOMapper;
+		this.companyDTOMapper = companyDTOMapper;
+		this.companyService = companyService;
 	}
 
 	@GetMapping(value = "listComputer/{limit}/{offset}/{columnName}/{order}")
@@ -128,6 +137,23 @@ public class WebSerController {
 			}
 		} catch (ServiceException e) {
 			logger.debug("Problem in webService list Computers {}", e);
+		}
+		return listeResult;
+	}
+	
+	@GetMapping(value= "paginationCompany/{limit}/{pageNumber}")
+	protected List<CompanyDTO> paginationCompany(@PathVariable Integer limit,@PathVariable Integer pageNumber) {
+		
+		List<Company> liste = null;
+		List<CompanyDTO> listeResult = new ArrayList<CompanyDTO>();
+		try {
+			PaginationCompany page = new PaginationCompany(limit, companyService);
+			liste = companyService.listCompanies(limit, limit*(pageNumber-1));
+			for(Company company : liste) {
+				listeResult.add(companyDTOMapper.getCompanyDTOFromCompany(company));
+			}
+		} catch (ServiceException e) {
+			logger.debug("Problem in webService list Companies {}", e);
 		}
 		return listeResult;
 	}
