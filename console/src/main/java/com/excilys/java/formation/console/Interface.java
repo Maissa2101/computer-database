@@ -3,16 +3,15 @@ package com.excilys.java.formation.console;
 import java.sql.Date;
 import java.time.LocalDate;
 import java.util.InputMismatchException;
+import java.util.List;
 import java.util.Scanner;
 
-import javax.ws.rs.Path;
-import javax.ws.rs.client.Client;
 import javax.ws.rs.client.ClientBuilder;
 import javax.ws.rs.client.Entity;
 import javax.ws.rs.client.WebTarget;
+import javax.ws.rs.core.GenericType;
 import javax.ws.rs.core.MediaType;
 
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +24,6 @@ import com.excilys.java.formation.console.configuration.InterfaceConfiguration;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.entities.Computer.ComputerBuilder;
 import com.excilys.java.formation.pagination.PaginationCompany;
 import com.excilys.java.formation.pagination.PaginationComputer;
 import com.excilys.java.formation.service.CompanyServiceSpring;
@@ -122,17 +120,22 @@ public class Interface {
 	private void listComputers() throws ServiceException {
 		System.out.println(" Computers : Press n to see the next page, p to see the previous page and q to quit : ");	
 		Scanner sc= new Scanner(System.in);
-		PaginationComputer pagination = new PaginationComputer(50, computerService);
-		ETQ:	while (true)
-		{
-			pagination.printPage();
+
+		int pageNumber = 1;
+		int limit = 20;
+
+		ETQ:	while (true) {
+			client
+			.path("pagination/" + limit + "/" + pageNumber + "/null" + "/null")
+			.request(MediaType.APPLICATION_JSON)
+			.get(new GenericType<List<ComputerDTO>>() {}).forEach(System.out::println);
 			String scanner = sc.nextLine();
 			switch (scanner) {
 			case "n" : 	
-				pagination.getNext();
-				break;			 	
+				pageNumber++;
+				break;
 			case "p" :
-				pagination.getPrevious();
+				pageNumber--;
 				break;
 			case "q" : 
 				System.out.println("Quit");
@@ -224,7 +227,7 @@ public class Interface {
 		}
 		Computer computerBuilder = new Computer.ComputerBuilder(name).introduced(introduced).discontinued(discontinued).manufacturer(company).build();
 		ComputerDTO computerDTO = mapper.getComputerDTOFromComputer(computerBuilder);
-		
+
 		client
 		.path("addComputer/")
 		.request(MediaType.APPLICATION_JSON)
@@ -273,10 +276,10 @@ public class Interface {
 		else {
 			company = null;
 		}
-	
+
 		Computer computerBuilder = new Computer.ComputerBuilder(idUpdate, newName).introduced(newDate).discontinued(newDate2).manufacturer(company).build();
 		ComputerDTO computerDTO = mapper.getComputerDTOFromComputer(computerBuilder);
-		
+
 		client
 		.path("updateComputer/")
 		.request(MediaType.APPLICATION_JSON)
@@ -287,12 +290,12 @@ public class Interface {
 		Scanner scanner = new Scanner(System.in);
 		System.out.println("give the id of the computer to delete : ");	
 		long idDelete = scanner.nextLong();
-		
+
 		client
 		.path("delete/" + String.valueOf(idDelete))
 		.request(MediaType.APPLICATION_JSON)
 		.delete();
-		
+
 	}
 
 	private void deleteCompany() throws ServiceException {

@@ -74,8 +74,8 @@ public class WebSerController {
 
 	@PutMapping(value= "updateComputer")
 	protected void updateComputer(@RequestBody ComputerDTO computerDTO) {
+		Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
 		try {
-			Computer computer = computerDTOMapper.getComputerFromComputerDTO(computerDTO);
 			computerService.updateComputer(computer.getId(), computer.getName(), computer.getIntroduced(), computer.getDiscontinued(), computer.getManufacturer());
 		} catch (ServiceException | ValidatorException e) {
 			logger.debug("Problem with the update function", e);
