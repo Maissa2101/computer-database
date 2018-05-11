@@ -175,7 +175,7 @@ public class Interface {
 		System.out.println("give the id : ");
 		long id = sc.nextLong();	
 		ComputerDTO computer = client
-				.path("getComputer/" + String.valueOf(id))
+				.path("getComputer/" + id)
 				.request(MediaType.APPLICATION_JSON)
 				.get(ComputerDTO.class);
 		System.out.println(computer.toString());
@@ -289,7 +289,7 @@ public class Interface {
 		long idDelete = scanner.nextLong();
 
 		client
-		.path("delete/" + String.valueOf(idDelete))
+		.path("delete/" + idDelete)
 		.request(MediaType.APPLICATION_JSON)
 		.delete();
 	}
@@ -299,7 +299,7 @@ public class Interface {
 		System.out.println("give the id of the company to delete : ");	
 		long idDelete = scanner.nextLong();
 		client
-		.path("deleteCompany/" + String.valueOf(idDelete))
+		.path("deleteCompany/" + idDelete)
 		.request(MediaType.APPLICATION_JSON)
 		.delete();
 	}
