@@ -25,24 +25,16 @@ import com.excilys.java.formation.dto.CompanyDTO;
 import com.excilys.java.formation.dto.ComputerDTO;
 import com.excilys.java.formation.entities.Company;
 import com.excilys.java.formation.entities.Computer;
-import com.excilys.java.formation.pagination.PaginationCompany;
-import com.excilys.java.formation.pagination.PaginationComputer;
-import com.excilys.java.formation.service.CompanyServiceSpring;
-import com.excilys.java.formation.service.ComputerServiceSpring;
 import com.excilys.java.formation.service.ServiceException;
 import com.excilys.java.formation.service.ValidatorException;
 
 @Component
 public class Interface {
 	private Logger logger = LoggerFactory.getLogger(Interface.class);
-	private CompanyServiceSpring companyService;
-	private ComputerServiceSpring computerService;
 	private ComputerDTOMapper mapper;
 
 	@Autowired
-	public Interface(ComputerDTOMapper mapper, CompanyServiceSpring companyService, ComputerServiceSpring computerService) {
-		this.companyService = companyService;
-		this.computerService = computerService;
+	public Interface(ComputerDTOMapper mapper) {
 		this.mapper = mapper;
 	}
 
